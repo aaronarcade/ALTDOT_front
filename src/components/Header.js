@@ -39,7 +39,7 @@ const LogoutButton = styled.div`
 const Header = () => {
     const history = useHistory();
     const [display, setDisplay] = useState('flex');
-    const [pageName, setPageName] = useState('asd');
+    const [pageName, setPageName] = useState('ALTDOT');
     const [haveAdmin, setHaveAdmin] = useState(0);
     const isAdmin = async () => {
 
