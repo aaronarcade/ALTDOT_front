@@ -57,12 +57,12 @@ const Register = () => {
             !email || !username ||
             !password || !passwordCheck
             ) {
-          alert("필수 입력 사항을 입력하지 않으셨습니다.");
+          alert("Required Field is Empty.");
           
         }
         else {
             if(password!=passwordCheck){
-                alert("비밀번호가 일치하지 않습니다.");
+                alert("Password Doesn't Match.");
             }
             else{
                 const { data: response } = await axios.post('/api/signup', {
@@ -77,7 +77,7 @@ const Register = () => {
                    
                   }
                   else if (response.result > 0) {
-                    alert('회원가입이 완료 되었습니다.')
+                    alert('Register is Complete.')
                     history.push('/')
                   }
             }
