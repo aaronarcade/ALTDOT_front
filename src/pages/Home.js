@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import HomeContents from '../components/HomeContents';
 import { useEffect, useState } from 'react';
-import IceLab from '../asset/image/WelcomeIceLabPic.png'
+import { withRouter, Link, useHistory } from "react-router-dom"
+import axios from 'axios';
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -21,14 +22,23 @@ display: none
 `
 
 const Home = () => {
-    
+    const history = useHistory();
     const [display, setDisplay] = useState('flex');
-    
+    const isAdmin = async () => {
+
+        const { data: response } = await axios.get('/api/auth')
+        if (!response.pk) {
+            history.push('/')
+        }
+    }
+
+    useEffect(() => {
+        isAdmin()
+    }, [])
     return (
-              <Wrapper>
-                  <Img src={IceLab}/>
-                  <HomeContents/>
-              </Wrapper> 
+        <Wrapper>
+            home
+        </Wrapper>
     );
 };
 export default Home;

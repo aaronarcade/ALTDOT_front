@@ -1,4 +1,4 @@
-import './fonts.css'
+
 
 const size = {
   mobileS: "480px",
