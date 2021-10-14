@@ -142,8 +142,8 @@ const Register = () => {
                 onChange={onChangePasswordCheck}/>
             </Content>
             <div style={{width:'55%',textAlign:'end'}}>
-                <button style={{width:'12vh',background:'#3AB43F'
-                               ,border:'none',color:'white',height:'3.5vh',
+                <button style={{width:'14vh',background:'#F6B60F'
+                               ,border:'1px solid black',color:'black',height:'3.5vh',
                                fontSize:'1.8vh',fontWeight:'bold',
                                cursor:'pointer'}}
                                onClick={handleSubmit}>

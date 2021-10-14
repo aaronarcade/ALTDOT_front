@@ -40,12 +40,18 @@ const Input = styled.input`
     border:none;
     outline:none;
 `
+const LoginTitle = styled.div`
+padding: 2vh 0 2vh 0; 
+font-weight: bold;
+fontFamily:${({ theme }) => theme.font.subtitle};
+font-size:4vh;
+`
 
 const Login = () => {
     const history = useHistory()
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
-
+    const [organization, setOrganization] = useState('ALTDOT')
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -64,7 +70,8 @@ const Login = () => {
         e.preventDefault()
         const { data: response } = await axios.post('/api/login', {
             id: id,
-            pw: pw
+            pw: pw,
+            organization: organization
         })
         if (response.result == 200) {
             alert(response.message)
@@ -85,13 +92,16 @@ const Login = () => {
     const handlePWChange = e => {
         setPw(e.target.value)
     }
+    const onChangeOrganization = (e) =>{
+        setOrganization(e.target.value)
+    }
     return (
         <Wrapper>
             <div />
             <Container onSubmit={onLogin}>
-                <div style={{ padding: '2vh 0 2vh 0', fontWeight: 'bold' }}>
+                <LoginTitle>
                     Welcome
-                </div>
+                </LoginTitle>
                 <Content>
                     <Theme>Username</Theme>
                     <Input
@@ -109,35 +119,38 @@ const Login = () => {
                 </Content>
                 <Content>
                     <Theme>Organization</Theme>
-                    <select style={{ border: 'none', width: '61%'
-                                   , textAlign: 'center', outline:'none'}}>
-                        <option>ALTDOT</option>
-                        <option>ALTDOT</option>
+                    <select style={{
+                        border: 'none', width: '61%'
+                        , textAlign: 'center', outline: 'none'
+                    }}
+                        onChange={onChangeOrganization} value={organization}>
+                        <option>ATLDOT</option>
+                        <option>MARTA</option>
                     </select>
                 </Content>
                 <Content>
-                    <Link to='/register' style={{
-                        width: '40%', textDecoration: 'none'
+                    <Link to='/register'><button style={{
+                        width: '10vw', textDecoration: 'none'
                         , color: 'black', border: '0.5px solid black'
-                        , background: '#DADADA', height: '3vh'
+                        , background: '#F6B60F', height: '4vh'
                         , alignItems: 'center', paddingTop: '0.5vh'
                         , marginLeft: '1.8vw', fontWeight: 'bold', marginBottom: '1vh'
                     }}>
 
                         Register
-
+                    </button>
                     </Link>
-                    <div style={{
-                        width: '40%', textDecoration: 'none'
-                        , color: 'black', border: '0.5px solid black'
-                        , background: '#DADADA', height: '3vh'
+                    <button style={{
+                        width: '10vw', textDecoration: 'none'
+                        , color: 'white', border: '0.5px solid black'
+                        , background: '#107E7D', height: '4vh'
                         , alignItems: 'center', paddingTop: '0.5vh'
                         , marginLeft: '1vw', cursor: 'pointer'
                         , fontWeight: 'bold'
                     }}
                         onClick={onLogin}>
                         Login
-                    </div>
+                    </button>
                 </Content>
             </Container>
             <div />

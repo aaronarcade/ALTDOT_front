@@ -7,31 +7,34 @@ const Wrapper = styled.div`
     width:100%;
     display: flex;
     align-item:center;
-    background:#CAD9CE;
+    background:#3960AA;
 `
 const PageName = styled.div`
     width:100%;
-    height:5vh;
-    text-align:center;
+    height:7vh;
+    padding: 2vh 0 0 2vw;
+    text-align:left;
     display:table-cell;
     vertical-align:middle;
-    background:#CAD9CE;
+    background:#3960AA;
+    color:#ffffff;
     font-size:3vh;
-    font-weight:bold;  
+    font-weight:bold;
+    font-family:${({ theme }) => theme.font.title};  
 `
-const MenuName = styled.div`
-    
-`
-const LogoutButton = styled.div`
+
+const LogoutButton = styled.button`
     font-size:0.9vw;
-    background:#E9AF85;
-    height: 3vh;
-    width:6vw;
+    background:#C4C4C4;
+    height: 5vh;
+    width:9vw;
     text-align:center;
     cursor:pointer;
     position:absolute;
-    top:1vh;
-    right:2vw;
+    align-items:center;
+    top:2vh;
+    right:3vw;
+    border:none;
     @media screen and (max-width:950px) {
         width:12vw;
     }
@@ -39,7 +42,7 @@ const LogoutButton = styled.div`
 const Header = () => {
     const history = useHistory();
     const [display, setDisplay] = useState('flex');
-    const [pageName, setPageName] = useState('ALTDOT');
+    const [pageName, setPageName] = useState('City of Atlanta');
     const [haveAdmin, setHaveAdmin] = useState(0);
     const isAdmin = async () => {
 

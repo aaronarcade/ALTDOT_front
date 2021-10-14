@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './pages/App';
 import { ThemeProvider } from 'styled-components'
 import theme from './styles/theme'
+
 ReactDOM.render(
   
   <ThemeProvider theme={theme}>

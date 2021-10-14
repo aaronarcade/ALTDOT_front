@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Oswald-VariableFont_wght';
+    src: url("../assets/fonts/Oswald-VariableFont_wght.ttf") format('truetype');
+  }
+  @font-face {
+    font-family: 'Roboto-Medium';
+    src: url("../assets/fonts/Roboto-Medium.ttf") format('truetype');
+  }
