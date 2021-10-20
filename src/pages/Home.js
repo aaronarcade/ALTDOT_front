@@ -27,6 +27,7 @@ const Home = () => {
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
+        console.log(response)
         if (!response.pk) {
             history.push('/')
         }
