@@ -76,11 +76,16 @@ const Login = () => {
         if (response.result == 200) {
             alert(response.message)
             const { data: res } = await axios.get('/api/auth')
-            console.log(res.pk)
-            if (res.pk) {
-                history.push('/home')
+            console.log(res.organization)
+            if (res.organization=='ALTDOT') {
+                history.push('/suggestions')
                 window.location.reload();
             }
+            else if(res.organization=='MARTA'){
+                history.push('/problems')
+                window.location.reload();
+            }
+            console.log(res.organization)
         } else {
             alert(response.message)
         }
