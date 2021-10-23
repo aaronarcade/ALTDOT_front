@@ -232,9 +232,7 @@ const ProblemsEdit = ({ match }) => {
     const onChangeNote5 = (e) => {
         setNote5(e.target.value)
     }
-    useEffect(()=>{
-        console.log(status1)
-    })
+    
     return (
         <Wrapper>
             <Board style={{ width: '60%', marginLeft: '3vw', marginBottom: '3vh' }}>
