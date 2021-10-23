@@ -51,7 +51,7 @@ const Login = () => {
     const history = useHistory()
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
-    const [organization, setOrganization] = useState('ALTDOT')
+    const [organization, setOrganization] = useState('ATLDOT')
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -77,7 +77,7 @@ const Login = () => {
             alert(response.message)
             const { data: res } = await axios.get('/api/auth')
             console.log(res.organization)
-            if (res.organization=='ALTDOT') {
+            if (res.organization=='ATLDOT') {
                 history.push('/suggestions')
                 window.location.reload();
             }

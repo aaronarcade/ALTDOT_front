@@ -89,18 +89,54 @@ margin:16vh 0 10vh 0;
 `
 const ProblemsPage = () => {
     const history = useHistory();
-    const [display, setDisplay] = useState('flex');
-    // const isAdmin = async () => {
+    const [posts, setPosts] = useState([]);
+    const [modifyPosts, setModifyPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const isAdmin = async () => {
 
-    //     const { data: response } = await axios.get('/api/auth')
-    //     if (!response.pk) {
-    //         history.push('/')
-    //     }
-    // }
+        const { data: response } = await axios.get('/api/auth')
+        console.log(response)
+        if (!response.pk) {
+            history.push('/')
+        }
+    }
 
-    // useEffect(() => {
-    //     isAdmin()
-    // }, [])
+    useEffect(() => {
+        isAdmin()
+    }, [])
+    useEffect(() => {
+        async function fetchPosts() {
+          setLoading(true);
+          const { data: response } = await axios.get(`/api/stations/MARTA/0`);
+          setPosts(response.data);
+          const { data: res } = await axios.get(`/api/stations/MARTA/1`);
+          setModifyPosts(res.data)
+          console.log(posts)
+          setLoading(false);
+        }
+        fetchPosts()
+      }, []);
+    function onChangeModify(pk){
+        
+        axios.post('/api/addmodify',{
+            pk: pk,
+            org:'MARTA'
+        }).then(()=>{
+            async function fetchPosts() {
+                setLoading(true);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0`);
+                setPosts(response.data);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1`);
+                setModifyPosts(res.data)
+                console.log(posts)
+                setLoading(false);
+              }
+              fetchPosts()
+        })
+    }
+    function goEditPage(pk){
+        history.push(`/problemsedit/${pk}`)
+    }
     return (
         <Wrapper>
             <Board style={{ marginLeft: '2vw' }}>
@@ -128,17 +164,19 @@ const ProblemsPage = () => {
                         <Problems style={{ border: '1px solid black' }}>Problems</Problems>
                         <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                     </Tr>
-                    <Tr>
-                        <SID>168907</SID>
-                        <Tier>1</Tier>
-                        <RidershipQuintile>5</RidershipQuintile>
-                        <StopName>Cascade Pkw</StopName>
+                    {posts && posts.map(post=>(
+                        <Tr key={post.pk}>
+                        <SID>{post.stop_id}</SID>
+                        <Tier>{post.tier}</Tier>
+                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                        <StopName>{post.stop_name}</StopName>
                         <Problems></Problems>
                         <Modify>
                             <Button style={{color:'black',background:'#F6B60F'}}
-                            >Add</Button>
+                            onClick={()=>{onChangeModify(post.pk)}}>Add</Button>
                         </Modify>
                     </Tr>
+                    ))}
                 </Table>
             </Board>
             <div style={{ width: '5%',display:'flex',
@@ -171,11 +209,12 @@ const ProblemsPage = () => {
                         <Problems style={{ border: '1px solid black' }}>Problems</Problems>
                         <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                     </Tr>
-                    <Tr>
-                        <SID>168910</SID>
-                        <Tier>1</Tier>
-                        <RidershipQuintile>5</RidershipQuintile>
-                        <StopName>Godby Rd</StopName>
+                    {modifyPosts && modifyPosts.map(post=>(
+                        <Tr key={post.pk}>
+                        <SID>{post.stop_id}</SID>
+                        <Tier>{post.tier}</Tier>
+                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                        <StopName>{post.stop_name}</StopName>
                         <Problems>
                         <Button style={{color:'white',background:'#F94C4C',width:'80%'}}
                             >Row</Button>
@@ -183,11 +222,14 @@ const ProblemsPage = () => {
                         </Problems>
                         <Modify>
                             <Button style={{color:'black',background:'#F6B60F'}}
-                            > {'>'} </Button>
+                            onClick={()=>{goEditPage(post.pk)}}> {'>'} </Button>
                         </Modify>
                     </Tr>
+                    ))}
+                    
                 </Table>
             </Board>
+            
         </Wrapper>
     );
 };
