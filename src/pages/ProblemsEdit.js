@@ -94,6 +94,10 @@ const ProblemsEdit = ({ match }) => {
     const [content, setContent] = useState(undefined)
     const [img, setImg] = useState(undefined)
     const [url, setUrl] = useState('')
+
+    const [saveImg, setSaveImg] = useState('');
+
+    const [historyPosts, setHistoryPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [stopName, setStopName] = useState('')
     const [stopId, setStopId] = useState('')
@@ -105,6 +109,7 @@ const ProblemsEdit = ({ match }) => {
     const [date, setDate] = useState('')
     const [initiated, setInitiated] = useState('')
     const [org, setOrg] = useState('')
+    const [formData] = useState(new FormData())
 
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
@@ -124,11 +129,12 @@ const ProblemsEdit = ({ match }) => {
     const [status4, setStatus4] = useState('Started')
     const [status5, setStatus5] = useState('Started')
 
+    let pushArr = [];
+    const [pushHistory, setPushHistory] = useState([]);
 
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
-        console.log(response)
         if (!response.pk) {
             history.push('/')
         }
@@ -141,7 +147,6 @@ const ProblemsEdit = ({ match }) => {
         async function fetchPosts() {
             setLoading(true);
             const { data: response } = await axios.get(`/api/onestation/${match.params.id}/MARTA`);
-            console.log(response.data)
             if (response.data.modify == 0) {
                 history.push('/problems')
                 setLoading(false);
@@ -149,6 +154,7 @@ const ProblemsEdit = ({ match }) => {
             else {
                 setStopName(response.data.stop_name);
                 setStopId(response.data.stop_id)
+                setCreateBy(response.data.create_by)
                 let today = new Date();
                 let month = today.getMonth() + 1;
                 let date = today.getDate();
@@ -161,6 +167,12 @@ const ProblemsEdit = ({ match }) => {
                     if (i == 5) {
                         displayArr[i] = ''
                     }
+                }
+                const { data: reslist } = await axios.get(`/api/problems/${match.params.id}`)
+                setHistoryPosts(reslist.data);
+                const { data: resimg } = await axios.get(`/api/image/${match.params.id}/MARTA`)
+                if(resimg.data){
+                    setSaveImg(resimg.data.image_src)
                 }
                 setLoading(false);
             }
@@ -176,13 +188,46 @@ const ProblemsEdit = ({ match }) => {
     }
 
     function plusDisplay() {
-
-
         displayArr[displayCount] = '';
         setDisplayCount(displayCount + 1)
         if (displayCount == 4) {
             displayArr[5] = 'none'
         }
+    }
+    const upLoad = async (e) =>{
+        e.preventDefault()
+        if(url !== ''){
+            let currentFile = content
+            setImg(currentFile)
+            formData.append("image", currentFile)
+            formData.append("pk",match.params.id)
+            formData.append("org",org)
+            const config = {
+                header: {
+                  'Content-type': 'multipart/form-data; charset=UTF-8',
+                  'Accept': '*/*'
+                }
+            }
+           const response =  await axios.post('/api/addimage',formData,config)
+        }
+        
+        if(pushHistory.length){
+
+                let string = JSON.stringify(pushHistory);
+                console.log(pushHistory)
+                axios.post('/api/addproblem',{
+                    pk: match.params.id,
+                    list: string
+                })
+                console.log(pushHistory)
+        }
+        const response =  await axios.post('/api/updatecreate',{
+            create : createBy,
+            pk: match.params.id,
+            org: org
+        })
+        alert('Complete.')
+         history.push('/problems')
     }
     const onChangeType1 = (e) => {
         setType1(e.target.value)
@@ -202,19 +247,69 @@ const ProblemsEdit = ({ match }) => {
 
     const onChangeStatus1 = (e) => {
         setStatus1(e.target.value)
-        console.log(status1)
+        if (e.target.value == 'Complete') {
+            alert('Complete')
+            displayArr[0] = 'none'
+            pushArr = pushHistory
+            pushArr.push({
+                date: date, initiated: initiated,
+                org: org, type: type1, note: note1
+            })
+            setPushHistory(pushArr)
+        }
+        
     }
     const onChangeStatus2 = (e) => {
         setStatus2(e.target.value)
+        if (e.target.value == 'Complete') {
+            alert('Complete')
+            displayArr[1] = 'none'
+            pushArr = pushHistory
+            pushArr.push({
+                date: date, initiated: initiated,
+                org: org, type: type2, note: note2
+            })
+            setPushHistory(pushArr)
+        }
     }
     const onChangeStatus3 = (e) => {
         setStatus3(e.target.value)
+        if (e.target.value == 'Complete') {
+            alert('Complete')
+            displayArr[2] = 'none'
+            pushArr = pushHistory
+            pushArr.push({
+                date: date, initiated: initiated,
+                org: org, type: type3, note: note3
+            })
+            setPushHistory(pushArr)
+        }
     }
     const onChangeStatus4 = (e) => {
         setStatus4(e.target.value)
+        if (e.target.value == 'Complete') {
+            alert('Complete')
+            displayArr[3] = 'none'
+            pushArr = pushHistory
+            pushArr.push({
+                date: date, initiated: initiated,
+                org: org, type: type4, note: note4
+            })
+            setPushHistory(pushArr)
+        }
     }
     const onChangeStatus5 = (e) => {
         setStatus5(e.target.value)
+        if (e.target.value == 'Complete') {
+            alert('Complete')
+            displayArr[4] = 'none'
+            pushArr = pushHistory
+            pushArr.push({
+                date: date, initiated: initiated,
+                org: org, type: type5, note: note5
+            })
+            setPushHistory(pushArr)
+        }
     }
 
     const onChangeNote1 = (e) => {
@@ -232,7 +327,7 @@ const ProblemsEdit = ({ match }) => {
     const onChangeNote5 = (e) => {
         setNote5(e.target.value)
     }
-    
+
     return (
         <Wrapper>
             <Board style={{ width: '60%', marginLeft: '3vw', marginBottom: '3vh' }}>
@@ -263,7 +358,7 @@ const ProblemsEdit = ({ match }) => {
                         <InputName>
                             Created By
                         </InputName>
-                        <Input onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
+                        <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
 
                     </InputContent>
                     <InputContent>
@@ -291,7 +386,7 @@ const ProblemsEdit = ({ match }) => {
                         </Td>
                     </Tr>
 
-                    <Tr style={{ background: '#E6E6E6', display: `` }}>
+                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[0]}` }}>
                         <Td2>{date}</Td2>
                         <Td2>{initiated}</Td2>
                         <Td2>{org}</Td2>
@@ -300,10 +395,12 @@ const ProblemsEdit = ({ match }) => {
                                 onChange={onChangeType1} />
                         </Td2>
                         <Td2>
-                            <select style={{width:'100%',fontSize:'1vw',
-                                            background:'#E6E6E6',border:'none',
-                                            outline:'none'}}
-                                            onChange={onChangeStatus1} value={status1}>
+                            <select style={{
+                                width: '100%', fontSize: '1vw',
+                                background: '#E6E6E6', border: 'none',
+                                outline: 'none'
+                            }}
+                                onChange={onChangeStatus1} value={status1}>
                                 <option>Started</option>
                                 <option>In Progress</option>
                                 <option>Complete</option>
@@ -320,13 +417,15 @@ const ProblemsEdit = ({ match }) => {
                         <Td2>{org}</Td2>
                         <Td2>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeType2} />
+                                onChange={onChangeType2} />
                         </Td2>
                         <Td2>
-                        <select style={{width:'100%',fontSize:'1vw',
-                                            background:'#E6E6E6',border:'none',
-                                            outline:'none'}}
-                                            onChange={onChangeStatus2} value={status2}>
+                            <select style={{
+                                width: '100%', fontSize: '1vw',
+                                background: '#E6E6E6', border: 'none',
+                                outline: 'none'
+                            }}
+                                onChange={onChangeStatus2} value={status2}>
                                 <option>Started</option>
                                 <option>In Progress</option>
                                 <option>Complete</option>
@@ -334,7 +433,7 @@ const ProblemsEdit = ({ match }) => {
                         </Td2>
                         <Td2 style={{ width: '40%' }}>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeNote2} />
+                                onChange={onChangeNote2} />
                         </Td2>
                     </Tr>
                     <Tr style={{ background: '#E6E6E6', display: `${displayArr[2]}` }}>
@@ -343,13 +442,15 @@ const ProblemsEdit = ({ match }) => {
                         <Td2>{org}</Td2>
                         <Td2>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeType3} />
+                                onChange={onChangeType3} />
                         </Td2>
                         <Td2>
-                        <select style={{width:'100%',fontSize:'1vw',
-                                            background:'#E6E6E6',border:'none',
-                                            outline:'none'}}
-                                            onChange={onChangeStatus3} value={status3}>
+                            <select style={{
+                                width: '100%', fontSize: '1vw',
+                                background: '#E6E6E6', border: 'none',
+                                outline: 'none'
+                            }}
+                                onChange={onChangeStatus3} value={status3}>
                                 <option>Started</option>
                                 <option>In Progress</option>
                                 <option>Complete</option>
@@ -357,7 +458,7 @@ const ProblemsEdit = ({ match }) => {
                         </Td2>
                         <Td2 style={{ width: '40%' }}>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeNote3} />
+                                onChange={onChangeNote3} />
                         </Td2>
                     </Tr>
                     <Tr style={{ background: '#E6E6E6', display: `${displayArr[3]}` }}>
@@ -366,13 +467,15 @@ const ProblemsEdit = ({ match }) => {
                         <Td2>{org}</Td2>
                         <Td2>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeType4} />
+                                onChange={onChangeType4} />
                         </Td2>
                         <Td2>
-                        <select style={{width:'100%',fontSize:'1vw',
-                                            background:'#E6E6E6',border:'none',
-                                            outline:'none'}}
-                                            onChange={onChangeStatus4} value={status4}>
+                            <select style={{
+                                width: '100%', fontSize: '1vw',
+                                background: '#E6E6E6', border: 'none',
+                                outline: 'none'
+                            }}
+                                onChange={onChangeStatus4} value={status4}>
                                 <option>Started</option>
                                 <option>In Progress</option>
                                 <option>Complete</option>
@@ -380,7 +483,7 @@ const ProblemsEdit = ({ match }) => {
                         </Td2>
                         <Td2 style={{ width: '40%' }}>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeNote4} />
+                                onChange={onChangeNote4} />
                         </Td2>
                     </Tr>
                     <Tr style={{ background: '#E6E6E6', display: `${displayArr[4]}` }}>
@@ -389,13 +492,15 @@ const ProblemsEdit = ({ match }) => {
                         <Td2>{org}</Td2>
                         <Td2>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeType5} />
+                                onChange={onChangeType5} />
                         </Td2>
                         <Td2>
-                        <select style={{width:'100%',fontSize:'1vw',
-                                            background:'#E6E6E6',border:'none',
-                                            outline:'none'}}
-                                            onChange={onChangeStatus5} value={status5}>
+                            <select style={{
+                                width: '100%', fontSize: '1vw',
+                                background: '#E6E6E6', border: 'none',
+                                outline: 'none'
+                            }}
+                                onChange={onChangeStatus5} value={status5}>
                                 <option>Started</option>
                                 <option>In Progress</option>
                                 <option>Complete</option>
@@ -403,7 +508,7 @@ const ProblemsEdit = ({ match }) => {
                         </Td2>
                         <Td2 style={{ width: '40%' }}>
                             <Input style={{ background: '#E6E6E6', border: 'none' }}
-                            onChange={onChangeNote5} />
+                                onChange={onChangeNote5} />
                         </Td2>
                     </Tr>
 
@@ -432,14 +537,27 @@ const ProblemsEdit = ({ match }) => {
                             Notes
                         </Td>
                     </Tr>
-                    <Tr style={{ background: '#E6E6E6' }}>
-                        <Td2>Date</Td2>
-                        <Td2>Initiated By</Td2>
-                        <Td2>Org</Td2>
-                        <Td2>Type</Td2>
-                        <Td2>Status</Td2>
-                        <Td2 style={{ width: '40%' }}>Notes</Td2>
+                    {historyPosts && historyPosts.map(post=>(
+                        <Tr style={{ background: '#E6E6E6' }} key={post.pk}>
+                        <Td2>{post.date}</Td2>
+                        <Td2>{post.name}</Td2>
+                        <Td2>{post.organization}</Td2>
+                        <Td2>{post.type}</Td2>
+                        <Td2>{post.status}</Td2>
+                        <Td2 style={{ width: '40%' }}>{post.notes}</Td2>
                     </Tr>
+                    ))}
+                    {pushHistory && pushHistory.map(push => (
+                        <Tr style={{ background: '#E6E6E6' }} key={push.id}>
+                            <Td2>{push.date}</Td2>
+                            <Td2>{push.initiated}</Td2>
+                            <Td2>{push.org}</Td2>
+                            <Td2>{push.type}</Td2>
+                            <Td2>Complete</Td2>
+                            <Td2 style={{ width: '40%' }}>{push.note}</Td2>
+                        </Tr>
+
+                    ))}
                 </Table>
             </Board>
             <Board style={{ width: '30%', marginLeft: '3vw' }}>
@@ -452,13 +570,26 @@ const ProblemsEdit = ({ match }) => {
                             }} />
                     </>
                 ) : (
+                    saveImg ?
                     <label for="file">
-                        <img src={ImageUpload}
-                            style={{
-                                width: '100%', height: '42vh',
-                                marginBottom: '6vh'
-                            }} />
-                    </label>
+                    <img src={'http://localhost:8001'+saveImg}
+                        style={{
+                            width: '100%', height: '42vh',
+                            marginBottom: '6vh'
+                        }}/>
+                        </label>
+                    :
+                    <>
+                    <label for="file">
+                    <img src={ImageUpload}
+                        style={{
+                            width: '100%', height: '42vh',
+                            marginBottom: '6vh'
+                        }} />
+                </label>
+                   
+                    </>
+                    
                 )}
                 <div>
                     <input type="file" id="file" onChange={addFile} style={{ display: 'none' }} />
@@ -491,8 +622,10 @@ const ProblemsEdit = ({ match }) => {
                     <button style={{
                         width: '60%', height: '5vh',
                         fontSize: '3vh', border: '1px solid black',
-                        background: '#F6B60F', fontWeight: 'bold'
-                    }}>
+                        background: '#F6B60F', fontWeight: 'bold',
+                        cursor:'pointer'
+                    }}
+                    onClick={upLoad}>
                         Complete
                     </button>
                 </div>
