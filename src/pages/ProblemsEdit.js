@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { withRouter, Link, useHistory } from "react-router-dom"
+import { withRouter, Link, useHistory,useParams } from "react-router-dom"
 import ImageUpload from '../assets/images/ImageUpload.png'
 const Wrapper = styled.div`
 width:100%;
@@ -89,8 +89,9 @@ font-size:2vh;
     font-size:1vh;
 }
 `
-const ProblemsEdit = ({ match }) => {
+const ProblemsEdit = () => {
     const history = useHistory();
+    const params = useParams();
     const [content, setContent] = useState(undefined)
     const [img, setImg] = useState(undefined)
     const [url, setUrl] = useState('')
@@ -146,7 +147,7 @@ const ProblemsEdit = ({ match }) => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/onestation/${match.params.id}/MARTA`);
+            const { data: response } = await axios.get(`/api/onestation/${params.id}/MARTA`);
             if (response.data.modify == 0) {
                 history.push('/problems')
                 setLoading(false);
@@ -168,10 +169,10 @@ const ProblemsEdit = ({ match }) => {
                         displayArr[i] = ''
                     }
                 }
-                const { data: reslist } = await axios.get(`/api/problems/${match.params.id}`)
+                const { data: reslist } = await axios.get(`/api/problems/${params.id}`)
                 setHistoryPosts(reslist.data);
-                const { data: resimg } = await axios.get(`/api/image/${match.params.id}/MARTA`)
-                if(resimg.data){
+                const { data: resimg } = await axios.get(`/api/image/${params.id}/MARTA`)
+                if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
                 }
                 setLoading(false);
@@ -194,40 +195,40 @@ const ProblemsEdit = ({ match }) => {
             displayArr[5] = 'none'
         }
     }
-    const upLoad = async (e) =>{
+    const upLoad = async (e) => {
         e.preventDefault()
-        if(url !== ''){
+        if (url !== '') {
             let currentFile = content
             setImg(currentFile)
             formData.append("image", currentFile)
-            formData.append("pk",match.params.id)
-            formData.append("org",org)
+            formData.append("pk", params.id)
+            formData.append("org", org)
             const config = {
                 header: {
-                  'Content-type': 'multipart/form-data; charset=UTF-8',
-                  'Accept': '*/*'
+                    'Content-type': 'multipart/form-data; charset=UTF-8',
+                    'Accept': '*/*'
                 }
             }
-           const response =  await axios.post('/api/addimage',formData,config)
+            const response = await axios.post('/api/addimage', formData, config)
         }
-        
-        if(pushHistory.length){
 
-                let string = JSON.stringify(pushHistory);
-                console.log(pushHistory)
-                axios.post('/api/addproblem',{
-                    pk: match.params.id,
-                    list: string
-                })
-                console.log(pushHistory)
+        if (pushHistory.length) {
+
+            let string = JSON.stringify(pushHistory);
+            console.log(pushHistory)
+            axios.post('/api/addproblem', {
+                pk: params.id,
+                list: string
+            })
+            console.log(pushHistory)
         }
-        const response =  await axios.post('/api/updatecreate',{
-            create : createBy,
-            pk: match.params.id,
+        const response = await axios.post('/api/updatecreate', {
+            create: createBy,
+            pk: params.id,
             org: org
         })
         alert('Complete.')
-         history.push('/problems')
+        history.push('/problems')
     }
     const onChangeType1 = (e) => {
         setType1(e.target.value)
@@ -247,8 +248,7 @@ const ProblemsEdit = ({ match }) => {
 
     const onChangeStatus1 = (e) => {
         setStatus1(e.target.value)
-        if (e.target.value == 'Complete') {
-            alert('Complete')
+        if (e.target.value == 'Complete'&&type1&&note1) {
             displayArr[0] = 'none'
             pushArr = pushHistory
             pushArr.push({
@@ -257,12 +257,15 @@ const ProblemsEdit = ({ match }) => {
             })
             setPushHistory(pushArr)
         }
-        
+        else if(e.target.value == 'Complete'&&(!type1||!note1)){
+            alert('Do not leave blank')
+            setStatus1('Started')
+        }
+
     }
     const onChangeStatus2 = (e) => {
         setStatus2(e.target.value)
-        if (e.target.value == 'Complete') {
-            alert('Complete')
+        if (e.target.value == 'Complete'&&type2&&note2) {
             displayArr[1] = 'none'
             pushArr = pushHistory
             pushArr.push({
@@ -271,11 +274,14 @@ const ProblemsEdit = ({ match }) => {
             })
             setPushHistory(pushArr)
         }
+        else if(e.target.value == 'Complete'&&(!type2||!note2)){
+            alert('Do not leave blank')
+            setStatus2('Started')
+        }
     }
     const onChangeStatus3 = (e) => {
         setStatus3(e.target.value)
-        if (e.target.value == 'Complete') {
-            alert('Complete')
+        if (e.target.value == 'Complete'&&type3&&note3) {
             displayArr[2] = 'none'
             pushArr = pushHistory
             pushArr.push({
@@ -284,11 +290,14 @@ const ProblemsEdit = ({ match }) => {
             })
             setPushHistory(pushArr)
         }
+        else if(e.target.value == 'Complete'&&(!type3||!note3)){
+            alert('Do not leave blank')
+            setStatus3('Started')
+        }
     }
     const onChangeStatus4 = (e) => {
         setStatus4(e.target.value)
-        if (e.target.value == 'Complete') {
-            alert('Complete')
+        if (e.target.value == 'Complete'&&type4&&note4) {
             displayArr[3] = 'none'
             pushArr = pushHistory
             pushArr.push({
@@ -297,11 +306,14 @@ const ProblemsEdit = ({ match }) => {
             })
             setPushHistory(pushArr)
         }
+        else if(e.target.value == 'Complete'&&(!type4||!note4)){
+            alert('Do not leave blank')
+            setStatus4('Started')
+        }
     }
     const onChangeStatus5 = (e) => {
         setStatus5(e.target.value)
-        if (e.target.value == 'Complete') {
-            alert('Complete')
+        if (e.target.value == 'Complete'&&type5&&note5) {
             displayArr[4] = 'none'
             pushArr = pushHistory
             pushArr.push({
@@ -309,6 +321,10 @@ const ProblemsEdit = ({ match }) => {
                 org: org, type: type5, note: note5
             })
             setPushHistory(pushArr)
+        }
+        else if(e.target.value == 'Complete'&&(!type5||!note5)){
+            alert('Do not leave blank')
+            setStatus5('Started')
         }
     }
 
@@ -330,317 +346,317 @@ const ProblemsEdit = ({ match }) => {
 
     return (
         <Wrapper>
-             {loading ?
-                <div style={{width:'100%',textAlign:'center'}}>loading...</div>
+            {loading ?
+                <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
                 :
                 <>
-            <Board style={{ width: '60%', marginLeft: '3vw', marginBottom: '3vh' }}>
-               
+                    <Board style={{ width: '60%', marginLeft: '3vw', marginBottom: '3vh' }}>
 
-               
-                <InputBox>
-                    <InputContent>
-                        <InputName>
-                            Stop Name
-                        </InputName>
-                        <BusInfor>
-                            {stopName}
-                        </BusInfor>
 
-                    </InputContent>
-                    <InputContent>
-                        <InputName>
-                            SID
-                        </InputName>
-                        <BusInfor>
-                            {stopId}
-                        </BusInfor>
 
-                    </InputContent>
-                </InputBox>
+                        <InputBox>
+                            <InputContent>
+                                <InputName>
+                                    Stop Name
+                                </InputName>
+                                <BusInfor>
+                                    {stopName}
+                                </BusInfor>
 
-                <InputBox style={{ marginBottom: '5vh' }}>
-                    <InputContent>
-                        <InputName>
-                            Created By
-                        </InputName>
-                        <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
+                            </InputContent>
+                            <InputContent>
+                                <InputName>
+                                    SID
+                                </InputName>
+                                <BusInfor>
+                                    {stopId}
+                                </BusInfor>
 
-                    </InputContent>
-                    <InputContent>
-                        <InputName>
-                            Address
-                        </InputName>
-                        <BusInfor>
-                            {stopId}
-                        </BusInfor>
+                            </InputContent>
+                        </InputBox>
 
-                    </InputContent>
-                </InputBox>
-                <div style={{ fontSize: '3vh' }}>
-                    Non-Conformance
-                </div>
-                <Table>
-                    <Tr style={{ fontWeight: 'bold' }}>
-                        <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
-                        <Td>Initiated By</Td>
-                        <Td>Org</Td>
-                        <Td>Type</Td>
-                        <Td>Status</Td>
-                        <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
-                            Notes
-                        </Td>
-                    </Tr>
+                        <InputBox style={{ marginBottom: '5vh' }}>
+                            <InputContent>
+                                <InputName>
+                                    Created By
+                                </InputName>
+                                <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
 
-                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[0]}` }}>
-                        <Td2>{date}</Td2>
-                        <Td2>{initiated}</Td2>
-                        <Td2>{org}</Td2>
-                        <Td2>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeType1} />
-                        </Td2>
-                        <Td2>
-                            <select style={{
-                                width: '100%', fontSize: '1vw',
-                                background: '#E6E6E6', border: 'none',
-                                outline: 'none'
+                            </InputContent>
+                            <InputContent>
+                                <InputName>
+                                    Address
+                                </InputName>
+                                <BusInfor>
+                                    {stopId}
+                                </BusInfor>
+
+                            </InputContent>
+                        </InputBox>
+                        <div style={{ fontSize: '3vh' }}>
+                            Non-Conformance
+                        </div>
+                        <Table>
+                            <Tr style={{ fontWeight: 'bold' }}>
+                                <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
+                                <Td>Initiated By</Td>
+                                <Td>Org</Td>
+                                <Td>Type</Td>
+                                <Td>Status</Td>
+                                <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
+                                    Notes
+                                </Td>
+                            </Tr>
+
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[0]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeType1} />
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus1} value={status1}>
+                                        <option>Started</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote1} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[1]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeType2} />
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus2} value={status2}>
+                                        <option>Started</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote2} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[2]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeType3} />
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus3} value={status3}>
+                                        <option>Started</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote3} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[3]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeType4} />
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus4} value={status4}>
+                                        <option>Started</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote4} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[4]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeType5} />
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus5} value={status5}>
+                                        <option>Started</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote5} />
+                                </Td2>
+                            </Tr>
+
+
+                        </Table>
+                        <button style={{
+                            marginBottom: '6vh', width: '100%', height: '5vh'
+                            , border: '1px solid black', background: '#C4C4C4',
+                            fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer',
+                            display: `${displayArr[5]}`
+                        }}
+                            onClick={() => { plusDisplay() }}>
+                            + Add New Request</button>
+
+                        <div style={{ fontSize: '3vh' }}>
+                            Non-Conformance History
+                        </div>
+                        <Table>
+                            <Tr style={{ fontWeight: 'bold' }}>
+                                <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
+                                <Td>Name</Td>
+                                <Td>Org</Td>
+                                <Td>Type</Td>
+                                <Td>Status</Td>
+                                <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
+                                    Notes
+                                </Td>
+                            </Tr>
+                            {historyPosts && historyPosts.map(post => (
+                                <Tr style={{ background: '#E6E6E6' }} key={post.pk}>
+                                    <Td2>{post.date}</Td2>
+                                    <Td2>{post.name}</Td2>
+                                    <Td2>{post.organization}</Td2>
+                                    <Td2>{post.type}</Td2>
+                                    <Td2>{post.status}</Td2>
+                                    <Td2 style={{ width: '40%' }}>{post.notes}</Td2>
+                                </Tr>
+                            ))}
+                            {pushHistory && pushHistory.map(push => (
+                                <Tr style={{ background: '#E6E6E6' }} key={push.id}>
+                                    <Td2>{push.date}</Td2>
+                                    <Td2>{push.initiated}</Td2>
+                                    <Td2>{push.org}</Td2>
+                                    <Td2>{push.type}</Td2>
+                                    <Td2>Complete</Td2>
+                                    <Td2 style={{ width: '40%' }}>{push.note}</Td2>
+                                </Tr>
+
+                            ))}
+                        </Table>
+
+                    </Board>
+                    <Board style={{ width: '30%', marginLeft: '3vw' }}>
+
+                        {url ? (
+                            <>
+                                <img src={url} alt="#"
+                                    style={{
+                                        width: '100%', height: '42vh',
+                                        marginBottom: '6vh'
+                                    }} />
+                            </>
+                        ) : (
+                            saveImg ?
+                                <label for="file">
+                                    <img src={'http://localhost:8001' + saveImg}
+                                        style={{
+                                            width: '100%', height: '42vh',
+                                            marginBottom: '6vh'
+                                        }} />
+                                </label>
+                                :
+                                <>
+                                    <label for="file">
+                                        <img src={ImageUpload}
+                                            style={{
+                                                width: '100%', height: '42vh',
+                                                marginBottom: '6vh'
+                                            }} />
+                                    </label>
+
+                                </>
+
+                        )}
+                        <div>
+                            <input type="file" id="file" onChange={addFile} style={{ display: 'none' }} />
+                        </div>
+                        <div style={{ fontSize: '3vh' }}>
+                            Attached Files
+                        </div>
+                        <Table>
+                            <Tr style={{ fontWeight: 'bold' }}>
+                                <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
+                                <Td style={{ width: '15%' }}>Uploader</Td>
+                                <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
+                                    Notes
+                                </Td>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6' }}>
+                                <Td2>Date</Td2>
+                                <Td2 style={{ width: '15%' }}>Initiated By</Td2>
+                                <Td2 style={{ width: '24%' }}>Notes</Td2>
+                            </Tr>
+
+                        </Table>
+                        <button style={{
+                            marginBottom: '6vh', width: '100%', height: '5vh'
+                            , border: '1px solid black', background: '#C4C4C4',
+                            fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer'
+                        }}>+ Add New Request</button>
+
+                        <div style={{ width: '100%', textAlign: 'end', marginBottom: '5vh' }}>
+                            <button style={{
+                                width: '60%', height: '5vh',
+                                fontSize: '3vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
                             }}
-                                onChange={onChangeStatus1} value={status1}>
-                                <option>Started</option>
-                                <option>In Progress</option>
-                                <option>Complete</option>
-                            </select>
-                        </Td2>
-                        <Td2 style={{ width: '40%' }}>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeNote1} />
-                        </Td2>
-                    </Tr>
-                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[1]}` }}>
-                        <Td2>{date}</Td2>
-                        <Td2>{initiated}</Td2>
-                        <Td2>{org}</Td2>
-                        <Td2>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeType2} />
-                        </Td2>
-                        <Td2>
-                            <select style={{
-                                width: '100%', fontSize: '1vw',
-                                background: '#E6E6E6', border: 'none',
-                                outline: 'none'
-                            }}
-                                onChange={onChangeStatus2} value={status2}>
-                                <option>Started</option>
-                                <option>In Progress</option>
-                                <option>Complete</option>
-                            </select>
-                        </Td2>
-                        <Td2 style={{ width: '40%' }}>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeNote2} />
-                        </Td2>
-                    </Tr>
-                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[2]}` }}>
-                        <Td2>{date}</Td2>
-                        <Td2>{initiated}</Td2>
-                        <Td2>{org}</Td2>
-                        <Td2>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeType3} />
-                        </Td2>
-                        <Td2>
-                            <select style={{
-                                width: '100%', fontSize: '1vw',
-                                background: '#E6E6E6', border: 'none',
-                                outline: 'none'
-                            }}
-                                onChange={onChangeStatus3} value={status3}>
-                                <option>Started</option>
-                                <option>In Progress</option>
-                                <option>Complete</option>
-                            </select>
-                        </Td2>
-                        <Td2 style={{ width: '40%' }}>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeNote3} />
-                        </Td2>
-                    </Tr>
-                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[3]}` }}>
-                        <Td2>{date}</Td2>
-                        <Td2>{initiated}</Td2>
-                        <Td2>{org}</Td2>
-                        <Td2>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeType4} />
-                        </Td2>
-                        <Td2>
-                            <select style={{
-                                width: '100%', fontSize: '1vw',
-                                background: '#E6E6E6', border: 'none',
-                                outline: 'none'
-                            }}
-                                onChange={onChangeStatus4} value={status4}>
-                                <option>Started</option>
-                                <option>In Progress</option>
-                                <option>Complete</option>
-                            </select>
-                        </Td2>
-                        <Td2 style={{ width: '40%' }}>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeNote4} />
-                        </Td2>
-                    </Tr>
-                    <Tr style={{ background: '#E6E6E6', display: `${displayArr[4]}` }}>
-                        <Td2>{date}</Td2>
-                        <Td2>{initiated}</Td2>
-                        <Td2>{org}</Td2>
-                        <Td2>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeType5} />
-                        </Td2>
-                        <Td2>
-                            <select style={{
-                                width: '100%', fontSize: '1vw',
-                                background: '#E6E6E6', border: 'none',
-                                outline: 'none'
-                            }}
-                                onChange={onChangeStatus5} value={status5}>
-                                <option>Started</option>
-                                <option>In Progress</option>
-                                <option>Complete</option>
-                            </select>
-                        </Td2>
-                        <Td2 style={{ width: '40%' }}>
-                            <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                onChange={onChangeNote5} />
-                        </Td2>
-                    </Tr>
+                                onClick={upLoad}>
+                                Complete
+                            </button>
+                        </div>
 
-
-                </Table>
-                <button style={{
-                    marginBottom: '6vh', width: '100%', height: '5vh'
-                    , border: '1px solid black', background: '#C4C4C4',
-                    fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer',
-                    display: `${displayArr[5]}`
-                }}
-                    onClick={() => { plusDisplay() }}>
-                    + Add New Request</button>
-
-                <div style={{ fontSize: '3vh' }}>
-                    Non-Conformance History
-                </div>
-                <Table>
-                    <Tr style={{ fontWeight: 'bold' }}>
-                        <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
-                        <Td>Name</Td>
-                        <Td>Org</Td>
-                        <Td>Type</Td>
-                        <Td>Status</Td>
-                        <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
-                            Notes
-                        </Td>
-                    </Tr>
-                    {historyPosts && historyPosts.map(post=>(
-                        <Tr style={{ background: '#E6E6E6' }} key={post.pk}>
-                        <Td2>{post.date}</Td2>
-                        <Td2>{post.name}</Td2>
-                        <Td2>{post.organization}</Td2>
-                        <Td2>{post.type}</Td2>
-                        <Td2>{post.status}</Td2>
-                        <Td2 style={{ width: '40%' }}>{post.notes}</Td2>
-                    </Tr>
-                    ))}
-                    {pushHistory && pushHistory.map(push => (
-                        <Tr style={{ background: '#E6E6E6' }} key={push.id}>
-                            <Td2>{push.date}</Td2>
-                            <Td2>{push.initiated}</Td2>
-                            <Td2>{push.org}</Td2>
-                            <Td2>{push.type}</Td2>
-                            <Td2>Complete</Td2>
-                            <Td2 style={{ width: '40%' }}>{push.note}</Td2>
-                        </Tr>
-
-                    ))}
-                </Table>
-                
-            </Board>
-            <Board style={{ width: '30%', marginLeft: '3vw' }}>
-               
-                {url ? (
-                    <>
-                        <img src={url} alt="#"
-                            style={{
-                                width: '100%', height: '42vh',
-                                marginBottom: '6vh'
-                            }} />
-                    </>
-                ) : (
-                    saveImg ?
-                    <label for="file">
-                    <img src={'http://localhost:8001'+saveImg}
-                        style={{
-                            width: '100%', height: '42vh',
-                            marginBottom: '6vh'
-                        }}/>
-                        </label>
-                    :
-                    <>
-                    <label for="file">
-                    <img src={ImageUpload}
-                        style={{
-                            width: '100%', height: '42vh',
-                            marginBottom: '6vh'
-                        }} />
-                </label>
-                   
-                    </>
-                    
-                )}
-                <div>
-                    <input type="file" id="file" onChange={addFile} style={{ display: 'none' }} />
-                </div>
-                <div style={{ fontSize: '3vh' }}>
-                    Attached Files
-                </div>
-                <Table>
-                    <Tr style={{ fontWeight: 'bold' }}>
-                        <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
-                        <Td style={{ width: '15%' }}>Uploader</Td>
-                        <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
-                            Notes
-                        </Td>
-                    </Tr>
-                    <Tr style={{ background: '#E6E6E6' }}>
-                        <Td2>Date</Td2>
-                        <Td2 style={{ width: '15%' }}>Initiated By</Td2>
-                        <Td2 style={{ width: '24%' }}>Notes</Td2>
-                    </Tr>
-
-                </Table>
-                <button style={{
-                    marginBottom: '6vh', width: '100%', height: '5vh'
-                    , border: '1px solid black', background: '#C4C4C4',
-                    fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer'
-                }}>+ Add New Request</button>
-
-                <div style={{ width: '100%', textAlign: 'end', marginBottom: '5vh' }}>
-                    <button style={{
-                        width: '60%', height: '5vh',
-                        fontSize: '3vh', border: '1px solid black',
-                        background: '#F6B60F', fontWeight: 'bold',
-                        cursor:'pointer'
-                    }}
-                    onClick={upLoad}>
-                        Complete
-                    </button>
-                </div>
-                
-            </Board>
-            </>
-             }
+                    </Board>
+                </>
+            }
         </Wrapper>
     );
 };

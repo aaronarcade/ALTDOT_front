@@ -21,7 +21,7 @@ transition: all 0.5s ease-in;
 display: none
 `
 
-const Home = () => {
+const Help = () => {
     const history = useHistory();
     const [display, setDisplay] = useState('flex');
     const isAdmin = async () => {
@@ -38,8 +38,8 @@ const Home = () => {
     }, [])
     return (
         <Wrapper>
-            home
+            Help
         </Wrapper>
     );
 };
-export default Home;
+export default Help;

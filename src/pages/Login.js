@@ -56,7 +56,7 @@ const Login = () => {
 
         const { data: response } = await axios.get('/api/auth')
         if (response.pk) {
-            history.push('/home')
+            history.push('/problems')
             window.location.reload();
         }
 

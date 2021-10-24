@@ -5,12 +5,12 @@ import { withRouter, Link, useHistory } from "react-router-dom"
 import axios from 'axios';
 import imagesrc from '../assets/images/FileUpload.png'
 import Bigarrow from '../assets/images/BigArrow.png'
+import '../styles/style.css'
 const Wrapper = styled.div`
     display: flex;
     width:100%;
     padding-top:2vh;
     justify-content: space-between;
-    min-width:600px;
 `
 const Board = styled.div`
 width:45%;
@@ -90,106 +90,178 @@ margin:16vh 0 10vh 0;
 `
 const SuggestionsPage = () => {
     const history = useHistory();
-    const [display, setDisplay] = useState('flex');
-    // const isAdmin = async () => {
+    const [posts, setPosts] = useState([]);
+    const [modifyPosts, setModifyPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [colorArr, setColorArr] = useState([]);
+    const isAdmin = async () => {
 
-    //     const { data: response } = await axios.get('/api/auth')
-    //     if (!response.pk) {
-    //         history.push('/')
-    //     }
-    // }
+        const { data: response } = await axios.get('/api/auth')
+        console.log(response)
+        if (!response.pk) {
+            history.push('/')
+        }
+    }
 
-    // useEffect(() => {
-    //     isAdmin()
-    // }, [])
+    useEffect(() => {
+        isAdmin()
+    }, [])
+    useEffect(() => {
+        async function fetchPosts() {
+            setLoading(true);
+            const { data: response } = await axios.get(`/api/stations/ATLDOT/0`);
+            setPosts(response.data);
+            const { data: res } = await axios.get(`/api/stations/ATLDOT/1`);
+            setModifyPosts(res.data)
+            console.log(posts)
+            console.log(modifyPosts)
+            let arr = [];
+            for(var i =0;i<posts.length;i++){
+                if(posts[i].ridership_data>=45.7494){
+                    arr[posts[i].pk]='#DAF1D6'
+                    
+                }
+                else{
+                    arr[posts[i].pk]='white'
+                }
+            }
+            setColorArr(arr);
+            setLoading(false);
+        }
+        fetchPosts()
+    }, []);
+    function onChangeModify(pk) {
+
+        axios.post('/api/addmodify', {
+            pk: pk,
+            org: 'ATLDOT'
+        }).then(() => {
+            async function fetchPosts() {
+                setLoading(true);
+                const { data: response } = await axios.get(`/api/stations/ATLDOT/0`);
+                setPosts(response.data);
+                const { data: res } = await axios.get(`/api/stations/ATLDOT/1`);
+                setModifyPosts(res.data)
+                setLoading(false);
+            }
+            fetchPosts()
+        })
+    }
+    function goEditPage(pk) {
+        history.push(`/suggestionsedit/${pk}`)
+    }
     return (
         <Wrapper>
-            <Board style={{ marginLeft: '2vw' }}>
-                <div style={{
-                    width: '100%', display: 'flex'
-                    , justifyContent: 'space-between', paddingBottom: '0.5vh'
-                }}>
-                    <Img src={imagesrc}/>
-                    <div style={{
-                        width: '60%'
-                        , display: 'flex', justifyContent: 'space-between'
-                    }}>
-                        <div style={{ fontSize: '1vw' }}>Search</div>
-                        <SearchBar />
-                    </div>
-                </div>
-                <Table>
-                    <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                        <SID style={{ border: '1px solid black' }}>SID</SID>
-                        <Tier style={{ border: '1px solid black' }}>Tier</Tier>
-                        <RidershipQuintile style={{ border: '1px solid black' }}>
-                            Ridership<br />Quintile
-                        </RidershipQuintile>
-                        <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                        <Suggestions style={{ border: '1px solid black' }}>Suggestions</Suggestions>
-                        <Modify style={{ border: '1px solid black' }}>Modify</Modify>
-                    </Tr>
-                    <Tr>
-                        <SID>168901</SID>
-                        <Tier>3</Tier>
-                        <RidershipQuintile>5</RidershipQuintile>
-                        <StopName>Godby Rd</StopName>
-                        <Suggestions>n/a</Suggestions>
-                        <Modify>
-                            <Button style={{color:'black',background:'#F6B60F'}}
-                            >Add</Button>
-                        </Modify>
-                    </Tr>
-                </Table>
-            </Board>
-            <div style={{ width: '5%',display:'flex',
-                          flexDirection:'column',alignItems:'center'}}>
-                    <BigArrow src={Bigarrow}/>
-                    <BigArrow src={Bigarrow}/>
-            </div>
-            <Board style={{ marginRight: '2vw' }}>
-                <div style={{
-                    width: '100%', display: 'flex'
-                    , justifyContent: 'space-between', paddingBottom: '0.5vh'
-                }}>
-                    <Img />
-                    <div style={{
-                        width: '60%'
-                        , display: 'flex', justifyContent: 'space-between'
-                    }}>
-                        <div style={{ fontSize: '1vw' }}>Search</div>
-                        <SearchBar />
-                    </div>
-                </div>
-                <Table>
-                    <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                        <SID style={{ border: '1px solid black' }}>SID</SID>
-                        <Tier style={{ border: '1px solid black' }}>Tier</Tier>
-                        <RidershipQuintile style={{ border: '1px solid black' }}>
-                            Ridership<br />Quintile
-                        </RidershipQuintile>
-                        <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                        <Suggestions style={{ border: '1px solid black' }}>Suggestions</Suggestions>
-                        <Modify style={{ border: '1px solid black' }}>Modify</Modify>
-                    </Tr>
-                    <Tr>
-                        <SID>168904</SID>
-                        <Tier>2</Tier>
-                        <RidershipQuintile>4</RidershipQuintile>
-                        <StopName>Virgina Ave.</StopName>
-                        <Suggestions>
-                        <Button style={{color:'white',background:'#107E7D',marginRight:'0.1vw'}}
-                            >Shelter</Button>
-                            <Button style={{color:'white',background:'#107E7D',marginLeft:'0.1vw'}}
-                            >Bench</Button>
-                        </Suggestions>
-                        <Modify>
-                            <Button style={{color:'black',background:'#F6B60F'}}
-                            > {'>'} </Button>
-                        </Modify>
-                    </Tr>
-                </Table>
-            </Board>
+            {
+                loading ?
+                    <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
+                    :
+                    <>
+
+                        <Board style={{ marginLeft: '2vw' }}>
+                            <div style={{
+                                width: '100%', display: 'flex'
+                                , justifyContent: 'space-between', paddingBottom: '0.5vh'
+                            }}>
+                                <Img src={imagesrc} />
+                                <div style={{
+                                    width: '60%'
+                                    , display: 'flex', justifyContent: 'space-between'
+                                }}>
+                                    <div style={{ fontSize: '1vw' }}>Search</div>
+                                    <SearchBar />
+                                </div>
+                            </div>
+                            <Table>
+                                <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
+                                    <SID style={{ border: '1px solid black' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                        Ridership<br />Quintile
+                                    </RidershipQuintile>
+                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
+                                    <Suggestions style={{ border: '1px solid black' }}>Suggestions</Suggestions>
+                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                </Tr>
+                            </Table>
+                            <div style={{height:'72vh',overflowY:'scroll'}} className='box'>
+                            <Table>
+                                
+                                {posts && posts.map(post => (
+                                    <Tr key={post.pk} style={{background:`${colorArr[post.pk]}`}}>
+                                        <SID>{post.stop_id}</SID>
+                                        <Tier>{post.tier}</Tier>
+                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                        <StopName>{post.stop_name}</StopName>
+                                        <Suggestions></Suggestions>
+                                        <Modify>
+                                            <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                onClick={() => { onChangeModify(post.pk) }}>Add</Button>
+                                        </Modify>
+                                    </Tr>
+                                ))}
+                                
+
+                            </Table>
+                            </div>
+                        </Board>
+                        <div style={{
+                            width: '5%', display: 'flex',
+                            flexDirection: 'column', alignItems: 'center'
+                        }}>
+                            <BigArrow src={Bigarrow} />
+                            <BigArrow src={Bigarrow} />
+                        </div>
+                        <Board style={{ marginRight: '2vw' }}>
+                            <div style={{
+                                width: '100%', display: 'flex'
+                                , justifyContent: 'space-between', paddingBottom: '0.5vh'
+                            }}>
+                                <Img />
+                                <div style={{
+                                    width: '60%'
+                                    , display: 'flex', justifyContent: 'space-between'
+                                }}>
+                                    <div style={{ fontSize: '1vw' }}>Search</div>
+                                    <SearchBar />
+                                </div>
+                            </div>
+                            <Table>
+                                <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
+                                    <SID style={{ border: '1px solid black' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                        Ridership<br />Quintile
+                                    </RidershipQuintile>
+                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
+                                    <Suggestions style={{ border: '1px solid black' }}>Suggestions</Suggestions>
+                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                </Tr>
+
+                                {modifyPosts && modifyPosts.map(post => (
+                                    <Tr key={post.pk}>
+                                        <SID>{post.stop_id}</SID>
+                                        <Tier>{post.tier}</Tier>
+                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                        <StopName>{post.stop_name}</StopName>
+                                        <Suggestions>
+                                            <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
+                                            >{post.suggestions}</Button>
+
+                                        </Suggestions>
+                                        <Modify>
+                                            <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
+                                        </Modify>
+                                    </Tr>
+                                ))}
+
+
+
+                            </Table>
+                        </Board>
+                    </>
+            }
         </Wrapper>
     );
 };

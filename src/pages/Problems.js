@@ -5,6 +5,7 @@ import { withRouter, Link, useHistory } from "react-router-dom"
 import axios from 'axios';
 import imagesrc from '../assets/images/FileUpload.png'
 import Bigarrow from '../assets/images/BigArrow.png'
+import '../styles/style.css'
 const Wrapper = styled.div`
     display: flex;
     width:100%;
@@ -92,6 +93,7 @@ const ProblemsPage = () => {
     const [posts, setPosts] = useState([]);
     const [modifyPosts, setModifyPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [colorArr, setColorArr] = useState([]);
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -111,7 +113,17 @@ const ProblemsPage = () => {
             setPosts(response.data);
             const { data: res } = await axios.get(`/api/stations/MARTA/1`);
             setModifyPosts(res.data)
-            console.log(posts)
+            let arr = [];
+            for(var i =0;i<posts.length;i++){
+                if(posts[i].ridership_data>=45.7494){
+                    arr[posts[i].pk]='#DAF1D6'
+                    
+                }
+                else{
+                    arr[posts[i].pk]='white'
+                }
+            }
+            setColorArr(arr);
             setLoading(false);
         }
         fetchPosts()
@@ -170,9 +182,12 @@ const ProblemsPage = () => {
                                     <Problems style={{ border: '1px solid black' }}>Problems</Problems>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
-
+                            </Table>
+                            <div style={{height:'72vh',overflowY:'scroll'}} className='box'>
+                            <Table>
+                                
                                 {posts && posts.map(post => (
-                                    <Tr key={post.pk}>
+                                    <Tr key={post.pk} style={{background:`${colorArr[post.pk]}`}}>
                                         <SID>{post.stop_id}</SID>
                                         <Tier>{post.tier}</Tier>
                                         <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
@@ -184,9 +199,10 @@ const ProblemsPage = () => {
                                         </Modify>
                                     </Tr>
                                 ))}
-
+                                
 
                             </Table>
+                            </div>
                         </Board>
                         <div style={{
                             width: '5%', display: 'flex',
@@ -229,7 +245,7 @@ const ProblemsPage = () => {
                                         <StopName>{post.stop_name}</StopName>
                                         <Problems>
                                             <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
-                                            >Row</Button>
+                                            >{post.problems}</Button>
 
                                         </Problems>
                                         <Modify>

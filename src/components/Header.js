@@ -8,15 +8,13 @@ const Wrapper = styled.div`
     display: flex;
     align-item:center;
     background:#3960AA;
+    justify-content:space-between;
 `
 const PageName = styled.div`
-    width:100%;
     height:7vh;
     padding: 2vh 0 0 2vw;
     text-align:left;
-    display:table-cell;
     vertical-align:middle;
-    background:#3960AA;
     color:#ffffff;
     font-size:3vh;
     font-weight:bold;
@@ -30,14 +28,24 @@ const LogoutButton = styled.button`
     width:9vw;
     text-align:center;
     cursor:pointer;
-    position:absolute;
+    
     align-items:center;
-    top:2vh;
-    right:3vw;
+    margin: 2vh 3vw 0 0;
     border:none;
     @media screen and (max-width:950px) {
         width:12vw;
     }
+`
+const MenuContainer = styled.div`
+width: 32vw;
+display:flex;
+margin: 2.4vh 0 0 0;
+justify-content:space-between;
+`
+const MenuContent = styled.div`
+color:white;
+font-family:${({ theme }) => theme.font.title};  
+font-size:2.2vh;
 `
 const Header = () => {
     const history = useHistory();
@@ -63,11 +71,25 @@ const Header = () => {
     return (
         <Wrapper>
             <PageName>{pageName}</PageName>
+           
             {
                 haveAdmin ?
-                    <LogoutButton onClick={onLogout}>
-                        Log Out
-                    </LogoutButton>
+                    <>
+                        <MenuContainer>
+                        <Link to='/problems'style={{textDecoration:'none'}}>
+                            <MenuContent>Issues</MenuContent>
+                        </Link>
+                        <Link to='/suggestions' style={{textDecoration:'none'}}>
+                            <MenuContent>Request</MenuContent>
+                        </Link>
+                        <Link to='/help' style={{textDecoration:'none'}}>
+                            <MenuContent>Help</MenuContent>
+                        </Link>
+                        </MenuContainer>
+                        <LogoutButton onClick={onLogout}>
+                            Log Out
+                        </LogoutButton>
+                    </>
                     :
                     <>
                         <div />
