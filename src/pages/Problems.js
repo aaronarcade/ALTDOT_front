@@ -106,22 +106,22 @@ const ProblemsPage = () => {
     }, [])
     useEffect(() => {
         async function fetchPosts() {
-          setLoading(true);
-          const { data: response } = await axios.get(`/api/stations/MARTA/0`);
-          setPosts(response.data);
-          const { data: res } = await axios.get(`/api/stations/MARTA/1`);
-          setModifyPosts(res.data)
-          console.log(posts)
-          setLoading(false);
+            setLoading(true);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0`);
+            setPosts(response.data);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1`);
+            setModifyPosts(res.data)
+            console.log(posts)
+            setLoading(false);
         }
         fetchPosts()
-      }, []);
-    function onChangeModify(pk){
-        
-        axios.post('/api/addmodify',{
+    }, []);
+    function onChangeModify(pk) {
+
+        axios.post('/api/addmodify', {
             pk: pk,
-            org:'MARTA'
-        }).then(()=>{
+            org: 'MARTA'
+        }).then(() => {
             async function fetchPosts() {
                 setLoading(true);
                 const { data: response } = await axios.get(`/api/stations/MARTA/0`);
@@ -130,106 +130,121 @@ const ProblemsPage = () => {
                 setModifyPosts(res.data)
                 console.log(posts)
                 setLoading(false);
-              }
-              fetchPosts()
+            }
+            fetchPosts()
         })
     }
-    function goEditPage(pk){
+    function goEditPage(pk) {
         history.push(`/problemsedit/${pk}`)
     }
     return (
         <Wrapper>
-            <Board style={{ marginLeft: '2vw' }}>
-                <div style={{
-                    width: '100%', display: 'flex'
-                    , justifyContent: 'space-between', paddingBottom: '0.5vh'
-                }}>
-                    <Img src={imagesrc}/>
-                    <div style={{
-                        width: '60%'
-                        , display: 'flex', justifyContent: 'space-between'
-                    }}>
-                        <div style={{ fontSize: '1vw' }}>Search</div>
-                        <SearchBar />
-                    </div>
-                </div>
-                <Table>
-                    <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                        <SID style={{ border: '1px solid black' }}>SID</SID>
-                        <Tier style={{ border: '1px solid black' }}>Tier</Tier>
-                        <RidershipQuintile style={{ border: '1px solid black' }}>
-                            Ridership<br />Quintile
-                        </RidershipQuintile>
-                        <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                        <Problems style={{ border: '1px solid black' }}>Problems</Problems>
-                        <Modify style={{ border: '1px solid black' }}>Modify</Modify>
-                    </Tr>
-                    {posts && posts.map(post=>(
-                        <Tr key={post.pk}>
-                        <SID>{post.stop_id}</SID>
-                        <Tier>{post.tier}</Tier>
-                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                        <StopName>{post.stop_name}</StopName>
-                        <Problems></Problems>
-                        <Modify>
-                            <Button style={{color:'black',background:'#F6B60F'}}
-                            onClick={()=>{onChangeModify(post.pk)}}>Add</Button>
-                        </Modify>
-                    </Tr>
-                    ))}
-                </Table>
-            </Board>
-            <div style={{ width: '5%',display:'flex',
-                          flexDirection:'column',alignItems:'center'}}>
-                    <BigArrow src={Bigarrow}/>
-                    <BigArrow src={Bigarrow}/>
-            </div>
-            <Board style={{ marginRight: '2vw' }}>
-                <div style={{
-                    width: '100%', display: 'flex'
-                    , justifyContent: 'space-between', paddingBottom: '0.5vh'
-                }}>
-                    <Img />
-                    <div style={{
-                        width: '60%'
-                        , display: 'flex', justifyContent: 'space-between'
-                    }}>
-                        <div style={{ fontSize: '1vw' }}>Search</div>
-                        <SearchBar />
-                    </div>
-                </div>
-                <Table>
-                    <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                        <SID style={{ border: '1px solid black' }}>SID</SID>
-                        <Tier style={{ border: '1px solid black' }}>Tier</Tier>
-                        <RidershipQuintile style={{ border: '1px solid black' }}>
-                            Ridership<br />Quintile
-                        </RidershipQuintile>
-                        <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                        <Problems style={{ border: '1px solid black' }}>Problems</Problems>
-                        <Modify style={{ border: '1px solid black' }}>Modify</Modify>
-                    </Tr>
-                    {modifyPosts && modifyPosts.map(post=>(
-                        <Tr key={post.pk}>
-                        <SID>{post.stop_id}</SID>
-                        <Tier>{post.tier}</Tier>
-                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                        <StopName>{post.stop_name}</StopName>
-                        <Problems>
-                        <Button style={{color:'white',background:'#F94C4C',width:'80%'}}
-                            >Row</Button>
-                            
-                        </Problems>
-                        <Modify>
-                            <Button style={{color:'black',background:'#F6B60F'}}
-                            onClick={()=>{goEditPage(post.pk)}}> {'>'} </Button>
-                        </Modify>
-                    </Tr>
-                    ))}
-                    
-                </Table>
-            </Board>
-            
+            {
+                loading ?
+                    <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
+                    :
+                    <>
+
+                        <Board style={{ marginLeft: '2vw' }}>
+                            <div style={{
+                                width: '100%', display: 'flex'
+                                , justifyContent: 'space-between', paddingBottom: '0.5vh'
+                            }}>
+                                <Img src={imagesrc} />
+                                <div style={{
+                                    width: '60%'
+                                    , display: 'flex', justifyContent: 'space-between'
+                                }}>
+                                    <div style={{ fontSize: '1vw' }}>Search</div>
+                                    <SearchBar />
+                                </div>
+                            </div>
+                            <Table>
+                                <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
+                                    <SID style={{ border: '1px solid black' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                        Ridership<br />Quintile
+                                    </RidershipQuintile>
+                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
+                                    <Problems style={{ border: '1px solid black' }}>Problems</Problems>
+                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                </Tr>
+
+                                {posts && posts.map(post => (
+                                    <Tr key={post.pk}>
+                                        <SID>{post.stop_id}</SID>
+                                        <Tier>{post.tier}</Tier>
+                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                        <StopName>{post.stop_name}</StopName>
+                                        <Problems></Problems>
+                                        <Modify>
+                                            <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                onClick={() => { onChangeModify(post.pk) }}>Add</Button>
+                                        </Modify>
+                                    </Tr>
+                                ))}
+
+
+                            </Table>
+                        </Board>
+                        <div style={{
+                            width: '5%', display: 'flex',
+                            flexDirection: 'column', alignItems: 'center'
+                        }}>
+                            <BigArrow src={Bigarrow} />
+                            <BigArrow src={Bigarrow} />
+                        </div>
+                        <Board style={{ marginRight: '2vw' }}>
+                            <div style={{
+                                width: '100%', display: 'flex'
+                                , justifyContent: 'space-between', paddingBottom: '0.5vh'
+                            }}>
+                                <Img />
+                                <div style={{
+                                    width: '60%'
+                                    , display: 'flex', justifyContent: 'space-between'
+                                }}>
+                                    <div style={{ fontSize: '1vw' }}>Search</div>
+                                    <SearchBar />
+                                </div>
+                            </div>
+                            <Table>
+                                <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
+                                    <SID style={{ border: '1px solid black' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                        Ridership<br />Quintile
+                                    </RidershipQuintile>
+                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
+                                    <Problems style={{ border: '1px solid black' }}>Problems</Problems>
+                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                </Tr>
+
+                                {modifyPosts && modifyPosts.map(post => (
+                                    <Tr key={post.pk}>
+                                        <SID>{post.stop_id}</SID>
+                                        <Tier>{post.tier}</Tier>
+                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                        <StopName>{post.stop_name}</StopName>
+                                        <Problems>
+                                            <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
+                                            >Row</Button>
+
+                                        </Problems>
+                                        <Modify>
+                                            <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
+                                        </Modify>
+                                    </Tr>
+                                ))}
+
+
+
+                            </Table>
+                        </Board>
+                    </>
+            }
         </Wrapper>
     );
 };

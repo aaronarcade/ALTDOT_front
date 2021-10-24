@@ -330,8 +330,14 @@ const ProblemsEdit = ({ match }) => {
 
     return (
         <Wrapper>
+             {loading ?
+                <div style={{width:'100%',textAlign:'center'}}>loading...</div>
+                :
+                <>
             <Board style={{ width: '60%', marginLeft: '3vw', marginBottom: '3vh' }}>
+               
 
+               
                 <InputBox>
                     <InputContent>
                         <InputName>
@@ -559,8 +565,10 @@ const ProblemsEdit = ({ match }) => {
 
                     ))}
                 </Table>
+                
             </Board>
             <Board style={{ width: '30%', marginLeft: '3vw' }}>
+               
                 {url ? (
                     <>
                         <img src={url} alt="#"
@@ -629,7 +637,10 @@ const ProblemsEdit = ({ match }) => {
                         Complete
                     </button>
                 </div>
+                
             </Board>
+            </>
+             }
         </Wrapper>
     );
 };
