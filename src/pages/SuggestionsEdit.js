@@ -143,14 +143,14 @@ const SuggestionsEdit = () => {
 
     useEffect(() => {
         isAdmin()
-        console.log(params.id)
+        console.log(params.pk)
     }, [])
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/onestation/${params.id}/ATLDOT`);
+            const { data: response } = await axios.get(`/api/onestation/${params.pk}/ATLDOT`);
             console.log(response.data)
-            console.log(params.id)
+            console.log(params.pk)
             if (response.data.modify == 0) {
                 history.push('/suggestions')
                 setLoading(false);
@@ -172,9 +172,9 @@ const SuggestionsEdit = () => {
                         displayArr[i] = ''
                     }
                 }
-                const { data: reslist } = await axios.get(`/api/suggestions/${params.id}`)
+                const { data: reslist } = await axios.get(`/api/suggestions/${params.pk}`)
                 setHistoryPosts(reslist.data);
-                const { data: resimg } = await axios.get(`/api/image/${params.id}/ATLDOT`)
+                const { data: resimg } = await axios.get(`/api/image/${params.pk}/ATLDOT`)
                 if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
                 }
@@ -204,7 +204,7 @@ const SuggestionsEdit = () => {
             let currentFile = content
             setImg(currentFile)
             formData.append("image", currentFile)
-            formData.append("pk", params.id)
+            formData.append("pk", params.pk)
             formData.append("org", org)
             const config = {
                 header: {
@@ -220,14 +220,14 @@ const SuggestionsEdit = () => {
             let string = JSON.stringify(pushHistory);
             console.log(pushHistory)
             axios.post('/api/addproblem', {
-                pk: params.id,
+                pk: params.pk,
                 list: string
             })
             console.log(pushHistory)
         }
         const response = await axios.post('/api/updatecreate', {
             create: createBy,
-            pk: params.id,
+            pk: params.pk,
             org: org
         })
         alert('Complete.')
@@ -573,7 +573,7 @@ const SuggestionsEdit = () => {
                                 </Tr>
                             ))}
                             {pushHistory && pushHistory.map(push => (
-                                <Tr style={{ background: '#E6E6E6' }} key={push.id}>
+                                <Tr style={{ background: '#E6E6E6' }} key={push.pk}>
                                     <Td2>{push.date}</Td2>
                                     <Td2>{push.initiated}</Td2>
                                     <Td2>{push.org}</Td2>
