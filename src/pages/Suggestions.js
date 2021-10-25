@@ -138,9 +138,9 @@ const SuggestionsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading(true);
-                const { data: response } = await axios.get(`/api/stations/ATLDOT/0`);
+                const { data: response } = await axios.get(`/api/stations/ATLDOT/0/`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/ATLDOT/1`);
+                const { data: res } = await axios.get(`/api/stations/ATLDOT/1/`);
                 setModifyPosts(res.data)
                 setLoading(false);
             }

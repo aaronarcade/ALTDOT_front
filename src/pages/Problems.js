@@ -93,7 +93,13 @@ const ProblemsPage = () => {
     const [posts, setPosts] = useState([]);
     const [modifyPosts, setModifyPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false)
+    const [loading2, setLoading2] = useState(false)
     const [colorArr, setColorArr] = useState([]);
+    const [search1, setSearch1] = useState('');
+    const [search2, setSearch2] = useState('');
+    const [page1, setPage1] = useState(0)
+    const [page2, setPage2] = useState(0)
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -109,18 +115,18 @@ const ProblemsPage = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
             setModifyPosts(res.data)
             let arr = [];
-            for(var i =0;i<posts.length;i++){
-                if(posts[i].ridership_data>=45.7494){
-                    arr[posts[i].pk]='#DAF1D6'
-                    
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].ridership_data >= 45.7494) {
+                    arr[posts[i].pk] = '#DAF1D6'
+
                 }
-                else{
-                    arr[posts[i].pk]='white'
+                else {
+                    arr[posts[i].pk] = 'white'
                 }
             }
             setColorArr(arr);
@@ -135,13 +141,13 @@ const ProblemsPage = () => {
             org: 'MARTA'
         }).then(() => {
             async function fetchPosts() {
-                setLoading(true);
-                const { data: response } = await axios.get(`/api/stations/MARTA/0`);
+                setLoading2(true);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/MARTA/1`);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
                 setModifyPosts(res.data)
                 console.log(posts)
-                setLoading(false);
+                setLoading2(false);
             }
             fetchPosts()
         })
@@ -149,6 +155,38 @@ const ProblemsPage = () => {
     function goEditPage(pk) {
         history.push(`/problemsedit/${pk}`)
     }
+    const onChangeSearch1 = (e) => {
+        setSearch1(e.target.value)
+    }
+    const onChangeSearch2 = (e) => {
+        setSearch2(e.target.value)
+    }
+    function onChangePage1() {
+        async function fetchPosts() {
+
+            
+                setLoading1(true);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
+                setPosts(response.data);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
+                setModifyPosts(res.data)
+                setLoading1(false);
+        }
+        fetchPosts()
+    };
+    function onChangePage2() {
+        async function fetchPosts() {
+
+            setLoading2(true);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}page=${page1}`);
+            setPosts(response.data);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}page=${page2}`);
+            setModifyPosts(res.data)
+            setLoading2(false);
+
+        }
+        fetchPosts()
+    };
     return (
         <Wrapper>
             {
@@ -167,8 +205,10 @@ const ProblemsPage = () => {
                                     width: '60%'
                                     , display: 'flex', justifyContent: 'space-between'
                                 }}>
-                                    <div style={{ fontSize: '1vw' }}>Search</div>
-                                    <SearchBar />
+                                    <div style={{ fontSize: '1vw',cursor:'pointer' }} onClick={() => { onChangePage1() }}>Search</div>
+                                        <SearchBar onChange={onChangeSearch1}
+                                            value={search1} />
+                                    
                                 </div>
                             </div>
                             <Table>
@@ -183,26 +223,33 @@ const ProblemsPage = () => {
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
                             </Table>
-                            <div style={{height:'72vh',overflowY:'scroll'}} className='box'>
-                            <Table>
-                                
-                                {posts && posts.map(post => (
-                                    <Tr key={post.pk} style={{background:`${colorArr[post.pk]}`}}>
-                                        <SID>{post.stop_id}</SID>
-                                        <Tier>{post.tier}</Tier>
-                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                                        <StopName>{post.stop_name}</StopName>
-                                        <Problems></Problems>
-                                        <Modify>
-                                            <Button style={{ color: 'black', background: '#F6B60F' }}
-                                                onClick={() => { onChangeModify(post.pk) }}>Add</Button>
-                                        </Modify>
-                                    </Tr>
-                                ))}
-                                
+                            {loading1 ?
+                                <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
+                                :
+                                <>
 
-                            </Table>
-                            </div>
+                                    <div style={{ height: '72vh', overflowY: 'scroll' }} className='box'>
+                                        <Table>
+
+                                            {posts && posts.map(post => (
+                                                <Tr key={post.pk} style={{ background: `${colorArr[post.pk]}` }}>
+                                                    <SID>{post.stop_id}</SID>
+                                                    <Tier>{post.tier}</Tier>
+                                                    <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                                    <StopName>{post.stop_name}</StopName>
+                                                    <Problems></Problems>
+                                                    <Modify>
+                                                        <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                            onClick={() => { onChangeModify(post.pk) }}>Add</Button>
+                                                    </Modify>
+                                                </Tr>
+                                            ))}
+
+
+                                        </Table>
+                                    </div>
+                                </>
+                            }
                         </Board>
                         <div style={{
                             width: '5%', display: 'flex',
@@ -221,8 +268,12 @@ const ProblemsPage = () => {
                                     width: '60%'
                                     , display: 'flex', justifyContent: 'space-between'
                                 }}>
-                                    <div style={{ fontSize: '1vw' }}>Search</div>
-                                    <SearchBar />
+                                    <div style={{ fontSize: '1vw',cursor:'pointer' }}
+                                    onClick={() => { onChangePage2() }}>Search</div>
+                                   
+                                        <SearchBar onChange={onChangeSearch2}
+                                            value={search2} />
+                                    
                                 </div>
                             </div>
                             <Table>
@@ -236,25 +287,29 @@ const ProblemsPage = () => {
                                     <Problems style={{ border: '1px solid black' }}>Problems</Problems>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
+                                {loading2 ? 
+                                <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
+                                :
+                                    <>
+                                        {modifyPosts && modifyPosts.map(post => (
+                                            <Tr key={post.pk}>
+                                                <SID>{post.stop_id}</SID>
+                                                <Tier>{post.tier}</Tier>
+                                                <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
+                                                <StopName>{post.stop_name}</StopName>
+                                                <Problems>
+                                                    <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
+                                                    >{post.problems}</Button>
 
-                                {modifyPosts && modifyPosts.map(post => (
-                                    <Tr key={post.pk}>
-                                        <SID>{post.stop_id}</SID>
-                                        <Tier>{post.tier}</Tier>
-                                        <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                                        <StopName>{post.stop_name}</StopName>
-                                        <Problems>
-                                            <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
-                                            >{post.problems}</Button>
-
-                                        </Problems>
-                                        <Modify>
-                                            <Button style={{ color: 'black', background: '#F6B60F' }}
-                                                onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
-                                        </Modify>
-                                    </Tr>
-                                ))}
-
+                                                </Problems>
+                                                <Modify>
+                                                    <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                        onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
+                                                </Modify>
+                                            </Tr>
+                                        ))}
+                                    </>
+                                }
 
 
                             </Table>
