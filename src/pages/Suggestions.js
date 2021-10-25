@@ -93,7 +93,13 @@ const SuggestionsPage = () => {
     const [posts, setPosts] = useState([]);
     const [modifyPosts, setModifyPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false)
+    const [loading2, setLoading2] = useState(false)
     const [colorArr, setColorArr] = useState([]);
+    const [search1, setSearch1] = useState('');
+    const [search2, setSearch2] = useState('');
+    const [page1, setPage1] = useState(0)
+    const [page2, setPage2] = useState(0)
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -109,9 +115,9 @@ const SuggestionsPage = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/stations/ATLDOT/0`);
+            const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/ATLDOT/1`);
+            const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}`);
             setModifyPosts(res.data)
             console.log(posts)
             console.log(modifyPosts)
@@ -138,9 +144,9 @@ const SuggestionsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading(true);
-                const { data: response } = await axios.get(`/api/stations/ATLDOT/0/`);
+                const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/ATLDOT/1/`);
+                const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}`);
                 setModifyPosts(res.data)
                 setLoading(false);
             }
@@ -150,6 +156,38 @@ const SuggestionsPage = () => {
     function goEditPage(pk) {
         history.push(`/suggestionsedit/${pk}`)
     }
+    const onChangeSearch1 = (e) => {
+        setSearch1(e.target.value)
+    }
+    const onChangeSearch2 = (e) => {
+        setSearch2(e.target.value)
+    }
+    function onChangePage1() {
+        async function fetchPosts() {
+
+            
+                setLoading1(true);
+                const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}`);
+                setPosts(response.data);
+                const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}`);
+                setModifyPosts(res.data)
+                setLoading1(false);
+        }
+        fetchPosts()
+    };
+    function onChangePage2() {
+        async function fetchPosts() {
+
+            setLoading2(true);
+            const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}`);
+            setPosts(response.data);
+            const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}`);
+            setModifyPosts(res.data)
+            setLoading2(false);
+
+        }
+        fetchPosts()
+    };
     return (
         <Wrapper>
             {
