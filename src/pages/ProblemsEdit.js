@@ -112,11 +112,11 @@ const ProblemsEdit = () => {
     const [org, setOrg] = useState('')
     const [formData] = useState(new FormData())
 
-    const [type1, setType1] = useState('')
-    const [type2, setType2] = useState('')
-    const [type3, setType3] = useState('')
-    const [type4, setType4] = useState('')
-    const [type5, setType5] = useState('')
+    const [type1, setType1] = useState('Bench')
+    const [type2, setType2] = useState('Bench')
+    const [type3, setType3] = useState('Bench')
+    const [type4, setType4] = useState('Bench')
+    const [type5, setType5] = useState('Bench')
 
     const [note1, setNote1] = useState('')
     const [note2, setNote2] = useState('')
@@ -383,15 +383,7 @@ const ProblemsEdit = () => {
                                 <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
 
                             </InputContent>
-                            <InputContent>
-                                <InputName>
-                                    Address
-                                </InputName>
-                                <BusInfor>
-                                    {stopId}
-                                </BusInfor>
-
-                            </InputContent>
+                            
                         </InputBox>
                         <div style={{ fontSize: '3vh' }}>
                             Non-Conformance
@@ -413,8 +405,18 @@ const ProblemsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeType1} />
+                                        <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType1} value={type1}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -424,6 +426,7 @@ const ProblemsEdit = () => {
                                     }}
                                         onChange={onChangeStatus1} value={status1}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -438,8 +441,18 @@ const ProblemsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeType2} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType2} value={type2}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -449,6 +462,7 @@ const ProblemsEdit = () => {
                                     }}
                                         onChange={onChangeStatus2} value={status2}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -463,8 +477,18 @@ const ProblemsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeType3} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType3} value={type3}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -474,6 +498,7 @@ const ProblemsEdit = () => {
                                     }}
                                         onChange={onChangeStatus3} value={status3}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -488,8 +513,18 @@ const ProblemsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeType4} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType4} value={type4}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -499,6 +534,7 @@ const ProblemsEdit = () => {
                                     }}
                                         onChange={onChangeStatus4} value={status4}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -513,8 +549,18 @@ const ProblemsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeType5} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType5} value={type5}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -524,6 +570,7 @@ const ProblemsEdit = () => {
                                     }}
                                         onChange={onChangeStatus5} value={status5}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>

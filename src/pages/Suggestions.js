@@ -100,6 +100,17 @@ const SuggestionsPage = () => {
     const [search2, setSearch2] = useState('');
     const [page1, setPage1] = useState(0)
     const [page2, setPage2] = useState(0)
+
+    const [filterTop200, setFilterTop200] = useState(0);
+    const [filterTier, setFilterTier] = useState(0);
+    const [filterRQ, setFilterRQ] = useState(0);
+    const [filterIssue, setFilterIssue] = useState('');
+
+    const [filterTop200Modify, setFilterTop200Modify] = useState(0);
+    const [filterTierModify, setFilterTierModify] = useState(0);
+    const [filterRQModify, setFilterRQModify] = useState(0);
+    const [filterIssueModify, setFilterIssueModify] = useState('');
+    
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -213,12 +224,12 @@ const SuggestionsPage = () => {
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
                                     <SID style={{ border: '1px solid black' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <Tier style={{ border: '1px solid black' }}>Amenity<br/>Score</Tier>
                                     <RidershipQuintile style={{ border: '1px solid black' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                                    <Suggestions style={{ border: '1px solid black' }}>Suggestions</Suggestions>
+                                    
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
                             </Table>
@@ -231,7 +242,7 @@ const SuggestionsPage = () => {
                                         <Tier>{post.tier}</Tier>
                                         <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
                                         <StopName>{post.stop_name}</StopName>
-                                        <Suggestions></Suggestions>
+                                        
                                         <Modify>
                                             <Button style={{ color: 'black', background: '#F6B60F' }}
                                                 onClick={() => { onChangeModify(post.pk) }}>Add</Button>
@@ -267,7 +278,7 @@ const SuggestionsPage = () => {
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
                                     <SID style={{ border: '1px solid black' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black' }}>Tier</Tier>
+                                    <Tier style={{ border: '1px solid black' }}>Amenity<br/>Score</Tier>
                                     <RidershipQuintile style={{ border: '1px solid black' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
@@ -283,7 +294,7 @@ const SuggestionsPage = () => {
                                         <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
                                         <StopName>{post.stop_name}</StopName>
                                         <Suggestions>
-                                            <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
+                                            <Button style={{ color: 'white', background: '#107E7D', width: '80%' }}
                                             >{post.suggestions}</Button>
 
                                         </Suggestions>

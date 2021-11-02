@@ -64,7 +64,7 @@ const Header = () => {
         isAdmin()
     }, [])
     const onLogout = async () => {
-        axios.post('/api/logout')
+        await axios.post('/api/logout')
         history.push('/')
         window.location.reload();
     }
