@@ -116,15 +116,15 @@ const ProblemsPage = () => {
     const [page2, setPage2] = useState(0)
 
     const [filterDisplay, setFilterDisplay] = useState('none')
-    const [filterTop200, setFilterTop200] = useState(0);
-    const [filterTier, setFilterTier] = useState(0);
-    const [filterRQ, setFilterRQ] = useState(0);
+    const [filterTop200, setFilterTop200] = useState(false);
+    const [filterTier, setFilterTier] = useState(6);
+    const [filterRQ, setFilterRQ] = useState(6);
     const [filterIssue, setFilterIssue] = useState('');
 
     const [filterModifyDisplay, setFilterModifyDisplay] = useState('none')
-    const [filterTop200Modify, setFilterTop200Modify] = useState(0);
-    const [filterTierModify, setFilterTierModify] = useState(0);
-    const [filterRQModify, setFilterRQModify] = useState(0);
+    const [filterTop200Modify, setFilterTop200Modify] = useState(false);
+    const [filterTierModify, setFilterTierModify] = useState(6);
+    const [filterRQModify, setFilterRQModify] = useState(6);
     const [filterIssueModify, setFilterIssueModify] = useState('');
 
     const isAdmin = async () => {
@@ -142,24 +142,12 @@ const ProblemsPage = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
             setPosts(response.data);
-
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
             setModifyPosts(res.data)
-            let arr = [];
-            for (var i = 0; i < posts.length; i++) {
-                if (posts[i].ridership_data >= 1.8) {
-                    arr[posts[i].pk] = '#DAF1D6'
-
-                }
-                else {
-                    arr[posts[i].pk] = 'white'
-                }
-            }
-            console.log(posts);
-            setColorArr(arr);
-
+        
+            console.log(posts)
             setLoading(false);
         }
         fetchPosts()
@@ -172,9 +160,9 @@ const ProblemsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading2(true);
-                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
                 setModifyPosts(res.data)
                 console.log(posts)
                 setLoading2(false);
@@ -194,11 +182,11 @@ const ProblemsPage = () => {
     function onChangePage1() {
         async function fetchPosts() {
 
-
             setLoading1(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
+            let string = ``
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
             setModifyPosts(res.data)
             setLoading1(false);
         }
@@ -208,15 +196,16 @@ const ProblemsPage = () => {
         async function fetchPosts() {
 
             setLoading2(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
             setModifyPosts(res.data)
             setLoading2(false);
 
         }
         fetchPosts()
     };
+    
     return (
         <Wrapper>
             {
@@ -251,34 +240,36 @@ const ProblemsPage = () => {
                             <div style={{display:`${filterDisplay}`,width:'100%',flexDirection:'column'}}>
                                 <div>
                                 <div>Top 200</div> 
-                                    <input type="checkbox" />  
+                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200(true)}} /> applied &nbsp;
+                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200(false)}} /> not applied
                                 </div>
                                 <div> 
                                     <div>Amenity Score</div>
-                                    <input type="checkbox" />0 &nbsp;
-                                    <input type="checkbox" />1 &nbsp;
-                                    <input type="checkbox" />2 &nbsp;
-                                    <input type="checkbox" />3 &nbsp;
-                                    <input type="checkbox" />4 &nbsp;
-                                    <input type="checkbox" />5
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(0)}} />0 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(1)}} />1 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(2)}} />2 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(3)}}  />3 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(4)}} />4 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(5)}}/>5 &nbsp;
                                 </div>
                                 <div>
                                 <div>Ridership Quintile</div>
-                                    <input type="checkbox" />0 &nbsp;
-                                    <input type="checkbox" />1 &nbsp;
-                                    <input type="checkbox" />2 &nbsp;
-                                    <input type="checkbox" />3 &nbsp;
-                                    <input type="checkbox" />4 &nbsp;
-                                    <input type="checkbox" />5
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(0)}}/>0 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(1)}}/>1 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(2)}}/>2 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(3)}}/>3 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(4)}}/>4 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(5)}}/>5 &nbsp;
                                 </div>
                                 <div>
                                 <div>Issues</div>
-                                    <input type="checkbox" />Bench &nbsp;
-                                    <input type="checkbox" />Simme Seat &nbsp;
-                                    <input type="checkbox" />Shelter &nbsp;
-                                    <input type="checkbox" />Pad &nbsp;
-                                    <input type="checkbox" />Trash Can 
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Bench')}}/>Bench &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Simme Seat')}}/>Simme Seat &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Shelter')}}/>Shelter &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Pad')}}/>Pad &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Trash Can')}}/>Trash Can &nbsp;
                                 </div>
+
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
@@ -301,7 +292,7 @@ const ProblemsPage = () => {
                                         <Table>
 
                                             {posts && posts.map(post => (
-                                                <Tr key={post.pk} style={{ background: `${colorArr[post.pk]}` }}>
+                                                <Tr key={post.pk} style={{ background: `${post.color}` }}>
                                                     <SID>{post.stop_id}</SID>
                                                     <Tier>{post.tier}</Tier>
                                                     <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
@@ -352,33 +343,34 @@ const ProblemsPage = () => {
                             <div style={{display:`${filterModifyDisplay}`,width:'100%',flexDirection:'column'}}>
                                 <div>
                                 <div>Top 200</div> 
-                                    <input type="checkbox" />  
+                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200Modify(true)}} /> applied &nbsp;
+                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200Modify(false)}} /> not applied
                                 </div>
                                 <div> 
                                     <div>Amenity Score</div>
-                                    <input type="checkbox" />0 &nbsp;
-                                    <input type="checkbox" />1 &nbsp;
-                                    <input type="checkbox" />2 &nbsp;
-                                    <input type="checkbox" />3 &nbsp;
-                                    <input type="checkbox" />4 &nbsp;
-                                    <input type="checkbox" />5
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(0)}} />0 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(1)}} />1 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(2)}} />2 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(3)}}  />3 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(4)}} />4 &nbsp;
+                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(5)}}/>5
                                 </div>
                                 <div>
                                 <div>Ridership Quintile</div>
-                                    <input type="checkbox" />0 &nbsp;
-                                    <input type="checkbox" />1 &nbsp;
-                                    <input type="checkbox" />2 &nbsp;
-                                    <input type="checkbox" />3 &nbsp;
-                                    <input type="checkbox" />4 &nbsp;
-                                    <input type="checkbox" />5
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(0)}}/>0 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(1)}}/>1 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(2)}}/>2 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(3)}}/>3 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(4)}}/>4 &nbsp;
+                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(5)}}/>5
                                 </div>
                                 <div>
                                 <div>Issues</div>
-                                    <input type="checkbox" />Bench &nbsp;
-                                    <input type="checkbox" />Simme Seat &nbsp;
-                                    <input type="checkbox" />Shelter &nbsp;
-                                    <input type="checkbox" />Pad &nbsp;
-                                    <input type="checkbox" />Trash Can 
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Bench')}}/>Bench &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Simme Seat')}}/>Simme Seat &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Shelter')}}/>Shelter &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Pad')}}/>Pad &nbsp;
+                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Trash Can')}}/>Trash Can 
                                 </div>
                             </div>
                             <Table>
@@ -397,7 +389,7 @@ const ProblemsPage = () => {
                                     :
                                     <>
                                         {modifyPosts && modifyPosts.map(post => (
-                                            <Tr key={post.pk}>
+                                            <Tr key={post.pk} style={{background:`${post.color}`}}>
                                                 <SID>{post.stop_id}</SID>
                                                 <Tier>{post.tier}</Tier>
                                                 <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>

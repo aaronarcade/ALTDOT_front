@@ -112,11 +112,11 @@ const SuggestionsEdit = () => {
     const [org, setOrg] = useState('')
     const [formData] = useState(new FormData())
 
-    const [amenity1, setAmenity1] = useState('')
-    const [amenity2, setAmenity2] = useState('')
-    const [amenity3, setAmenity3] = useState('')
-    const [amenity4, setAmenity4] = useState('')
-    const [amenity5, setAmenity5] = useState('')
+    const [type1, setType1] = useState('Bench')
+    const [type2, setType2] = useState('Bench')
+    const [type3, setType3] = useState('Bench')
+    const [type4, setType4] = useState('Bench')
+    const [type5, setType5] = useState('Bench')
 
     const [note1, setNote1] = useState('')
     const [note2, setNote2] = useState('')
@@ -143,14 +143,11 @@ const SuggestionsEdit = () => {
 
     useEffect(() => {
         isAdmin()
-        console.log(params.pk)
     }, [])
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/onestation/${params.pk}/ATLDOT`);
-            console.log(response.data)
-            console.log(params.pk)
+            const { data: response } = await axios.get(`/api/onestation/${params.id}/ATLDOT`);
             if (response.data.modify == 0) {
                 history.push('/suggestions')
                 setLoading(false);
@@ -172,9 +169,9 @@ const SuggestionsEdit = () => {
                         displayArr[i] = ''
                     }
                 }
-                const { data: reslist } = await axios.get(`/api/suggestions/${params.pk}`)
+                const { data: reslist } = await axios.get(`/api/suggestions/${params.id}`)
                 setHistoryPosts(reslist.data);
-                const { data: resimg } = await axios.get(`/api/image/${params.pk}/ATLDOT`)
+                const { data: resimg } = await axios.get(`/api/image/${params.id}/ATLDOT`)
                 if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
                 }
@@ -204,11 +201,11 @@ const SuggestionsEdit = () => {
             let currentFile = content
             setImg(currentFile)
             formData.append("image", currentFile)
-            formData.append("pk", params.pk)
-            formData.append("org", org)
+            formData.append("pk", params.id)
+            formData.append("org", 'ATLDOT')
             const config = {
                 header: {
-                    'Content-Amenity': 'multipart/form-data; charset=UTF-8',
+                    'Content-type': 'multipart/form-data; charset=UTF-8',
                     'Accept': '*/*'
                 }
             }
@@ -219,48 +216,48 @@ const SuggestionsEdit = () => {
 
             let string = JSON.stringify(pushHistory);
             console.log(pushHistory)
-            axios.post('/api/addproblem', {
-                pk: params.pk,
+            axios.post('/api/addsuggestion', {
+                pk: params.id,
                 list: string
             })
             console.log(pushHistory)
         }
         const response = await axios.post('/api/updatecreate', {
             create: createBy,
-            pk: params.pk,
-            org: org
+            pk: params.id,
+            org: 'ATLDOT'
         })
         alert('Complete.')
         history.push('/suggestions')
     }
-    const onChangeAmenity1 = (e) => {
-        setAmenity1(e.target.value)
+    const onChangeType1 = (e) => {
+        setType1(e.target.value)
     }
-    const onChangeAmenity2 = (e) => {
-        setAmenity2(e.target.value)
+    const onChangeType2 = (e) => {
+        setType2(e.target.value)
     }
-    const onChangeAmenity3 = (e) => {
-        setAmenity3(e.target.value)
+    const onChangeType3 = (e) => {
+        setType3(e.target.value)
     }
-    const onChangeAmenity4 = (e) => {
-        setAmenity4(e.target.value)
+    const onChangeType4 = (e) => {
+        setType4(e.target.value)
     }
-    const onChangeAmenity5 = (e) => {
-        setAmenity5(e.target.value)
+    const onChangeType5 = (e) => {
+        setType5(e.target.value)
     }
 
     const onChangeStatus1 = (e) => {
         setStatus1(e.target.value)
-        if (e.target.value == 'Complete'&&amenity1&&note1) {
+        if (e.target.value == 'Complete'&&type1&&note1) {
             displayArr[0] = 'none'
             pushArr = pushHistory
             pushArr.push({
                 date: date, initiated: initiated,
-                org: org, amenity: amenity1, note: note1
+                org: org, amenity: type1, note: note1
             })
             setPushHistory(pushArr)
         }
-        else if(e.target.value == 'Complete'&&(!amenity1||!note1)){
+        else if(e.target.value == 'Complete'&&(!type1||!note1)){
             alert('Do not leave blank')
             setStatus1('Started')
         }
@@ -268,64 +265,64 @@ const SuggestionsEdit = () => {
     }
     const onChangeStatus2 = (e) => {
         setStatus2(e.target.value)
-        if (e.target.value == 'Complete'&&amenity2&&note2) {
+        if (e.target.value == 'Complete'&&type2&&note2) {
             displayArr[1] = 'none'
             pushArr = pushHistory
             pushArr.push({
                 date: date, initiated: initiated,
-                org: org, amenity: amenity2, note: note2
+                org: org, amenity: type2, note: note2
             })
             setPushHistory(pushArr)
         }
-        else if(e.target.value == 'Complete'&&(!amenity2||!note2)){
+        else if(e.target.value == 'Complete'&&(!type2||!note2)){
             alert('Do not leave blank')
             setStatus2('Started')
         }
     }
     const onChangeStatus3 = (e) => {
         setStatus3(e.target.value)
-        if (e.target.value == 'Complete'&&amenity3&&note3) {
+        if (e.target.value == 'Complete'&&type3&&note3) {
             displayArr[2] = 'none'
             pushArr = pushHistory
             pushArr.push({
                 date: date, initiated: initiated,
-                org: org, amenity: amenity3, note: note3
+                org: org, amenity: type3, note: note3
             })
             setPushHistory(pushArr)
         }
-        else if(e.target.value == 'Complete'&&(!amenity3||!note3)){
+        else if(e.target.value == 'Complete'&&(!type3||!note3)){
             alert('Do not leave blank')
             setStatus3('Started')
         }
     }
     const onChangeStatus4 = (e) => {
         setStatus4(e.target.value)
-        if (e.target.value == 'Complete'&&amenity4&&note4) {
+        if (e.target.value == 'Complete'&&type4&&note4) {
             displayArr[3] = 'none'
             pushArr = pushHistory
             pushArr.push({
                 date: date, initiated: initiated,
-                org: org, amenity: amenity4, note: note4
+                org: org, amenity: type4, note: note4
             })
             setPushHistory(pushArr)
         }
-        else if(e.target.value == 'Complete'&&(!amenity4||!note4)){
+        else if(e.target.value == 'Complete'&&(!type4||!note4)){
             alert('Do not leave blank')
             setStatus4('Started')
         }
     }
     const onChangeStatus5 = (e) => {
         setStatus5(e.target.value)
-        if (e.target.value == 'Complete'&&amenity5&&note5) {
+        if (e.target.value == 'Complete'&&type5&&note5) {
             displayArr[4] = 'none'
             pushArr = pushHistory
             pushArr.push({
                 date: date, initiated: initiated,
-                org: org, amenity: amenity5, note: note5
+                org: org, amenity: type5, note: note5
             })
             setPushHistory(pushArr)
         }
-        else if(e.target.value == 'Complete'&&(!amenity5||!note5)){
+        else if(e.target.value == 'Complete'&&(!type5||!note5)){
             alert('Do not leave blank')
             setStatus5('Started')
         }
@@ -386,15 +383,7 @@ const SuggestionsEdit = () => {
                                 <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
 
                             </InputContent>
-                            <InputContent>
-                                <InputName>
-                                    Address
-                                </InputName>
-                                <BusInfor>
-                                    {stopId}
-                                </BusInfor>
-
-                            </InputContent>
+                            
                         </InputBox>
                         <div style={{ fontSize: '3vh' }}>
                             Non-Conformance
@@ -404,7 +393,7 @@ const SuggestionsEdit = () => {
                                 <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
                                 <Td>Initiated By</Td>
                                 <Td>Org</Td>
-                                <Td>Amenity</Td>
+                                <Td>Type</Td>
                                 <Td>Status</Td>
                                 <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
                                     Notes
@@ -416,8 +405,18 @@ const SuggestionsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeAmenity1} />
+                                        <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType1} value={type1}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -427,6 +426,7 @@ const SuggestionsEdit = () => {
                                     }}
                                         onChange={onChangeStatus1} value={status1}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -441,8 +441,18 @@ const SuggestionsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeAmenity2} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType2} value={type2}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -452,6 +462,7 @@ const SuggestionsEdit = () => {
                                     }}
                                         onChange={onChangeStatus2} value={status2}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -466,8 +477,18 @@ const SuggestionsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeAmenity3} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType3} value={type3}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -477,6 +498,7 @@ const SuggestionsEdit = () => {
                                     }}
                                         onChange={onChangeStatus3} value={status3}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -491,8 +513,18 @@ const SuggestionsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeAmenity4} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType4} value={type4}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -502,6 +534,7 @@ const SuggestionsEdit = () => {
                                     }}
                                         onChange={onChangeStatus4} value={status4}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -516,8 +549,18 @@ const SuggestionsEdit = () => {
                                 <Td2>{initiated}</Td2>
                                 <Td2>{org}</Td2>
                                 <Td2>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeAmenity5} />
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType5} value={type5}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
                                 </Td2>
                                 <Td2>
                                     <select style={{
@@ -527,6 +570,7 @@ const SuggestionsEdit = () => {
                                     }}
                                         onChange={onChangeStatus5} value={status5}>
                                         <option>Started</option>
+                                        <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
                                     </select>
@@ -556,7 +600,7 @@ const SuggestionsEdit = () => {
                                 <Td style={{ borderLeft: '1px solid black' }}>Date</Td>
                                 <Td>Name</Td>
                                 <Td>Org</Td>
-                                <Td>Amenity</Td>
+                                <Td>Type</Td>
                                 <Td>Status</Td>
                                 <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
                                     Notes
@@ -567,17 +611,17 @@ const SuggestionsEdit = () => {
                                     <Td2>{post.date}</Td2>
                                     <Td2>{post.name}</Td2>
                                     <Td2>{post.organization}</Td2>
-                                    <Td2>{post.Amenity}</Td2>
+                                    <Td2>{post.amenity}</Td2>
                                     <Td2>{post.status}</Td2>
                                     <Td2 style={{ width: '40%' }}>{post.notes}</Td2>
                                 </Tr>
                             ))}
                             {pushHistory && pushHistory.map(push => (
-                                <Tr style={{ background: '#E6E6E6' }} key={push.pk}>
+                                <Tr style={{ background: '#E6E6E6' }} key={push.id}>
                                     <Td2>{push.date}</Td2>
                                     <Td2>{push.initiated}</Td2>
                                     <Td2>{push.org}</Td2>
-                                    <Td2>{push.Amenity}</Td2>
+                                    <Td2>{push.amenity}</Td2>
                                     <Td2>Complete</Td2>
                                     <Td2 style={{ width: '40%' }}>{push.note}</Td2>
                                 </Tr>
@@ -619,7 +663,7 @@ const SuggestionsEdit = () => {
 
                         )}
                         <div>
-                            <input Amenity="file" id="file" onChange={addFile} style={{ display: 'none' }} />
+                            <input type="file" id="file" onChange={addFile} style={{ display: 'none' }} />
                         </div>
                         <div style={{ fontSize: '3vh' }}>
                             Attached Files

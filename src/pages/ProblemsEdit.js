@@ -202,7 +202,7 @@ const ProblemsEdit = () => {
             setImg(currentFile)
             formData.append("image", currentFile)
             formData.append("pk", params.id)
-            formData.append("org", org)
+            formData.append("org", 'MARTA')
             const config = {
                 header: {
                     'Content-type': 'multipart/form-data; charset=UTF-8',
@@ -225,7 +225,7 @@ const ProblemsEdit = () => {
         const response = await axios.post('/api/updatecreate', {
             create: createBy,
             pk: params.id,
-            org: org
+            org: 'MARTA'
         })
         alert('Complete.')
         history.push('/problems')
