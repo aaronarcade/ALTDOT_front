@@ -67,6 +67,16 @@ width:23%;
 text-align:center;
 font-size:1vw;
 `
+const FacingDir = styled.td`
+width:23%;
+text-align:center;
+font-size:1vw;
+`
+const Position = styled.td`
+width:23%;
+text-align:center;
+font-size:1vw;
+`
 const Modify = styled.td`
 width:17%;
 text-align:center;
@@ -276,7 +286,8 @@ const SuggestionsPage = () => {
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-
+                                    <FacingDir></FacingDir>
+                                                    <Position></Position>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
                             </Table>
@@ -294,7 +305,8 @@ const SuggestionsPage = () => {
                                                     <Tier>{post.tier}</Tier>
                                                     <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
                                                     <StopName>{post.stop_name}</StopName>
-
+                                                    <FacingDir></FacingDir>
+                                                    <Position></Position>
                                                     <Modify>
                                                         <Button style={{ color: 'black', background: '#F6B60F' }}
                                                             onClick={() => { onChangeModify(post.pk) }}>Add</Button>
@@ -378,6 +390,8 @@ const SuggestionsPage = () => {
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
+                                    <FacingDir></FacingDir>
+                                                    <Position></Position>
                                     <Suggestions style={{ border: '1px solid black' }}>Issues</Suggestions>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
@@ -391,6 +405,8 @@ const SuggestionsPage = () => {
                                                 <Tier>{post.tier}</Tier>
                                                 <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
                                                 <StopName>{post.stop_name}</StopName>
+                                                <FacingDir></FacingDir>
+                                                    <Position></Position>
                                                 <Suggestions>
                                                     <Button style={{ color: 'white', background: '#107E7D', width: '80%' }}
                                                     >{post.suggestions}</Button>

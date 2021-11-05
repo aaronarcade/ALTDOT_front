@@ -80,7 +80,7 @@ const Header = () => {
                             <MenuContent>Issues</MenuContent>
                         </Link>
                         <Link to='/suggestions' style={{textDecoration:'none'}}>
-                            <MenuContent>Request</MenuContent>
+                            <MenuContent>Requests</MenuContent>
                         </Link>
                         <Link to='/help' style={{textDecoration:'none'}}>
                             <MenuContent>Help</MenuContent>

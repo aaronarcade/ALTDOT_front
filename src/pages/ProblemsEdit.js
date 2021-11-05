@@ -124,11 +124,11 @@ const ProblemsEdit = () => {
     const [note4, setNote4] = useState('')
     const [note5, setNote5] = useState('')
 
-    const [status1, setStatus1] = useState('Started')
-    const [status2, setStatus2] = useState('Started')
-    const [status3, setStatus3] = useState('Started')
-    const [status4, setStatus4] = useState('Started')
-    const [status5, setStatus5] = useState('Started')
+    const [status1, setStatus1] = useState('Requested')
+    const [status2, setStatus2] = useState('Requested')
+    const [status3, setStatus3] = useState('Requested')
+    const [status4, setStatus4] = useState('Requested')
+    const [status5, setStatus5] = useState('Requested')
 
     let pushArr = [];
     const [pushHistory, setPushHistory] = useState([]);
@@ -227,7 +227,7 @@ const ProblemsEdit = () => {
             pk: params.id,
             org: 'MARTA'
         })
-        alert('Complete.')
+        alert('Complete save.')
         history.push('/problems')
     }
     const onChangeType1 = (e) => {
@@ -259,7 +259,7 @@ const ProblemsEdit = () => {
         }
         else if(e.target.value == 'Complete'&&(!type1||!note1)){
             alert('Do not leave blank')
-            setStatus1('Started')
+            setStatus1('Requested')
         }
 
     }
@@ -276,7 +276,7 @@ const ProblemsEdit = () => {
         }
         else if(e.target.value == 'Complete'&&(!type2||!note2)){
             alert('Do not leave blank')
-            setStatus2('Started')
+            setStatus2('Requested')
         }
     }
     const onChangeStatus3 = (e) => {
@@ -292,7 +292,7 @@ const ProblemsEdit = () => {
         }
         else if(e.target.value == 'Complete'&&(!type3||!note3)){
             alert('Do not leave blank')
-            setStatus3('Started')
+            setStatus3('Requested')
         }
     }
     const onChangeStatus4 = (e) => {
@@ -308,7 +308,7 @@ const ProblemsEdit = () => {
         }
         else if(e.target.value == 'Complete'&&(!type4||!note4)){
             alert('Do not leave blank')
-            setStatus4('Started')
+            setStatus4('Requested')
         }
     }
     const onChangeStatus5 = (e) => {
@@ -324,7 +324,7 @@ const ProblemsEdit = () => {
         }
         else if(e.target.value == 'Complete'&&(!type5||!note5)){
             alert('Do not leave blank')
-            setStatus5('Started')
+            setStatus5('Requested')
         }
     }
 
@@ -425,7 +425,7 @@ const ProblemsEdit = () => {
                                         outline: 'none'
                                     }}
                                         onChange={onChangeStatus1} value={status1}>
-                                        <option>Started</option>
+                                        <option>Requested</option>
                                         <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
@@ -461,7 +461,7 @@ const ProblemsEdit = () => {
                                         outline: 'none'
                                     }}
                                         onChange={onChangeStatus2} value={status2}>
-                                        <option>Started</option>
+                                        <option>Requested</option>
                                         <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
@@ -497,7 +497,7 @@ const ProblemsEdit = () => {
                                         outline: 'none'
                                     }}
                                         onChange={onChangeStatus3} value={status3}>
-                                        <option>Started</option>
+                                        <option>Requested</option>
                                         <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
@@ -533,7 +533,7 @@ const ProblemsEdit = () => {
                                         outline: 'none'
                                     }}
                                         onChange={onChangeStatus4} value={status4}>
-                                        <option>Started</option>
+                                        <option>Requested</option>
                                         <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
@@ -569,7 +569,7 @@ const ProblemsEdit = () => {
                                         outline: 'none'
                                     }}
                                         onChange={onChangeStatus5} value={status5}>
-                                        <option>Started</option>
+                                        <option>Requested</option>
                                         <option>On Hold</option>
                                         <option>In Progress</option>
                                         <option>Complete</option>
@@ -697,7 +697,7 @@ const ProblemsEdit = () => {
                                 cursor: 'pointer'
                             }}
                                 onClick={upLoad}>
-                                Complete
+                                Save
                             </button>
                         </div>
 
