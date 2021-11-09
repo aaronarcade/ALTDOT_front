@@ -1,0 +1,182 @@
+<Tr style={{ background: '#E6E6E6', display: `${displayArr[0]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                        <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType1} value={type1}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                        <option>Other</option>
+                                    </select>
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus1} value={status1}>
+                                        <option>Requested</option>
+                                        <option>On Hold</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote1} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[1]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType2} value={type2}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus2} value={status2}>
+                                        <option>Requested</option>
+                                        <option>On Hold</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote2} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[2]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType3} value={type3}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                        <option><input/></option>
+                                    </select>
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus3} value={status3}>
+                                        <option>Requested</option>
+                                        <option>On Hold</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote3} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[3]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType4} value={type4}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus4} value={status4}>
+                                        <option>Requested</option>
+                                        <option>On Hold</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote4} />
+                                </Td2>
+                            </Tr>
+                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[4]}` }}>
+                                <Td2>{date}</Td2>
+                                <Td2>{initiated}</Td2>
+                                <Td2>{org}</Td2>
+                                <Td2>
+                                <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeType5} value={type5}>
+                                        <option>Bench</option>
+                                        <option>Simme Seat</option>
+                                        <option>Shelter</option>
+                                        <option>Pad</option>
+                                        <option>Trash Can</option>
+                                    </select>
+                                </Td2>
+                                <Td2>
+                                    <select style={{
+                                        width: '100%', fontSize: '1vw',
+                                        background: '#E6E6E6', border: 'none',
+                                        outline: 'none'
+                                    }}
+                                        onChange={onChangeStatus5} value={status5}>
+                                        <option>Requested</option>
+                                        <option>On Hold</option>
+                                        <option>In Progress</option>
+                                        <option>Complete</option>
+                                    </select>
+                                </Td2>
+                                <Td2 style={{ width: '40%' }}>
+                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
+                                        onChange={onChangeNote5} />
+                                </Td2>
+                            </Tr>

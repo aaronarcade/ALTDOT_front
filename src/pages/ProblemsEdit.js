@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { withRouter, Link, useHistory,useParams } from "react-router-dom"
+import { withRouter, Link, useHistory, useParams } from "react-router-dom"
 import ImageUpload from '../assets/images/ImageUpload.png'
+import $ from 'jquery'
 const Wrapper = styled.div`
 width:100%;
 display:flex;
@@ -98,40 +99,21 @@ const ProblemsEdit = () => {
 
     const [saveImg, setSaveImg] = useState('');
 
-    const [historyPosts, setHistoryPosts] = useState([]);
+    const [notComList, setNotComList] = useState([])//위에 있는거
+    const [notComCount, setNotComCount] = useState(0)
+    const [comList, setComList] = useState([]);//아래 있는거
     const [loading, setLoading] = useState(false);
     const [stopName, setStopName] = useState('')
     const [stopId, setStopId] = useState('')
     const [createBy, setCreateBy] = useState('');
 
-    const [displayArr, setDisplayArr] = useState([]);
-    const [displayCount, setDisplayCount] = useState(0);
 
     const [date, setDate] = useState('')
     const [initiated, setInitiated] = useState('')
     const [org, setOrg] = useState('')
     const [formData] = useState(new FormData())
 
-    const [type1, setType1] = useState('Bench')
-    const [type2, setType2] = useState('Bench')
-    const [type3, setType3] = useState('Bench')
-    const [type4, setType4] = useState('Bench')
-    const [type5, setType5] = useState('Bench')
-
-    const [note1, setNote1] = useState('')
-    const [note2, setNote2] = useState('')
-    const [note3, setNote3] = useState('')
-    const [note4, setNote4] = useState('')
-    const [note5, setNote5] = useState('')
-
-    const [status1, setStatus1] = useState('Requested')
-    const [status2, setStatus2] = useState('Requested')
-    const [status3, setStatus3] = useState('Requested')
-    const [status4, setStatus4] = useState('Requested')
-    const [status5, setStatus5] = useState('Requested')
-
-    let pushArr = [];
-    const [pushHistory, setPushHistory] = useState([]);
+    const [pushCom, setPushCom] = useState([]);//백엔드로 보낼 데이터
 
     const isAdmin = async () => {
 
@@ -163,14 +145,22 @@ const ProblemsEdit = () => {
                 setDate(month + '/' + date)
                 setInitiated(res.name)
                 setOrg(res.organization)
-                for (var i = 0; i < 6; i++) {
-                    displayArr[i] = 'none'
-                    if (i == 5) {
-                        displayArr[i] = ''
-                    }
+
+                //on hold나 in progress
+                const { data: reslistnotcom } = await axios.get(`/api/problems/${params.id}?status=NotCom`)
+
+                let arr = [];
+                arr = reslistnotcom.data;
+                console.log(arr)
+                for (var i = 0; i < reslistnotcom.data.length; i++) {
+                    arr[i].count = i;
                 }
-                const { data: reslist } = await axios.get(`/api/problems/${params.id}`)
-                setHistoryPosts(reslist.data);
+                console.log(arr)
+                setNotComList(arr)
+                //complete
+                const { data: reslistcom } = await axios.get(`/api/problems/${params.id}?status=Complete`)
+                setComList(reslistcom.data);
+                console.log(comList)
                 const { data: resimg } = await axios.get(`/api/image/${params.id}/MARTA`)
                 if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
@@ -180,6 +170,7 @@ const ProblemsEdit = () => {
         }
         fetchPosts()
     }, [])
+
     const addFile = (e) => {
         setContent(e.target.files[0]);
         setUrl(URL.createObjectURL(e.target.files[0]))
@@ -188,13 +179,6 @@ const ProblemsEdit = () => {
         setCreateBy(e.target.value)
     }
 
-    function plusDisplay() {
-        displayArr[displayCount] = '';
-        setDisplayCount(displayCount + 1)
-        if (displayCount == 4) {
-            displayArr[5] = 'none'
-        }
-    }
     const upLoad = async (e) => {
         e.preventDefault()
         if (url !== '') {
@@ -212,15 +196,14 @@ const ProblemsEdit = () => {
             const response = await axios.post('/api/addimage', formData, config)
         }
 
-        if (pushHistory.length) {
+        if (notComList.length) {
 
-            let string = JSON.stringify(pushHistory);
-            console.log(pushHistory)
-            axios.post('/api/addproblem', {
+            let string = JSON.stringify(notComList);
+            console.log(notComList)
+            const response = await axios.post('/api/addproblem', {
                 pk: params.id,
                 list: string
             })
-            console.log(pushHistory)
         }
         const response = await axios.post('/api/updatecreate', {
             create: createBy,
@@ -230,119 +213,54 @@ const ProblemsEdit = () => {
         alert('Complete save.')
         history.push('/problems')
     }
-    const onChangeType1 = (e) => {
-        setType1(e.target.value)
-    }
-    const onChangeType2 = (e) => {
-        setType2(e.target.value)
-    }
-    const onChangeType3 = (e) => {
-        setType3(e.target.value)
-    }
-    const onChangeType4 = (e) => {
-        setType4(e.target.value)
-    }
-    const onChangeType5 = (e) => {
-        setType5(e.target.value)
+
+    const onChange = (e) => {
+        let { value, name } = e.target;
+        console.log(value)
+        console.log(name)
+        let count;
+        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note') {
+            count = parseInt(name.substring(4, name.length))
+            let arr = notComList
+            console.log(arr)
+            arr[count].type = $(`select[name=type${count}]`).val()
+            arr[count].status = $(`select[name=status${count}]`).val()
+            arr[count].notes = $(`input[name=note${count}]`).val()
+            console.log(arr)
+        }
+        else {
+            count = parseInt(name.substring(6, name.length))
+            if (value == 'Requested') {
+
+            }
+            else if (value == 'Complete') {
+                if (!$(`input[name=note${count}]`).val()) {
+                    alert('Do not leave spaces')
+                    $(`select[name=status${count}]`).val('Requested')
+                }
+                else {
+                    let arr = notComList
+                    arr[count].type = $(`select[name=type${count}]`).val()
+                    arr[count].status = $(`select[name=status${count}]`).val()
+                    arr[count].notes = $(`input[name=note${count}]`).val()
+                    console.log(arr)
+                }
+            }
+            else if (value == 'On Hold' || value == 'In Progress') {
+                let arr = notComList
+                arr[count].type = $(`select[name=type${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`input[name=note${count}]`).val()
+                console.log(arr)
+            }
+            else {
+                alert('status error')
+            }
+        }
+
     }
 
-    const onChangeStatus1 = (e) => {
-        setStatus1(e.target.value)
-        if (e.target.value == 'Complete'&&type1&&note1) {
-            displayArr[0] = 'none'
-            pushArr = pushHistory
-            pushArr.push({
-                date: date, initiated: initiated,
-                org: org, type: type1, note: note1
-            })
-            setPushHistory(pushArr)
-        }
-        else if(e.target.value == 'Complete'&&(!type1||!note1)){
-            alert('Do not leave blank')
-            setStatus1('Requested')
-        }
 
-    }
-    const onChangeStatus2 = (e) => {
-        setStatus2(e.target.value)
-        if (e.target.value == 'Complete'&&type2&&note2) {
-            displayArr[1] = 'none'
-            pushArr = pushHistory
-            pushArr.push({
-                date: date, initiated: initiated,
-                org: org, type: type2, note: note2
-            })
-            setPushHistory(pushArr)
-        }
-        else if(e.target.value == 'Complete'&&(!type2||!note2)){
-            alert('Do not leave blank')
-            setStatus2('Requested')
-        }
-    }
-    const onChangeStatus3 = (e) => {
-        setStatus3(e.target.value)
-        if (e.target.value == 'Complete'&&type3&&note3) {
-            displayArr[2] = 'none'
-            pushArr = pushHistory
-            pushArr.push({
-                date: date, initiated: initiated,
-                org: org, type: type3, note: note3
-            })
-            setPushHistory(pushArr)
-        }
-        else if(e.target.value == 'Complete'&&(!type3||!note3)){
-            alert('Do not leave blank')
-            setStatus3('Requested')
-        }
-    }
-    const onChangeStatus4 = (e) => {
-        setStatus4(e.target.value)
-        if (e.target.value == 'Complete'&&type4&&note4) {
-            displayArr[3] = 'none'
-            pushArr = pushHistory
-            pushArr.push({
-                date: date, initiated: initiated,
-                org: org, type: type4, note: note4
-            })
-            setPushHistory(pushArr)
-        }
-        else if(e.target.value == 'Complete'&&(!type4||!note4)){
-            alert('Do not leave blank')
-            setStatus4('Requested')
-        }
-    }
-    const onChangeStatus5 = (e) => {
-        setStatus5(e.target.value)
-        if (e.target.value == 'Complete'&&type5&&note5) {
-            displayArr[4] = 'none'
-            pushArr = pushHistory
-            pushArr.push({
-                date: date, initiated: initiated,
-                org: org, type: type5, note: note5
-            })
-            setPushHistory(pushArr)
-        }
-        else if(e.target.value == 'Complete'&&(!type5||!note5)){
-            alert('Do not leave blank')
-            setStatus5('Requested')
-        }
-    }
-
-    const onChangeNote1 = (e) => {
-        setNote1(e.target.value)
-    }
-    const onChangeNote2 = (e) => {
-        setNote2(e.target.value)
-    }
-    const onChangeNote3 = (e) => {
-        setNote3(e.target.value)
-    }
-    const onChangeNote4 = (e) => {
-        setNote4(e.target.value)
-    }
-    const onChangeNote5 = (e) => {
-        setNote5(e.target.value)
-    }
 
     return (
         <Wrapper>
@@ -383,7 +301,7 @@ const ProblemsEdit = () => {
                                 <Input value={createBy} onChange={onChangeCreateBy} style={{ paddingLeft: '2vw' }} />
 
                             </InputContent>
-                            
+
                         </InputBox>
                         <div style={{ fontSize: '3vh' }}>
                             Non-Conformance
@@ -400,196 +318,122 @@ const ProblemsEdit = () => {
                                 </Td>
                             </Tr>
 
-                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[0]}` }}>
-                                <Td2>{date}</Td2>
-                                <Td2>{initiated}</Td2>
-                                <Td2>{org}</Td2>
-                                <Td2>
+                            {notComList && notComList.map(post => (
+                                <Tr style={{ background: '#E6E6E6', display: `${post.display}` }}>
+                                    <Td2>{post.date ?
+                                        post.date
+                                        :
+                                        <>
+                                            {date}
+                                        </>
+                                    }</Td2>
+                                    <Td2>{post.initiated ?
+
+                                        post.initiated
+                                        :
+                                        <>
+                                            {initiated}
+                                        </>
+                                    }</Td2>
+                                    <Td2>{
+                                        post.org ?
+
+                                            post.org
+                                            :
+                                            <>
+                                                {org}
+                                            </>
+                                    }</Td2>
+                                    <Td2>
                                         <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeType1} value={type1}>
-                                        <option>Bench</option>
-                                        <option>Simme Seat</option>
-                                        <option>Shelter</option>
-                                        <option>Pad</option>
-                                        <option>Trash Can</option>
-                                    </select>
-                                </Td2>
-                                <Td2>
-                                    <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeStatus1} value={status1}>
-                                        <option>Requested</option>
-                                        <option>On Hold</option>
-                                        <option>In Progress</option>
-                                        <option>Complete</option>
-                                    </select>
-                                </Td2>
-                                <Td2 style={{ width: '40%' }}>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeNote1} />
-                                </Td2>
-                            </Tr>
-                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[1]}` }}>
-                                <Td2>{date}</Td2>
-                                <Td2>{initiated}</Td2>
-                                <Td2>{org}</Td2>
-                                <Td2>
-                                <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeType2} value={type2}>
-                                        <option>Bench</option>
-                                        <option>Simme Seat</option>
-                                        <option>Shelter</option>
-                                        <option>Pad</option>
-                                        <option>Trash Can</option>
-                                    </select>
-                                </Td2>
-                                <Td2>
-                                    <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeStatus2} value={status2}>
-                                        <option>Requested</option>
-                                        <option>On Hold</option>
-                                        <option>In Progress</option>
-                                        <option>Complete</option>
-                                    </select>
-                                </Td2>
-                                <Td2 style={{ width: '40%' }}>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeNote2} />
-                                </Td2>
-                            </Tr>
-                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[2]}` }}>
-                                <Td2>{date}</Td2>
-                                <Td2>{initiated}</Td2>
-                                <Td2>{org}</Td2>
-                                <Td2>
-                                <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeType3} value={type3}>
-                                        <option>Bench</option>
-                                        <option>Simme Seat</option>
-                                        <option>Shelter</option>
-                                        <option>Pad</option>
-                                        <option>Trash Can</option>
-                                    </select>
-                                </Td2>
-                                <Td2>
-                                    <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeStatus3} value={status3}>
-                                        <option>Requested</option>
-                                        <option>On Hold</option>
-                                        <option>In Progress</option>
-                                        <option>Complete</option>
-                                    </select>
-                                </Td2>
-                                <Td2 style={{ width: '40%' }}>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeNote3} />
-                                </Td2>
-                            </Tr>
-                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[3]}` }}>
-                                <Td2>{date}</Td2>
-                                <Td2>{initiated}</Td2>
-                                <Td2>{org}</Td2>
-                                <Td2>
-                                <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeType4} value={type4}>
-                                        <option>Bench</option>
-                                        <option>Simme Seat</option>
-                                        <option>Shelter</option>
-                                        <option>Pad</option>
-                                        <option>Trash Can</option>
-                                    </select>
-                                </Td2>
-                                <Td2>
-                                    <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeStatus4} value={status4}>
-                                        <option>Requested</option>
-                                        <option>On Hold</option>
-                                        <option>In Progress</option>
-                                        <option>Complete</option>
-                                    </select>
-                                </Td2>
-                                <Td2 style={{ width: '40%' }}>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeNote4} />
-                                </Td2>
-                            </Tr>
-                            <Tr style={{ background: '#E6E6E6', display: `${displayArr[4]}` }}>
-                                <Td2>{date}</Td2>
-                                <Td2>{initiated}</Td2>
-                                <Td2>{org}</Td2>
-                                <Td2>
-                                <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeType5} value={type5}>
-                                        <option>Bench</option>
-                                        <option>Simme Seat</option>
-                                        <option>Shelter</option>
-                                        <option>Pad</option>
-                                        <option>Trash Can</option>
-                                    </select>
-                                </Td2>
-                                <Td2>
-                                    <select style={{
-                                        width: '100%', fontSize: '1vw',
-                                        background: '#E6E6E6', border: 'none',
-                                        outline: 'none'
-                                    }}
-                                        onChange={onChangeStatus5} value={status5}>
-                                        <option>Requested</option>
-                                        <option>On Hold</option>
-                                        <option>In Progress</option>
-                                        <option>Complete</option>
-                                    </select>
-                                </Td2>
-                                <Td2 style={{ width: '40%' }}>
-                                    <Input style={{ background: '#E6E6E6', border: 'none' }}
-                                        onChange={onChangeNote5} />
-                                </Td2>
-                            </Tr>
+                                            width: '100%', fontSize: '1vw',
+                                            background: '#E6E6E6', border: 'none',
+                                            outline: 'none'
+                                        }}
+                                            name={`type${post.count}`}
+                                            onChange={onChange} defaultValue={`${$(`select[name=type${post.count}]`).val()}`}>
+                                            <option>Bench</option>
+                                            <option>Simme Seat</option>
+                                            <option>Shelter</option>
+                                            <option>Pad</option>
+                                            <option>Trash Can</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </Td2>
+                                    <Td2>
+                                        <select style={{
+                                            width: '100%', fontSize: '1vw',
+                                            background: '#E6E6E6', border: 'none',
+                                            outline: 'none'
+                                        }} name={`status${post.count}`}
+                                            onChange={onChange}>
+                                            {
+                                                notComList[post.count].firststatus == 'On Hold' ?
+                                                    <>
+                                                        <option>Requested</option>
+                                                        <option selected>On Hold</option>
+                                                        <option>In Progress</option>
+                                                        <option>Complete</option>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        {
+                                                            notComList[post.count].firststatus == 'In Progress' ?
+                                                                <>
+                                                                    <option>Requested</option>
+                                                                    <option>On Hold</option>
+                                                                    <option selected>In Progress</option>
+                                                                    <option>Complete</option>
+                                                                </>
+                                                                :
+                                                                <>
 
+                                                                    <option selected>Requested</option>
+                                                                    <option>On Hold</option>
+                                                                    <option>In Progress</option>
+                                                                    <option>Complete</option>
 
+                                                                </>
+                                                        }
+                                                    </>
+                                            }
+
+                                        </select>
+                                    </Td2>
+                                    <Td2 style={{ width: '40%' }}>
+                                        <Input style={{ background: '#E6E6E6', border: 'none', width: '90%' }}
+                                            name={`note${post.count}`} type="text" onChange={onChange} defaultValue={post.notes} />
+                                    </Td2>
+                                </Tr>
+                            ))}
                         </Table>
+
                         <button style={{
                             marginBottom: '6vh', width: '100%', height: '5vh'
                             , border: '1px solid black', background: '#C4C4C4',
                             fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer',
-                            display: `${displayArr[5]}`
+                            display: ``
                         }}
-                            onClick={() => { plusDisplay() }}>
+                            onClick={() => {
+                                let arr = [];
+                                for (var i = 0; i < notComList.length; i++) {
+                                    arr[i] = notComList[i];
+                                }
+                                arr[notComList.length] = {
+                                    date: date,
+                                    name: initiated,
+                                    organization: org,
+                                    type: 'Bench',
+                                    firststatus: 'Requested',
+                                    status: 'Requested',
+                                    notes: '',
+                                    count: notComList.length
+                                }
+                                setNotComList(arr)
+                                setNotComCount(notComList.length)
+                                console.log(arr)
+                                //createHtml(tagCount)
+                            }}>
                             + Add New Request</button>
 
                         <div style={{ fontSize: '3vh' }}>
@@ -602,30 +446,35 @@ const ProblemsEdit = () => {
                                 <Td>Org</Td>
                                 <Td>Type</Td>
                                 <Td>Status</Td>
-                                <Td style={{ width: '40%', textAlign: 'left', borderRight: '1px solid black' }}>
+                                <Td style={{ width: '35%', textAlign: 'left',}}>
                                     Notes
                                 </Td>
+                                <Td style={{ width: '5%', textAlign: 'center',fontSize:'0.5vw', borderRight: '1px solid black' }}>
+                                    Delete
+                                </Td>
                             </Tr>
-                            {historyPosts && historyPosts.map(post => (
+                            {comList && comList.map(post => (
                                 <Tr style={{ background: '#E6E6E6' }} key={post.pk}>
                                     <Td2>{post.date}</Td2>
                                     <Td2>{post.name}</Td2>
                                     <Td2>{post.organization}</Td2>
                                     <Td2>{post.type}</Td2>
                                     <Td2>{post.status}</Td2>
-                                    <Td2 style={{ width: '40%' }}>{post.notes}</Td2>
-                                </Tr>
-                            ))}
-                            {pushHistory && pushHistory.map(push => (
-                                <Tr style={{ background: '#E6E6E6' }} key={push.id}>
-                                    <Td2>{push.date}</Td2>
-                                    <Td2>{push.initiated}</Td2>
-                                    <Td2>{push.org}</Td2>
-                                    <Td2>{push.type}</Td2>
-                                    <Td2>Complete</Td2>
-                                    <Td2 style={{ width: '40%' }}>{push.note}</Td2>
-                                </Tr>
+                                    <Td2 style={{ width: '35%' }}>{post.notes}</Td2>
+                                    <Td2 style={{ width: '5%' }}>
+                                        <button style={{width:'80%',fontSize:'0.5vw',border:'none',
+                                        color:'white',background:'#f94c4c',height:'3vh',borderRadius:'1vh',cursor:'pointer'}}
+                                        onClick={ async ()=>{
 
+                                            const {data:response} = await axios.post('/api/deleteproblem',{
+                                                pk:post.pk
+                                            })
+                                            window.location.reload();
+                                        }}>
+                                        D
+                                        </button>
+                                    </Td2>
+                                </Tr>
                             ))}
                         </Table>
 

@@ -48,12 +48,12 @@ border-left: 1px solid black;
 font-size:1vw;
 `
 const Tier = styled.td`
-width:13%;
+width:10%;
 text-align:center;
 font-size:1vw;
 `
 const RidershipQuintile = styled.td`
-width:17%;
+width:10%;
 text-align:center;
 font-size:1vw;
 `
@@ -63,22 +63,22 @@ text-align:center;
 font-size:1vw;
 `
 const Suggestions = styled.td`
-width:23%;
+width:20%;
 text-align:center;
 font-size:1vw;
 `
 const FacingDir = styled.td`
-width:23%;
+width:15%;
 text-align:center;
 font-size:1vw;
 `
 const Position = styled.td`
-width:23%;
+width:15%;
 text-align:center;
 font-size:1vw;
 `
 const Modify = styled.td`
-width:17%;
+width:10%;
 text-align:center;
 border-left: 1px solid black;
 border-right: 1px solid black;
@@ -226,13 +226,14 @@ const SuggestionsPage = () => {
                                 width: '100%', display: 'flex'
                                 , justifyContent: 'space-between', paddingBottom: '0.5vh'
                             }}>
-                                <Img src={imagesrc} onClick={()=>{
-                                    if(filterDisplay=='none'){
+                                <Img src={imagesrc} onClick={() => {
+                                    if (filterDisplay == 'none') {
                                         setFilterDisplay('flex')
                                     }
-                                    else{
+                                    else {
                                         setFilterDisplay('none')
-                                    }}} style={{ width: '4vh', height: 'auto', cursor: 'pointer' }} />
+                                    }
+                                }} style={{ width: '4vh', height: 'auto', cursor: 'pointer' }} />
                                 <div style={{
                                     width: '60%'
                                     , display: 'flex', justifyContent: 'space-between'
@@ -244,37 +245,37 @@ const SuggestionsPage = () => {
 
                                 </div>
                             </div>
-                            <div style={{display:`${filterDisplay}`,width:'100%',flexDirection:'column'}}>
+                            <div style={{ display: `${filterDisplay}`, width: '100%', flexDirection: 'column' }}>
                                 <div>
-                                <div>Top 200</div> 
-                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200(true)}} />applied &nbsp;
-                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200(false)}} />not applied &nbsp;
+                                    <div>Top 200</div>
+                                    <input type="radio" name="top200" onChange={() => { setFilterTop200(true) }} />applied &nbsp;
+                                    <input type="radio" name="top200" onChange={() => { setFilterTop200(false) }} />not applied &nbsp;
                                 </div>
-                                <div> 
+                                <div>
                                     <div>Amenity Score</div>
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(0)}} />0 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(1)}} />1 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTier(2)}} />2 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(3)}}  />3 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(4)}} />4 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTier(5)}}/>5 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(0) }} />0 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(1) }} />1 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(2) }} />2 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(3) }} />3 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(4) }} />4 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(5) }} />5 &nbsp;
                                 </div>
                                 <div>
-                                <div>Ridership Quintile</div>
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(0)}}/>0 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(1)}}/>1 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(2)}}/>2 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(3)}}/>3 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(4)}}/>4 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQ(5)}}/>5 &nbsp;
+                                    <div>Ridership Quintile</div>
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(0) }} />0 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(1) }} />1 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(2) }} />2 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(3) }} />3 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(4) }} />4 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(5) }} />5 &nbsp;
                                 </div>
                                 <div>
-                                <div>Issues</div>
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Bench')}}/>Bench &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Simme Seat')}}/>Simme Seat &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Shelter')}}/>Shelter &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Pad')}}/>Pad &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssue('Trash Can')}}/>Trash Can &nbsp;
+                                    <div>Issues</div>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Bench') }} />Bench &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Simme Seat') }} />Simme Seat &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Shelter') }} />Shelter &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Pad') }} />Pad &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Trash Can') }} />Trash Can &nbsp;
                                 </div>
 
                             </div>
@@ -287,7 +288,7 @@ const SuggestionsPage = () => {
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
                                     <FacingDir></FacingDir>
-                                                    <Position></Position>
+                                    <Position></Position>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
                             </Table>
@@ -300,7 +301,7 @@ const SuggestionsPage = () => {
                                         <Table>
 
                                             {posts && posts.map(post => (
-                                                <Tr key={post.pk} style={{background:`${post.color}`}}>
+                                                <Tr key={post.pk} style={{ background: `${post.color}` }}>
                                                     <SID>{post.stop_id}</SID>
                                                     <Tier>{post.tier}</Tier>
                                                     <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
@@ -329,14 +330,14 @@ const SuggestionsPage = () => {
                                 width: '100%', display: 'flex'
                                 , justifyContent: 'space-between', paddingBottom: '0.5vh'
                             }}>
-                                <Img src={imagesrc} onClick={()=>{
-                                    if(filterModifyDisplay=='none'){
+                                <Img src={imagesrc} onClick={() => {
+                                    if (filterModifyDisplay == 'none') {
                                         setFilterModifyDisplay('flex')
                                     }
-                                    else{
+                                    else {
                                         setFilterModifyDisplay('none')
                                     }
-                                    }} style={{ width: '4vh', height: 'auto', cursor: 'pointer' }} />
+                                }} style={{ width: '4vh', height: 'auto', cursor: 'pointer' }} />
                                 <div style={{
                                     width: '60%'
                                     , display: 'flex', justifyContent: 'space-between'
@@ -349,37 +350,37 @@ const SuggestionsPage = () => {
 
                                 </div>
                             </div>
-                            <div style={{display:`${filterModifyDisplay}`,width:'100%',flexDirection:'column'}}>
+                            <div style={{ display: `${filterModifyDisplay}`, width: '100%', flexDirection: 'column' }}>
                                 <div>
-                                <div>Top 200</div> 
-                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200Modify(true)}} />applied &nbsp;
-                                    <input type="radio" name="top200" onChange={()=>{setFilterTop200Modify(false)}} />not applied 
+                                    <div>Top 200</div>
+                                    <input type="radio" name="top200" onChange={() => { setFilterTop200Modify(true) }} />applied &nbsp;
+                                    <input type="radio" name="top200" onChange={() => { setFilterTop200Modify(false) }} />not applied
                                 </div>
-                                <div> 
+                                <div>
                                     <div>Amenity Score</div>
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(0)}} />0 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(1)}} />1 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e)=>{setFilterTierModify(2)}} />2 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(3)}}  />3 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(4)}} />4 &nbsp;
-                                    <input type="radio"name="AS" onChange={(e)=>{setFilterTierModify(5)}}/>5
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(0) }} />0 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(1) }} />1 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(2) }} />2 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(3) }} />3 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(4) }} />4 &nbsp;
+                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(5) }} />5
                                 </div>
                                 <div>
-                                <div>Ridership Quintile</div>
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(0)}}/>0 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(1)}}/>1 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(2)}}/>2 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(3)}}/>3 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(4)}}/>4 &nbsp;
-                                    <input type="radio"name="RQ" onChange={(e)=>{setFilterRQModify(5)}}/>5
+                                    <div>Ridership Quintile</div>
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(0) }} />0 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(1) }} />1 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(2) }} />2 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(3) }} />3 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(4) }} />4 &nbsp;
+                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(5) }} />5
                                 </div>
                                 <div>
-                                <div>Issues</div>
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Bench')}}/>Bench &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Simme Seat')}}/>Simme Seat &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Shelter')}}/>Shelter &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Pad')}}/>Pad &nbsp;
-                                    <input type="radio"name="issue" onChange={(e)=>{setFilterIssueModify('Trash Can')}}/>Trash Can 
+                                    <div>Issues</div>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Bench') }} />Bench &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Simme Seat') }} />Simme Seat &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Shelter') }} />Shelter &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Pad') }} />Pad &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash Can') }} />Trash Can
                                 </div>
                             </div>
                             <Table>
@@ -391,7 +392,7 @@ const SuggestionsPage = () => {
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
                                     <FacingDir></FacingDir>
-                                                    <Position></Position>
+                                    <Position></Position>
                                     <Suggestions style={{ border: '1px solid black' }}>Issues</Suggestions>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
                                 </Tr>
@@ -400,13 +401,13 @@ const SuggestionsPage = () => {
                                     :
                                     <>
                                         {modifyPosts && modifyPosts.map(post => (
-                                            <Tr key={post.pk} style={{background:`${post.color}`}}>
+                                            <Tr key={post.pk} style={{ background: `${post.color}` }}>
                                                 <SID>{post.stop_id}</SID>
                                                 <Tier>{post.tier}</Tier>
                                                 <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
                                                 <StopName>{post.stop_name}</StopName>
                                                 <FacingDir></FacingDir>
-                                                    <Position></Position>
+                                                <Position></Position>
                                                 <Suggestions>
                                                     <Button style={{ color: 'white', background: '#107E7D', width: '80%' }}
                                                     >{post.suggestions}</Button>

@@ -367,7 +367,7 @@ const ProblemsPage = () => {
                                     <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(3) }} />3 &nbsp;
                                     <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(4) }} />4 &nbsp;
                                     <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(5) }} />5
-                                </div>git push origin master
+                                </div>
                                 <div>
                                     <div>Ridership Quintile</div>
                                     <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(0) }} />0 &nbsp;
