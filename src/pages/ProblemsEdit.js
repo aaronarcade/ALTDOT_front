@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react';
+import '../styles/style.css'
 import axios from 'axios';
 import { withRouter, Link, useHistory, useParams } from "react-router-dom"
 import ImageUpload from '../assets/images/ImageUpload.png'
 import $ from 'jquery'
+import DeletePic from '../assets/images/delete.png'
 const Wrapper = styled.div`
 width:100%;
 display:flex;
@@ -225,16 +227,20 @@ const ProblemsEdit = () => {
             console.log(arr)
             arr[count].type = $(`select[name=type${count}]`).val()
             arr[count].status = $(`select[name=status${count}]`).val()
-            arr[count].notes = $(`input[name=note${count}]`).val()
+            arr[count].notes = $(`textarea[name=note${count}]`).val()
             console.log(arr)
         }
         else {
             count = parseInt(name.substring(6, name.length))
-            if (value == 'Requested') {
-
+            if (value == 'On Hold' || value == 'In Progress'||value == 'Requested') {
+                let arr = notComList
+                arr[count].type = $(`select[name=type${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`textarea[name=note${count}]`).val()
+                console.log(arr)
             }
             else if (value == 'Complete') {
-                if (!$(`input[name=note${count}]`).val()) {
+                if (!$(`textarea[name=note${count}]`).val()) {
                     alert('Do not leave spaces')
                     $(`select[name=status${count}]`).val('Requested')
                 }
@@ -242,16 +248,9 @@ const ProblemsEdit = () => {
                     let arr = notComList
                     arr[count].type = $(`select[name=type${count}]`).val()
                     arr[count].status = $(`select[name=status${count}]`).val()
-                    arr[count].notes = $(`input[name=note${count}]`).val()
+                    arr[count].notes = $(`textarea[name=note${count}]`).val()
                     console.log(arr)
                 }
-            }
-            else if (value == 'On Hold' || value == 'In Progress') {
-                let arr = notComList
-                arr[count].type = $(`select[name=type${count}]`).val()
-                arr[count].status = $(`select[name=status${count}]`).val()
-                arr[count].notes = $(`input[name=note${count}]`).val()
-                console.log(arr)
             }
             else {
                 alert('status error')
@@ -401,7 +400,7 @@ const ProblemsEdit = () => {
                                         </select>
                                     </Td2>
                                     <Td2 style={{ width: '40%' }}>
-                                        <Input style={{ background: '#E6E6E6', border: 'none', width: '90%' }}
+                                        <textarea className="box" style={{ background: '#E6E6E6', border: 'none', width: '90%',outline:'none' }}
                                             name={`note${post.count}`} type="text" onChange={onChange} defaultValue={post.notes} />
                                     </Td2>
                                 </Tr>
@@ -462,17 +461,15 @@ const ProblemsEdit = () => {
                                     <Td2>{post.status}</Td2>
                                     <Td2 style={{ width: '35%' }}>{post.notes}</Td2>
                                     <Td2 style={{ width: '5%' }}>
-                                        <button style={{width:'80%',fontSize:'0.5vw',border:'none',
-                                        color:'white',background:'#f94c4c',height:'3vh',borderRadius:'1vh',cursor:'pointer'}}
+                                        <img src={DeletePic} style={{width:'80%',cursor:'pointer'}}
                                         onClick={ async ()=>{
 
                                             const {data:response} = await axios.post('/api/deleteproblem',{
                                                 pk:post.pk
                                             })
                                             window.location.reload();
-                                        }}>
-                                        D
-                                        </button>
+                                        }}/>
+                                        
                                     </Td2>
                                 </Tr>
                             ))}

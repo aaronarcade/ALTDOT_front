@@ -6,6 +6,7 @@ import axios from 'axios';
 import imagesrc from '../assets/images/filter.PNG'
 import Bigarrow from '../assets/images/BigArrow.png'
 import '../styles/style.css'
+import DeletePic from '../assets/images/delete.png'
 const Wrapper = styled.div`
     display: flex;
     width:100%;
@@ -40,49 +41,51 @@ width:100%;
 height:5vh;
 border-bottom: 1px solid black;
 word-break: break-all;
+
 `
 const SID = styled.td`
 width:10%;
 text-align:center;
 border-left: 1px solid black;
-font-size:1vw;
+font-size:0.5vw;
+
 `
 const Tier = styled.td`
 width:10%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const RidershipQuintile = styled.td`
 width:10%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const StopName = styled.td`
 width:20%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const Problems = styled.td`
 width:20%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const FacingDir = styled.td`
 width:15%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const Position = styled.td`
 width:15%;
 text-align:center;
-font-size:1vw;
+font-size:0.5vw;
 `
 const Modify = styled.td`
 width:10%;
 text-align:center;
 border-left: 1px solid black;
 border-right: 1px solid black;
-font-size:1vw;
+font-size:0.5vw;
 `
 const Button = styled.button`
 border-radius: 0.5vw;
@@ -130,13 +133,14 @@ const ProblemsPage = () => {
     const [filterTier, setFilterTier] = useState(6);
     const [filterRQ, setFilterRQ] = useState(6);
     const [filterIssue, setFilterIssue] = useState('');
+    const [filterADA, setFilterADA] = useState('')
 
     const [filterModifyDisplay, setFilterModifyDisplay] = useState('none')
     const [filterTop200Modify, setFilterTop200Modify] = useState(false);
     const [filterTierModify, setFilterTierModify] = useState(6);
     const [filterRQModify, setFilterRQModify] = useState(6);
     const [filterIssueModify, setFilterIssueModify] = useState('');
-
+    const [filterADAModify, setFilterADAModify] = useState('')
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -152,9 +156,10 @@ const ProblemsPage = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
+            console.log(response.data)
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
 
             console.log(posts)
@@ -170,12 +175,29 @@ const ProblemsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading2(true);
-                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
                 console.log(posts)
                 setLoading2(false);
+            }
+            fetchPosts()
+        })
+    }
+    function stopModify(pk){
+        axios.post('/api/stopmodify', {
+            pk: pk,
+            org: 'MARTA'
+        }).then(() => {
+            async function fetchPosts() {
+                setLoading1(true);
+                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setPosts(response.data);
+                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setModifyPosts(res.data)
+                console.log(posts)
+                setLoading1(false);
             }
             fetchPosts()
         })
@@ -194,9 +216,9 @@ const ProblemsPage = () => {
 
             setLoading1(true);
             let string = ``
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             setLoading1(false);
         }
@@ -206,9 +228,9 @@ const ProblemsPage = () => {
         async function fetchPosts() {
 
             setLoading2(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             setLoading2(false);
 
@@ -280,7 +302,11 @@ const ProblemsPage = () => {
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Pad') }} />Pad &nbsp;
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Trash Can') }} />Trash Can &nbsp;
                                 </div>
-
+                                <div>
+                                    <div>ADA Access</div>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterADA('Y') }} />Y &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterADA('N') }} />N &nbsp;
+                                </div>
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
@@ -290,9 +316,10 @@ const ProblemsPage = () => {
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black' }}>FacingDir</FacingDir>
+                                    <FacingDir style={{ border: '1px solid black'}}>FacingDir</FacingDir>
                                     <Position style={{ border: '1px solid black' }}>Position</Position>
                                     <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                    
                                 </Tr>
                             </Table>
                             {loading1 ?
@@ -315,6 +342,7 @@ const ProblemsPage = () => {
                                                         <Button style={{ color: 'black', background: '#F6B60F' }}
                                                             onClick={() => { onChangeModify(post.pk) }}>Add</Button>
                                                     </Modify>
+                                                   
                                                 </Tr>
                                             ))}
 
@@ -385,19 +413,25 @@ const ProblemsPage = () => {
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Pad') }} />Pad &nbsp;
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash Can') }} />Trash Can
                                 </div>
+                                <div>
+                                    <div>ADA Access</div>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterADAModify('Y') }} />Y &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterADAModify('N') }} />N &nbsp;
+                                </div>
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                                    <SID style={{ border: '1px solid black' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black' }}>Amenity<br />Score </Tier>
-                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                    <SID style={{ border: '1px solid black',width:'10%' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black',width:'10%' }}>Amenity<br />Score </Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black',width:'10%' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
-                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black' }}>FacingDir</FacingDir>
-                                    <Position style={{ border: '1px solid black' }}>Position</Position>
-                                    <Problems style={{ border: '1px solid black' }}>Issues</Problems>
-                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                    <StopName style={{ border: '1px solid black',width:'15%' }}>Stop Name</StopName>
+                                    <FacingDir style={{ border: '1px solid black',width:'10%' }}>FacingDir</FacingDir>
+                                    <Position style={{ border: '1px solid black',width:'10%' }}>Position</Position>
+                                    <Problems style={{ border: '1px solid black',width:'18%' }}>Issues</Problems>
+                                    <Modify style={{ border: '1px solid black',width:'10%' }}>Modify</Modify>
+                                    <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center',fontWeight:'bold' }}>delete</td>
                                 </Tr>
                                 {loading2 ?
                                     <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
@@ -405,21 +439,26 @@ const ProblemsPage = () => {
                                     <>
                                         {modifyPosts && modifyPosts.map(post => (
                                             <Tr key={post.pk} style={{ background: `${post.color}` }}>
-                                                <SID>{post.stop_id}</SID>
-                                                <Tier>{post.tier}</Tier>
-                                                <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                                                <StopName>{post.stop_name}</StopName>
-                                                <FacingDir>{post.facing_dir}</FacingDir>
-                                                <Position>{post.position}</Position>
-                                                <Problems>
-                                                    <Button style={{ color: 'white', background: '#F94C4C', width: '80%' }}
+                                                <SID style={{width:'10%' }}>{post.stop_id}</SID>
+                                                <Tier style={{width:'10%' }}>{post.tier}</Tier>
+                                                <RidershipQuintile style={{width:'10%' }}>{post.ridership_quintile}</RidershipQuintile>
+                                                <StopName style={{width:'15%' }}>{post.stop_name}</StopName>
+                                                <FacingDir style={{width:'10%' }}>{post.facing_dir}</FacingDir>
+                                                <Position style={{width:'10%' }}>{post.position}</Position>
+                                                <Problems style={{width:'18%' }}>
+                                                    <Button style={{ color: 'white', background: '#F94C4C', width: '80%',fontSize:'0.5vw' }}
                                                     >{post.problems}</Button>
 
                                                 </Problems>
-                                                <Modify>
+                                                <Modify style={{width:'10%' }}>
                                                     <Button style={{ color: 'black', background: '#F6B60F' }}
                                                         onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
                                                 </Modify>
+                                                <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center' }}>
+                                                    <img src={DeletePic}
+                                                    style={{width:'80%',cursor:'pointer'}} 
+                                                    onClick={()=>{stopModify(post.pk)}}/>
+                                                    </td>
                                             </Tr>
                                         ))}
                                     </>
