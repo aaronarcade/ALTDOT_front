@@ -235,6 +235,13 @@ const ProblemsEdit = () => {
                     alert('Non-Conformance is Empty!')
                 }
             }
+            else{
+                const {data:response} = await axios.post('/api/stopmodify', {
+                    pk: params.id,
+                    org: 'MARTA'
+                })
+                alert('Non-Conformance is Empty!')
+            }
             const response = await axios.post('/api/updatecreate', {
                 create: createBy,
                 pk: params.id,
