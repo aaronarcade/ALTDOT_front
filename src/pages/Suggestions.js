@@ -125,8 +125,8 @@ const SuggestionPage = () => {
     const [colorArr, setColorArr] = useState([]);
     const [search1, setSearch1] = useState('');
     const [search2, setSearch2] = useState('');
-    const [page1, setPage1] = useState(0)
-    const [page2, setPage2] = useState(0)
+    const [page1, setPage1] = useState(1)
+    const [page2, setPage2] = useState(1)
 
     const [filterDisplay, setFilterDisplay] = useState('none')
     const [filterTop200, setFilterTop200] = useState(false);
