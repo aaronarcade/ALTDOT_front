@@ -195,7 +195,7 @@ const ProblemsEdit = () => {
                 pk: params.id,
                 org: 'MARTA'
             })
-            alert('All values ​​are empty.')
+            alert('Non-Conformance is Empty!')
         }
         else {
             if (url !== '') {
@@ -214,13 +214,26 @@ const ProblemsEdit = () => {
             }
 
             if (notComList.length) {
-
+                for(var i=0; i<notComList.length;i++){
+                    if(notComList[i].status!='Complete'){
+                        break;
+                    }
+                }
                 let string = JSON.stringify(notComList);
+
                 console.log(notComList)
                 const response = await axios.post('/api/addproblem', {
                     pk: params.id,
                     list: string
                 })
+                if(i==notComList.length){
+                   
+                   const {data:response} = await axios.post('/api/stopmodify', {
+                        pk: params.id,
+                        org: 'MARTA'
+                    })
+                    alert('Non-Conformance is Empty!')
+                }
             }
             const response = await axios.post('/api/updatecreate', {
                 create: createBy,
