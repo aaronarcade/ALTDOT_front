@@ -235,6 +235,13 @@ const SuggestionsEdit = () => {
                  }
 
             }
+            else{
+                const {data:response} = await axios.post('/api/stopmodify', {
+                    pk: params.id,
+                    org: 'ATLDOT'
+                })
+                alert('Non-Conformance is Empty!')
+            }
             const response = await axios.post('/api/updatecreate', {
                 create: createBy,
                 pk: params.id,

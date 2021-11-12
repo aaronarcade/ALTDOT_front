@@ -295,14 +295,6 @@ const SuggestionPage = () => {
                                     <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(5) }} />5 &nbsp;
                                 </div>
                                 <div>
-                                    <div>Requests</div>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Bench') }} />Bench &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Simme Seat') }} />Simme Seat &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Shelter') }} />Shelter &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Pad') }} />Pad &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Trash Can') }} />Trash Can &nbsp;
-                                </div>
-                                <div>
                                     <div>ADA Access</div>
                                     <input type="radio" name="issue" onChange={(e) => { setFilterADA('Y') }} />Y &nbsp;
                                     <input type="radio" name="issue" onChange={(e) => { setFilterADA('N') }} />N &nbsp;
