@@ -156,6 +156,12 @@ const SuggestionsEdit = () => {
                 console.log(arr)
                 for (var i = 0; i < reslistnotcom.data.length; i++) {
                     arr[i].count = i;
+                    if(arr[i].firstamenity=='Other'){
+                        arr[i].display = ''
+                    }
+                    else{
+                        arr[i].display = 'none'
+                    }
                 }
                 console.log(arr)
                 setNotComList(arr)
@@ -232,23 +238,38 @@ const SuggestionsEdit = () => {
         console.log(value)
         console.log(name)
         let count;
-        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note') {
+        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note'||name.substring(0, 4) == 'inpu') {
             count = parseInt(name.substring(4, name.length))
             let arr = notComList
-            console.log(arr)
-            arr[count].amenity = $(`select[name=type${count}]`).val()
-            arr[count].status = $(`select[name=status${count}]`).val()
-            arr[count].notes = $(`textarea[name=note${count}]`).val()
+            if($(`select[name=type${count}]`).val()=='Other'){
+                $(`input[name=inpu${count}]`).css("display","");
+                arr[count].amenity = $(`input[name=inpu${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`textarea[name=note${count}]`).val()
+            }
+            else{
+                $(`input[name=inpu${count}]`).css("display","none");
+                arr[count].amenity = $(`select[name=type${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`textarea[name=note${count}]`).val()
+            }
             console.log(arr)
         }
         else {
             count = parseInt(name.substring(6, name.length))
             if (value == 'On Hold' || value == 'In Progress'||value == 'Requested') {
                 let arr = notComList
-                arr[count].amenity = $(`select[name=type${count}]`).val()
-                arr[count].status = $(`select[name=status${count}]`).val()
-                arr[count].notes = $(`textarea[name=note${count}]`).val()
                 console.log(arr)
+                if($(`select[name=type${count}]`).val()=='Other'){
+                    arr[count].amenity = $(`input[name=inpu${count}]`).val()
+                    arr[count].status = $(`select[name=status${count}]`).val()
+                    arr[count].notes = $(`textarea[name=note${count}]`).val()
+                }
+                else{
+                    arr[count].amenity = $(`select[name=type${count}]`).val()
+                    arr[count].status = $(`select[name=status${count}]`).val()
+                    arr[count].notes = $(`textarea[name=note${count}]`).val()
+                }
             }
             else if (value == 'Complete') {
                 if (!$(`textarea[name=note${count}]`).val()) {
@@ -257,10 +278,17 @@ const SuggestionsEdit = () => {
                 }
                 else {
                     let arr = notComList
-                    arr[count].type = $(`select[name=type${count}]`).val()
-                    arr[count].status = $(`select[name=status${count}]`).val()
-                    arr[count].notes = $(`textarea[name=note${count}]`).val()
                     console.log(arr)
+                    if($(`select[name=type${count}]`).val()=='Other'){
+                        arr[count].amenity = $(`input[name=inpu${count}]`).val()
+                        arr[count].status = $(`select[name=status${count}]`).val()
+                        arr[count].notes = $(`textarea[name=note${count}]`).val()
+                    }
+                    else{
+                        arr[count].amenity = $(`select[name=type${count}]`).val()
+                        arr[count].status = $(`select[name=status${count}]`).val()
+                        arr[count].notes = $(`textarea[name=note${count}]`).val()
+                    }
                 }
             }
             else {
@@ -334,7 +362,7 @@ const SuggestionsEdit = () => {
                             </Tr>
 
                             {notComList && notComList.map(post => (
-                                <Tr style={{ background: '#E6E6E6', display: `${post.display}` }}>
+                                <Tr style={{ background: '#E6E6E6', display: `` }}>
                                     <Td2>{post.date ?
                                         post.date
                                         :
@@ -366,7 +394,7 @@ const SuggestionsEdit = () => {
                                             outline: 'none'
                                         }}
                                             name={`type${post.count}`}
-                                            onChange={onChange} defaultValue={`${post.amenity}`}>
+                                            onChange={onChange} defaultValue={`${post.firstamenity}`}>
                                             <option>Bench</option>
                                             <option>Simme Seat</option>
                                             <option>Shelter</option>
@@ -374,6 +402,7 @@ const SuggestionsEdit = () => {
                                             <option>Trash Can</option>
                                             <option>Other</option>
                                         </select>
+                                        <input onChange={onChange} defaultValue={`${post.amenity}`} name={`inpu${post.count}`} style={{display:`${notComList[post.count].display}`,width:'85%'}} />
                                     </Td2>
                                     <Td2>
                                         <select style={{
@@ -438,8 +467,10 @@ const SuggestionsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
+                                    firstamenity:'Bench',
                                     amenity: 'Bench',
                                     firststatus: 'Requested',
+                                    display:'none',
                                     status: 'Requested',
                                     notes: '',
                                     count: notComList.length

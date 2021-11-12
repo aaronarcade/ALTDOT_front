@@ -228,6 +228,7 @@ const ProblemsPage = () => {
     function onChangeFilter2(num) {
         async function fetchPosts() {
             setPage2(num)
+            console.log(filterIssueModify)
             setLoading2(true);
             const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
@@ -413,19 +414,18 @@ const ProblemsPage = () => {
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Issues</div>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Curb Conflict');setFilterInputDisplay('none') }} />Curb Conflict &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Sidewalk Conn');setFilterInputDisplay('none') }} />Sidewalk Conn &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ADA');setFilterInputDisplay('none') }} />ADA &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ROW');setFilterInputDisplay('none') }} />ROW &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Streetlight');setFilterInputDisplay('none') }} />Streetlight
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Crossing');setFilterInputDisplay('none') }} />Crossing &nbsp;<br/>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Vegetation');setFilterInputDisplay('none') }} />Vegetation &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Construction');setFilterInputDisplay('none') }} />Construction &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash');setFilterInputDisplay('none') }} />Trash &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash Can');setFilterInputDisplay('none') }} />Trash Can &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Homeless');setFilterInputDisplay('none') }} />Homeless <br/>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('');setFilterInputDisplay('') }} />Other &nbsp;&nbsp;
-                                    <input style={{outline:'none',display:`${filterInputDisplay}`}} onChange={(e) => { setFilterIssueModify(e.target.value) }} /><br/>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Curb Conflict'); }} />Curb Conflict &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Sidewalk Improv'); }} />Sidewalk Improv &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Sidewalk Conn'); }} />Sidewalk Conn &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ADA'); }} />ADA &nbsp;<br/>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ROW'); }} />ROW &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Streetlight'); }} />Streetlight
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Crossing'); }} />Crossing &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br/>
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Construction'); }} />Construction &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash'); }} />Trash &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash Can'); }} />Trash Can &nbsp;
+                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br/>
                                 </div>
                                 <div>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>ADA Access</div>

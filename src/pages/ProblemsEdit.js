@@ -156,6 +156,12 @@ const ProblemsEdit = () => {
                 console.log(arr)
                 for (var i = 0; i < reslistnotcom.data.length; i++) {
                     arr[i].count = i;
+                    if(arr[i].firsttype=='Other'){
+                        arr[i].display = ''
+                    }
+                    else{
+                        arr[i].display = 'none'
+                    }
                 }
                 console.log(arr)
                 setNotComList(arr)
@@ -232,22 +238,40 @@ const ProblemsEdit = () => {
         console.log(value)
         console.log(name)
         let count;
-        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note') {
+        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note' || name.substring(0,4) == 'inpu') {
             count = parseInt(name.substring(4, name.length))
             let arr = notComList
+            console.log(notComList)
             console.log(arr)
-            arr[count].type = $(`select[name=type${count}]`).val()
-            arr[count].status = $(`select[name=status${count}]`).val()
-            arr[count].notes = $(`textarea[name=note${count}]`).val()
+            if($(`select[name=type${count}]`).val()=='Other'){
+                $(`input[name=inpu${count}]`).css("display","");
+                arr[count].type = $(`input[name=inpu${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`textarea[name=note${count}]`).val()
+            }
+            else{
+                $(`input[name=inpu${count}]`).css("display","none");
+                arr[count].type = $(`select[name=type${count}]`).val()
+                arr[count].status = $(`select[name=status${count}]`).val()
+                arr[count].notes = $(`textarea[name=note${count}]`).val()
+            }
+            console.log($(`select[name=type${count}]`).val())
             console.log(arr)
         }
         else {
             count = parseInt(name.substring(6, name.length))
             if (value == 'On Hold' || value == 'In Progress' || value == 'Requested') {
                 let arr = notComList
-                arr[count].type = $(`select[name=type${count}]`).val()
-                arr[count].status = $(`select[name=status${count}]`).val()
-                arr[count].notes = $(`textarea[name=note${count}]`).val()
+                if($(`select[name=type${count}]`).val()=='Other'){
+                    arr[count].type = $(`input[name=inpu${count}]`).val()
+                    arr[count].status = $(`select[name=status${count}]`).val()
+                    arr[count].notes = $(`textarea[name=note${count}]`).val()
+                }
+                else{
+                    arr[count].type = $(`select[name=type${count}]`).val()
+                    arr[count].status = $(`select[name=status${count}]`).val()
+                    arr[count].notes = $(`textarea[name=note${count}]`).val()
+                }
                 console.log(arr)
             }
             else if (value == 'Complete') {
@@ -257,9 +281,16 @@ const ProblemsEdit = () => {
                 }
                 else {
                     let arr = notComList
-                    arr[count].type = $(`select[name=type${count}]`).val()
-                    arr[count].status = $(`select[name=status${count}]`).val()
-                    arr[count].notes = $(`textarea[name=note${count}]`).val()
+                    if($(`select[name=type${count}]`).val()=='Other'){
+                        arr[count].type = $(`input[name=inpu${count}]`).val()
+                        arr[count].status = $(`select[name=status${count}]`).val()
+                        arr[count].notes = $(`textarea[name=note${count}]`).val()
+                    }
+                    else{
+                        arr[count].type = $(`select[name=type${count}]`).val()
+                        arr[count].status = $(`select[name=status${count}]`).val()
+                        arr[count].notes = $(`textarea[name=note${count}]`).val()
+                    }
                     console.log(arr)
                 }
             }
@@ -329,7 +360,7 @@ const ProblemsEdit = () => {
                             </Tr>
 
                             {notComList && notComList.map(post => (
-                                <Tr style={{ background: '#E6E6E6', display: `${post.display}` }}>
+                                <Tr style={{ background: '#E6E6E6' }}>
                                     <Td2>{post.date ?
                                         post.date
                                         :
@@ -361,7 +392,8 @@ const ProblemsEdit = () => {
                                             outline: 'none'
                                         }}
                                             name={`type${post.count}`}
-                                            onChange={onChange} defaultValue={`${post.type}`}>
+                                            onChange={onChange} defaultValue={`${post.firsttype}`}>
+                                            
                                             <option>Curb Conflict</option>
                                             <option>Sidewalk Improv</option>
                                             <option>Sidewalk Conn</option>
@@ -374,7 +406,10 @@ const ProblemsEdit = () => {
                                             <option>Trash</option>
                                             <option>Trash Can</option>
                                             <option>Homeless</option>
+                                            <option>Other</option>
+                                            
                                         </select>
+                                        <input onChange={onChange} defaultValue={`${post.type}`} name={`inpu${post.count}`} style={{display:`${notComList[post.count].display}`,width:'85%'}} />
                                     </Td2>
                                     <Td2>
                                         <select style={{
@@ -439,8 +474,10 @@ const ProblemsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
+                                    firsttype:'Curb Conflict',
                                     type: 'Curb Conflict',
                                     firststatus: 'Requested',
+                                    display:'none',
                                     status: 'Requested',
                                     notes: '',
                                     count: notComList.length
