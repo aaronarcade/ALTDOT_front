@@ -183,36 +183,47 @@ const ProblemsEdit = () => {
 
     const upLoad = async (e) => {
         e.preventDefault()
-        if (url !== '') {
-            let currentFile = content
-            setImg(currentFile)
-            formData.append("image", currentFile)
-            formData.append("pk", params.id)
-            formData.append("org", 'MARTA')
-            const config = {
-                header: {
-                    'Content-type': 'multipart/form-data; charset=UTF-8',
-                    'Accept': '*/*'
-                }
-            }
-            const response = await axios.post('/api/addimage', formData, config)
-        }
-
-        if (notComList.length) {
-
-            let string = JSON.stringify(notComList);
-            console.log(notComList)
-            const response = await axios.post('/api/addproblem', {
+        let count = 0;
+        if (!createBy && !notComList.length && !url && !saveImg) {
+            axios.post('/api/stopmodify', {
                 pk: params.id,
-                list: string
+                org: 'MARTA'
             })
+            alert('All values ​​are empty.')
         }
-        const response = await axios.post('/api/updatecreate', {
-            create: createBy,
-            pk: params.id,
-            org: 'MARTA'
-        })
-        alert('Complete save.')
+        else {
+            if (url !== '') {
+                let currentFile = content
+                setImg(currentFile)
+                formData.append("image", currentFile)
+                formData.append("pk", params.id)
+                formData.append("org", 'MARTA')
+                const config = {
+                    header: {
+                        'Content-type': 'multipart/form-data; charset=UTF-8',
+                        'Accept': '*/*'
+                    }
+                }
+                const response = await axios.post('/api/addimage', formData, config)
+            }
+
+            if (notComList.length) {
+
+                let string = JSON.stringify(notComList);
+                console.log(notComList)
+                const response = await axios.post('/api/addproblem', {
+                    pk: params.id,
+                    list: string
+                })
+            }
+            const response = await axios.post('/api/updatecreate', {
+                create: createBy,
+                pk: params.id,
+                org: 'MARTA'
+            })
+            alert('Complete save.')
+        }
+
         history.push('/problems')
     }
 
@@ -232,7 +243,7 @@ const ProblemsEdit = () => {
         }
         else {
             count = parseInt(name.substring(6, name.length))
-            if (value == 'On Hold' || value == 'In Progress'||value == 'Requested') {
+            if (value == 'On Hold' || value == 'In Progress' || value == 'Requested') {
                 let arr = notComList
                 arr[count].type = $(`select[name=type${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
@@ -350,13 +361,19 @@ const ProblemsEdit = () => {
                                             outline: 'none'
                                         }}
                                             name={`type${post.count}`}
-                                            onChange={onChange} defaultValue={`${$(`select[name=type${post.count}]`).val()}`}>
-                                            <option>Bench</option>
-                                            <option>Simme Seat</option>
-                                            <option>Shelter</option>
-                                            <option>Pad</option>
+                                            onChange={onChange} defaultValue={`${post.type}`}>
+                                            <option>Curb Conflict</option>
+                                            <option>Sidewalk Improv</option>
+                                            <option>Sidewalk Conn</option>
+                                            <option>ADA</option>
+                                            <option>ROW</option>
+                                            <option>Streetlight</option>
+                                            <option>Crossing</option>
+                                            <option>Vegetation</option>
+                                            <option>Construction</option>
+                                            <option>Trash</option>
                                             <option>Trash Can</option>
-                                            <option>Other</option>
+                                            <option>Homeless</option>
                                         </select>
                                     </Td2>
                                     <Td2>
@@ -400,7 +417,7 @@ const ProblemsEdit = () => {
                                         </select>
                                     </Td2>
                                     <Td2 style={{ width: '40%' }}>
-                                        <textarea className="box" style={{ background: '#E6E6E6', border: 'none', width: '90%',outline:'none' }}
+                                        <textarea className="box" style={{ background: '#E6E6E6', border: 'none', width: '90%', outline: 'none' }}
                                             name={`note${post.count}`} type="text" onChange={onChange} defaultValue={post.notes} />
                                     </Td2>
                                 </Tr>
@@ -422,7 +439,7 @@ const ProblemsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
-                                    type: 'Bench',
+                                    type: 'Curb Conflict',
                                     firststatus: 'Requested',
                                     status: 'Requested',
                                     notes: '',
@@ -445,10 +462,10 @@ const ProblemsEdit = () => {
                                 <Td>Org</Td>
                                 <Td>Type</Td>
                                 <Td>Status</Td>
-                                <Td style={{ width: '35%', textAlign: 'left',}}>
+                                <Td style={{ width: '35%', textAlign: 'left', }}>
                                     Notes
                                 </Td>
-                                <Td style={{ width: '5%', textAlign: 'center',fontSize:'0.5vw', borderRight: '1px solid black' }}>
+                                <Td style={{ width: '5%', textAlign: 'center', fontSize: '0.5vw', borderRight: '1px solid black' }}>
                                     Delete
                                 </Td>
                             </Tr>
@@ -461,15 +478,15 @@ const ProblemsEdit = () => {
                                     <Td2>{post.status}</Td2>
                                     <Td2 style={{ width: '35%' }}>{post.notes}</Td2>
                                     <Td2 style={{ width: '5%' }}>
-                                        <img src={DeletePic} style={{width:'80%',cursor:'pointer'}}
-                                        onClick={ async ()=>{
+                                        <img src={DeletePic} style={{ width: '80%', cursor: 'pointer' }}
+                                            onClick={async () => {
 
-                                            const {data:response} = await axios.post('/api/deleteproblem',{
-                                                pk:post.pk
-                                            })
-                                            window.location.reload();
-                                        }}/>
-                                        
+                                                const { data: response } = await axios.post('/api/deleteproblem', {
+                                                    pk: post.pk
+                                                })
+                                                window.location.reload();
+                                            }} />
+
                                     </Td2>
                                 </Tr>
                             ))}

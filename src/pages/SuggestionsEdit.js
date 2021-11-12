@@ -133,7 +133,7 @@ const SuggestionsEdit = () => {
             setLoading(true);
             const { data: response } = await axios.get(`/api/onestation/${params.id}/ATLDOT`);
             if (response.data.modify == 0) {
-                history.push('/Suggestions')
+                history.push('/suggestions')
                 setLoading(false);
             }
             else {
@@ -149,8 +149,8 @@ const SuggestionsEdit = () => {
                 setOrg(res.organization)
 
                 //on hold나 in progress
-                const { data: reslistnotcom } = await axios.get(`/api/Suggestions/${params.id}?status=NotCom`)
-
+                const { data: reslistnotcom } = await axios.get(`/api/suggestions/${params.id}?status=NotCom`)
+                console.log(reslistnotcom.data)
                 let arr = [];
                 arr = reslistnotcom.data;
                 console.log(arr)
@@ -160,7 +160,7 @@ const SuggestionsEdit = () => {
                 console.log(arr)
                 setNotComList(arr)
                 //complete
-                const { data: reslistcom } = await axios.get(`/api/Suggestions/${params.id}?status=Complete`)
+                const { data: reslistcom } = await axios.get(`/api/suggestions/${params.id}?status=Complete`)
                 setComList(reslistcom.data);
                 console.log(comList)
                 const { data: resimg } = await axios.get(`/api/image/${params.id}/ATLDOT`)
@@ -183,36 +183,47 @@ const SuggestionsEdit = () => {
 
     const upLoad = async (e) => {
         e.preventDefault()
-        if (url !== '') {
-            let currentFile = content
-            setImg(currentFile)
-            formData.append("image", currentFile)
-            formData.append("pk", params.id)
-            formData.append("org", 'ATLDOT')
-            const config = {
-                header: {
-                    'Content-type': 'multipart/form-data; charset=UTF-8',
-                    'Accept': '*/*'
-                }
-            }
-            const response = await axios.post('/api/addimage', formData, config)
-        }
-
-        if (notComList.length) {
-
-            let string = JSON.stringify(notComList);
-            console.log(notComList)
-            const response = await axios.post('/api/addsuggestion', {
+        let count = 0;
+        if (!createBy && !notComList.length && !url && !saveImg) {
+            axios.post('/api/stopmodify', {
                 pk: params.id,
-                list: string
+                org: 'ATLDOT'
             })
+            alert('All values ​​are empty.')
         }
-        const response = await axios.post('/api/updatecreate', {
-            create: createBy,
-            pk: params.id,
-            org: 'ATLDOT'
-        })
-        alert('Complete save.')
+        else{
+            if (url !== '') {
+                let currentFile = content
+                setImg(currentFile)
+                formData.append("image", currentFile)
+                formData.append("pk", params.id)
+                formData.append("org", 'ATLDOT')
+                const config = {
+                    header: {
+                        'Content-type': 'multipart/form-data; charset=UTF-8',
+                        'Accept': '*/*'
+                    }
+                }
+                const response = await axios.post('/api/addimage', formData, config)
+            }
+    
+            if (notComList.length) {
+    
+                let string = JSON.stringify(notComList);
+                console.log(notComList)
+                const response = await axios.post('/api/addsuggestion', {
+                    pk: params.id,
+                    list: string
+                })
+            }
+            const response = await axios.post('/api/updatecreate', {
+                create: createBy,
+                pk: params.id,
+                org: 'ATLDOT'
+            })
+            alert('Complete save.')
+        }
+        
         history.push('/suggestions')
     }
 
@@ -225,7 +236,7 @@ const SuggestionsEdit = () => {
             count = parseInt(name.substring(4, name.length))
             let arr = notComList
             console.log(arr)
-            arr[count].type = $(`select[name=type${count}]`).val()
+            arr[count].amenity = $(`select[name=type${count}]`).val()
             arr[count].status = $(`select[name=status${count}]`).val()
             arr[count].notes = $(`textarea[name=note${count}]`).val()
             console.log(arr)
@@ -234,7 +245,7 @@ const SuggestionsEdit = () => {
             count = parseInt(name.substring(6, name.length))
             if (value == 'On Hold' || value == 'In Progress'||value == 'Requested') {
                 let arr = notComList
-                arr[count].type = $(`select[name=type${count}]`).val()
+                arr[count].amenity = $(`select[name=type${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
                 arr[count].notes = $(`textarea[name=note${count}]`).val()
                 console.log(arr)
@@ -355,20 +366,13 @@ const SuggestionsEdit = () => {
                                             outline: 'none'
                                         }}
                                             name={`type${post.count}`}
-                                            onChange={onChange} defaultValue={`${$(`select[name=type${post.count}]`).val()}`}>
-                                            <option>Curb Conflict</option>
-                                            <option>Sidewalk Improv</option>
-                                            <option>Sidewalk Conn</option>
-                                            <option>ADA</option>
-                                            <option>ROW</option>
-                                            <option>Streetlight</option>
-                                            <option>Crossing</option>
-                                            <option>Vegetation</option>
-                                            <option>Construction</option>
-                                            <option>Trash</option>
+                                            onChange={onChange} defaultValue={`${post.amenity}`}>
+                                            <option>Bench</option>
+                                            <option>Simme Seat</option>
+                                            <option>Shelter</option>
+                                            <option>Pad</option>
                                             <option>Trash Can</option>
-                                            <option>Homeless</option>
-
+                                            <option>Other</option>
                                         </select>
                                     </Td2>
                                     <Td2>
@@ -434,7 +438,7 @@ const SuggestionsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
-                                    type: 'Bench',
+                                    amenity: 'Bench',
                                     firststatus: 'Requested',
                                     status: 'Requested',
                                     notes: '',

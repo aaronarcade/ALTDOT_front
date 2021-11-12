@@ -310,15 +310,16 @@ const SuggestionPage = () => {
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                                    <SID style={{ border: '1px solid black' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black' }}>Amenity<br />Score</Tier>
-                                    <RidershipQuintile style={{ border: '1px solid black' }}>
+                                    <SID style={{ border: '1px solid black',width:'15%' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black',width:'10%' }}>Amenity<br />Score</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black',width:'10%' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
-                                    <StopName style={{ border: '1px solid black' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black'}}>FacingDir</FacingDir>
-                                    <Position style={{ border: '1px solid black' }}>Position</Position>
-                                    <Modify style={{ border: '1px solid black' }}>Modify</Modify>
+                                    <StopName style={{ border: '1px solid black',width:'20%' }}>Stop Name</StopName>
+                                    <FacingDir style={{ border: '1px solid black',width:'10%'}}>FacingDir</FacingDir>
+                                    <Position style={{ border: '1px solid black',width:'10%' }}>Position</Position>
+                                    <Position style={{ border: '1px solid black',width:'10%' }}>ADA Access</Position>
+                                    <Modify style={{ border: '1px solid black',width:'15%' }}>Modify</Modify>
                                     
                                 </Tr>
                             </Table>
@@ -332,13 +333,14 @@ const SuggestionPage = () => {
 
                                             {posts && posts.map(post => (
                                                 <Tr key={post.pk} style={{ background: `${post.color}` }}>
-                                                    <SID>{post.stop_id}</SID>
-                                                    <Tier>{post.tier}</Tier>
-                                                    <RidershipQuintile>{post.ridership_quintile}</RidershipQuintile>
-                                                    <StopName>{post.stop_name}</StopName>
-                                                    <FacingDir>{post.facing_dir}</FacingDir>
-                                                    <Position>{post.position}</Position>
-                                                    <Modify>
+                                                    <SID style={{width:'15%'}}>{post.stop_id}</SID>
+                                                    <Tier style={{width:'10%'}}>{post.tier}</Tier>
+                                                    <RidershipQuintile style={{width:'10%'}}>{post.ridership_quintile}</RidershipQuintile>
+                                                    <StopName style={{width:'20%'}}>{post.stop_name}</StopName>
+                                                    <FacingDir style={{width:'10%'}}>{post.facing_dir}</FacingDir>
+                                                    <Position style={{width:'10%'}}>{post.position}</Position>
+                                                    <Position style={{width:'10%'}}>{post.ada_access}</Position>
+                                                    <Modify style={{width:'15%'}}>
                                                         <Button style={{ color: 'black', background: '#F6B60F' }}
                                                             onClick={() => { onChangeModify(post.pk) }}>Add</Button>
                                                     </Modify>
@@ -421,14 +423,15 @@ const SuggestionPage = () => {
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                                    <SID style={{ border: '1px solid black',width:'10%' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black',width:'10%' }}>Amenity<br />Score </Tier>
+                                    <SID style={{ border: '1px solid black',width:'8%' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black',width:'8%' }}>Amenity<br />Score </Tier>
                                     <RidershipQuintile style={{ border: '1px solid black',width:'10%' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
                                     <StopName style={{ border: '1px solid black',width:'15%' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black',width:'10%' }}>FacingDir</FacingDir>
-                                    <Position style={{ border: '1px solid black',width:'10%' }}>Position</Position>
+                                    <FacingDir style={{ border: '1px solid black',width:'8%' }}>FacingDir</FacingDir>
+                                    <Position style={{ border: '1px solid black',width:'8%' }}>Position</Position>
+                                    <Position style={{ border: '1px solid black',width:'8%' }}>ADA<br/>Access</Position>
                                     <Suggestion style={{ border: '1px solid black',width:'18%' }}>Requests</Suggestion>
                                     <Modify style={{ border: '1px solid black',width:'10%' }}>Modify</Modify>
                                     <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center',fontWeight:'bold' }}>delete</td>
@@ -439,12 +442,13 @@ const SuggestionPage = () => {
                                     <>
                                         {modifyPosts && modifyPosts.map(post => (
                                             <Tr key={post.pk} style={{ background: `${post.color}` }}>
-                                                <SID style={{width:'10%' }}>{post.stop_id}</SID>
-                                                <Tier style={{width:'10%' }}>{post.tier}</Tier>
+                                                <SID style={{width:'8%' }}>{post.stop_id}</SID>
+                                                <Tier style={{width:'8%' }}>{post.tier}</Tier>
                                                 <RidershipQuintile style={{width:'10%' }}>{post.ridership_quintile}</RidershipQuintile>
                                                 <StopName style={{width:'15%' }}>{post.stop_name}</StopName>
-                                                <FacingDir style={{width:'10%' }}>{post.facing_dir}</FacingDir>
-                                                <Position style={{width:'10%' }}>{post.position}</Position>
+                                                <FacingDir style={{width:'8%' }}>{post.facing_dir}</FacingDir>
+                                                <Position style={{width:'8%' }}>{post.position}</Position>
+                                                <Position style={{width:'8%' }}>{post.ada_access}</Position>
                                                 <Suggestion style={{width:'18%' }}>
                                                     <Button style={{ color: 'white', background: '#107E7D', width: '80%',fontSize:'0.5vw' }}
                                                     >{post.suggestions}</Button>
