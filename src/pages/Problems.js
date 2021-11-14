@@ -142,6 +142,10 @@ const ProblemsPage = () => {
     const [filterIssueModify, setFilterIssueModify] = useState('');
     const [filterADAModify, setFilterADAModify] = useState('')
     const [filterInputDisplay, setFilterInputDisplay] = useState('none')
+    const [maxPage1, setMaxPage1] = useState(0)
+    const [maxPage2, setMaxPage2] = useState(0)
+    const [pagination1,setPagenation1] = useState([])
+    const [pagination2,setPagenation2] = useState([])
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -162,7 +166,28 @@ const ProblemsPage = () => {
             console.log(response.data)
             const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
+            const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            setMaxPage1(res1.data)
 
+            const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            setMaxPage2(res2.data)
+            let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                console.log(res1)
+                console.log(res2)
             console.log(posts)
             setLoading(false);
         }
@@ -180,6 +205,25 @@ const ProblemsPage = () => {
                 setPosts(response.data);
                 const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
+                const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setMaxPage1(res1.data)
+                const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
                 console.log(posts)
                 setLoading2(false);
             }
@@ -198,6 +242,26 @@ const ProblemsPage = () => {
                 const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
                 console.log(posts)
+                const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setMaxPage1(res1.data)
+                const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation2(arr)
                 setLoading1(false);
             }
             fetchPosts()
@@ -219,8 +283,18 @@ const ProblemsPage = () => {
             let string = ``
             const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
-            setModifyPosts(res.data)
+            if(num==1){
+                const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setMaxPage1(res1.data)
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+            }
             setLoading1(false);
         }
         fetchPosts()
@@ -230,10 +304,21 @@ const ProblemsPage = () => {
             setPage2(num)
             console.log(filterIssueModify)
             setLoading2(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
-            setPosts(response.data);
             const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
+            if(num==1){
+                const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation2(arr)
+            }
+            
             setLoading2(false);
 
         }
@@ -353,8 +438,22 @@ const ProblemsPage = () => {
 
                                         </Table>
                                     </div>
-                                    <div>
-                                        s
+                                    <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
+                                        <div/>
+                                        <div style={{display:'flex'}}>
+                                        {
+                                            pagination1.map(num=>(
+
+                                                
+                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
+                                                onClick={()=>{onChangeFilter1(num.num)}}>
+                                                    {num.num}
+                                                </button>
+                                            ))
+                                        }
+                                        </div>
+                                        <div/>
+                                    
                                     </div>
                                 </>
                             }
@@ -448,10 +547,17 @@ const ProblemsPage = () => {
                                     <Modify style={{ border: '1px solid black',width:'10%' }}>Modify</Modify>
                                     <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center',fontWeight:'bold' }}>delete</td>
                                 </Tr>
-                                {loading2 ?
+                        
+
+
+                            </Table>
+                            
+                            {loading2 ?
                                     <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
                                     :
                                     <>
+                                     <div style={{ height: '72vh', overflowY: 'scroll' }} className='box'>
+                                        <Table>
                                         {modifyPosts && modifyPosts.map(post => (
                                             <Tr key={post.pk} style={{ background: `${post.color}` }}>
                                                 <SID style={{width:'8%' }}>{post.stop_id}</SID>
@@ -477,11 +583,27 @@ const ProblemsPage = () => {
                                                     </td>
                                             </Tr>
                                         ))}
+                                        </Table>
+                                        </div>
+                                        <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
+                                        <div/>
+                                        <div style={{display:'flex'}}>
+                                        {
+                                            pagination2.map(num=>(
+
+                                                
+                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
+                                                onClick={()=>{onChangeFilter2(num.num)}}>
+                                                    {num.num}
+                                                </button>
+                                            ))
+                                        }
+                                        </div>
+                                        <div/>
+                                    
+                                    </div>
                                     </>
                                 }
-
-
-                            </Table>
                         </Board>
                     </>
             }

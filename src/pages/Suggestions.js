@@ -141,6 +141,11 @@ const SuggestionPage = () => {
     const [filterRQModify, setFilterRQModify] = useState(6);
     const [filterIssueModify, setFilterIssueModify] = useState('');
     const [filterADAModify, setFilterADAModify] = useState('')
+
+    const [maxPage1, setMaxPage1] = useState(5)
+    const [maxPage2, setMaxPage2] = useState(5)
+    const [pagination1,setPagenation1] = useState([])
+    const [pagination2,setPagenation2] = useState([])
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -161,8 +166,26 @@ const SuggestionPage = () => {
             console.log(response.data)
             const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
-
-            console.log(posts)
+            const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            setMaxPage1(res1.data)
+            const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            setMaxPage2(res2.data)
+            let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                console.log(posts)
             setLoading(false);
         }
         fetchPosts()
@@ -179,6 +202,25 @@ const SuggestionPage = () => {
                 setPosts(response.data);
                 const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
+                const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setMaxPage1(res1.data)
+                const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
                 console.log(posts)
                 setLoading2(false);
             }
@@ -196,6 +238,25 @@ const SuggestionPage = () => {
                 setPosts(response.data);
                 const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
+                const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                setMaxPage1(res1.data)
+                const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+                arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
                 console.log(posts)
                 setLoading1(false);
             }
@@ -218,8 +279,18 @@ const SuggestionPage = () => {
             let string = ``
             const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
-            setModifyPosts(res.data)
+            const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            setMaxPage1(res1.data)
+            if(num==1){
+                let arr = [];
+                for(var i =0;i<maxPage1;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation1(arr)
+            }
             setLoading1(false);
         }
         fetchPosts()
@@ -228,10 +299,21 @@ const SuggestionPage = () => {
         async function fetchPosts() {
             setPage2(1)
             setLoading2(true);
-            const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
-            setPosts(response.data);
+            
             const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
+            if(num==1){
+                const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                setMaxPage2(res2.data)
+                let arr = [];
+                for(var i =0;i<maxPage2;i++){
+                    arr.push({
+                        id:i,
+                        num:i+1
+                    })
+                }
+                setPagenation2(arr)
+            }
             setLoading2(false);
 
         }
@@ -343,6 +425,23 @@ const SuggestionPage = () => {
 
                                         </Table>
                                     </div>
+                                    <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
+                                        <div/>
+                                        <div style={{display:'flex'}}>
+                                        {
+                                            pagination1.map(num=>(
+
+                                                
+                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
+                                                onClick={()=>{onChangePage1(num.num)}}>
+                                                    {num.num}
+                                                </button>
+                                            ))
+                                        }
+                                        </div>
+                                        <div/>
+                                    
+                                    </div>
                                 </>
                             }
                         </Board>
@@ -428,10 +527,16 @@ const SuggestionPage = () => {
                                     <Modify style={{ border: '1px solid black',width:'10%' }}>Modify</Modify>
                                     <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center',fontWeight:'bold' }}>delete</td>
                                 </Tr>
-                                {loading2 ?
+
+
+                            </Table>
+                            <Table>
+                            {loading2 ?
                                     <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
                                     :
                                     <>
+                                    <div style={{ height: '72vh', overflowY: 'scroll' }} className='box'>
+                                    <Table>
                                         {modifyPosts && modifyPosts.map(post => (
                                             <Tr key={post.pk} style={{ background: `${post.color}` }}>
                                                 <SID style={{width:'8%' }}>{post.stop_id}</SID>
@@ -457,9 +562,27 @@ const SuggestionPage = () => {
                                                     </td>
                                             </Tr>
                                         ))}
+                                        </Table>
+                                        </div>
+                                        <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
+                                        <div/>
+                                        <div style={{display:'flex'}}>
+                                        {
+                                            pagination2.map(num=>(
+
+                                                
+                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
+                                                onClick={()=>{onChangePage2(num.num)}}>
+                                                    {num.num}
+                                                </button>
+                                            ))
+                                        }
+                                        </div>
+                                        <div/>
+                                    
+                                    </div>
                                     </>
                                 }
-
 
                             </Table>
                         </Board>
