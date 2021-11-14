@@ -26,7 +26,7 @@ const Help = () => {
     const [display, setDisplay] = useState('flex');
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
+        const { data: response } = await axios.get('/api/auth')
         console.log(response)
         if (!response.pk) {
             history.push('/')

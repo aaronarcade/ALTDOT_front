@@ -119,7 +119,7 @@ const ProblemsEdit = () => {
 
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
+        const { data: response } = await axios.get('/api/auth')
         if (!response.pk) {
             history.push('/')
         }
@@ -131,7 +131,7 @@ const ProblemsEdit = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/onestation/${params.id}/MARTA`);
+            const { data: response } = await axios.get(`/api/onestation/${params.id}/MARTA`);
             if (response.data.modify == 0) {
                 history.push('/problems')
                 setLoading(false);
@@ -143,13 +143,13 @@ const ProblemsEdit = () => {
                 let today = new Date();
                 let month = today.getMonth() + 1;
                 let date = today.getDate();
-                const { data: res } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
+                const { data: res } = await axios.get('/api/auth')
                 setDate(month + '/' + date)
                 setInitiated(res.name)
                 setOrg(res.organization)
 
                 //on hold나 in progress
-                const { data: reslistnotcom } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/problems/${params.id}?status=NotCom`)
+                const { data: reslistnotcom } = await axios.get(`/api/problems/${params.id}?status=NotCom`)
 
                 let arr = [];
                 arr = reslistnotcom.data;
@@ -166,10 +166,10 @@ const ProblemsEdit = () => {
                 console.log(arr)
                 setNotComList(arr)
                 //complete
-                const { data: reslistcom } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/problems/${params.id}?status=Complete`)
+                const { data: reslistcom } = await axios.get(`/api/problems/${params.id}?status=Complete`)
                 setComList(reslistcom.data);
                 console.log(comList)
-                const { data: resimg } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/image/${params.id}/MARTA`)
+                const { data: resimg } = await axios.get(`/api/image/${params.id}/MARTA`)
                 if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
                 }
@@ -191,7 +191,7 @@ const ProblemsEdit = () => {
         e.preventDefault()
         let count = 0;
         if (!createBy && !notComList.length && !url && !saveImg) {
-            axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
+            axios.post('/api/stopmodify', {
                 pk: params.id,
                 org: 'MARTA'
             })
@@ -210,7 +210,7 @@ const ProblemsEdit = () => {
                         'Accept': '*/*'
                     }
                 }
-                const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/addimage', formData, config)
+                const response = await axios.post('/api/addimage', formData, config)
             }
 
             if (notComList.length) {
@@ -222,13 +222,13 @@ const ProblemsEdit = () => {
                 let string = JSON.stringify(notComList);
 
                 console.log(notComList)
-                const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/addproblem', {
+                const response = await axios.post('/api/addproblem', {
                     pk: params.id,
                     list: string
                 })
                 if(i==notComList.length){
                    
-                   const {data:response} = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
+                   const {data:response} = await axios.post('/api/stopmodify', {
                         pk: params.id,
                         org: 'MARTA'
                     })
@@ -236,13 +236,13 @@ const ProblemsEdit = () => {
                 }
             }
             else{
-                const {data:response} = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
+                const {data:response} = await axios.post('/api/stopmodify', {
                     pk: params.id,
                     org: 'MARTA'
                 })
                 alert('Non-Conformance is Empty!')
             }
-            const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/updatecreate', {
+            const response = await axios.post('/api/updatecreate', {
                 create: createBy,
                 pk: params.id,
                 org: 'MARTA'
@@ -538,7 +538,7 @@ const ProblemsEdit = () => {
                                         <img src={DeletePic} style={{ width: '80%', cursor: 'pointer' }}
                                             onClick={async () => {
 
-                                                const { data: response } = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/deleteproblem', {
+                                                const { data: response } = await axios.post('/api/deleteproblem', {
                                                     pk: post.pk
                                                 })
                                                 window.location.reload();

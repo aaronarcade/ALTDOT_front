@@ -1,5 +1,5 @@
 {
-  "name": "juan",
+  "name": "atldotmarta",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -43,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001"
+  "proxy": "ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001"
 }

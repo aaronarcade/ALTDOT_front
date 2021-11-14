@@ -54,7 +54,7 @@ const Login = () => {
     const [organization, setOrganization] = useState('ATLDOT')
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
+        const { data: response } = await axios.get('/api/auth')
         if (response.pk) {
             history.push('/problems')
             window.location.reload();
@@ -68,14 +68,14 @@ const Login = () => {
 
     const onLogin = async (e) => {
         e.preventDefault()
-        const { data: response } = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/login', {
+        const { data: response } = await axios.post('/api/login', {
             id: id,
             pw: pw,
             organization: organization
         })
         if (response.result == 200) {
             alert(response.message)
-            const { data: res } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
+            const { data: res } = await axios.get('/api/auth')
             console.log(res.organization)
             if (res.organization=='ATLDOT') {
                 history.push('/suggestions')
