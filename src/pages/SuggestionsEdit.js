@@ -390,18 +390,18 @@ const SuggestionsEdit = () => {
                                             {date}
                                         </>
                                     }</Td2>
-                                    <Td2>{post.initiated ?
+                                    <Td2>{post.name ?
 
-                                        post.initiated
+                                        post.name
                                         :
                                         <>
                                             {initiated}
                                         </>
                                     }</Td2>
                                     <Td2>{
-                                        post.org ?
+                                        post.organization ?
 
-                                            post.org
+                                            post.organization
                                             :
                                             <>
                                                 {org}
