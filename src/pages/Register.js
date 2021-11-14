@@ -65,7 +65,7 @@ const Register = () => {
                 alert("Password Doesn't Match.");
             }
             else{
-                const { data: response } = await axios.post('/api/signup', {
+                const { data: response } = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/signup', {
                     id: username,
                     pw: password,
                     name: name,

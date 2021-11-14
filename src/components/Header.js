@@ -54,7 +54,7 @@ const Header = () => {
     const [haveAdmin, setHaveAdmin] = useState(0);
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('/api/auth')
+        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
         if (response.pk) {
             setHaveAdmin(1)
         }
@@ -64,7 +64,7 @@ const Header = () => {
         isAdmin()
     }, [])
     const onLogout = async () => {
-        await axios.post('/api/logout')
+        await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/logout')
         history.push('/')
         window.location.reload();
     }

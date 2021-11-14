@@ -119,7 +119,7 @@ const SuggestionsEdit = () => {
 
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('/api/auth')
+        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
         if (!response.pk) {
             history.push('/')
         }
@@ -131,7 +131,7 @@ const SuggestionsEdit = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/onestation/${params.id}/ATLDOT`);
+            const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/onestation/${params.id}/ATLDOT`);
             if (response.data.modify == 0) {
                 history.push('/suggestions')
                 setLoading(false);
@@ -143,13 +143,13 @@ const SuggestionsEdit = () => {
                 let today = new Date();
                 let month = today.getMonth() + 1;
                 let date = today.getDate();
-                const { data: res } = await axios.get('/api/auth')
+                const { data: res } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
                 setDate(month + '/' + date)
                 setInitiated(res.name)
                 setOrg(res.organization)
 
                 //on hold나 in progress
-                const { data: reslistnotcom } = await axios.get(`/api/suggestions/${params.id}?status=NotCom`)
+                const { data: reslistnotcom } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/suggestions/${params.id}?status=NotCom`)
                 console.log(reslistnotcom.data)
                 let arr = [];
                 arr = reslistnotcom.data;
@@ -166,10 +166,10 @@ const SuggestionsEdit = () => {
                 console.log(arr)
                 setNotComList(arr)
                 //complete
-                const { data: reslistcom } = await axios.get(`/api/suggestions/${params.id}?status=Complete`)
+                const { data: reslistcom } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/suggestions/${params.id}?status=Complete`)
                 setComList(reslistcom.data);
                 console.log(comList)
-                const { data: resimg } = await axios.get(`/api/image/${params.id}/ATLDOT`)
+                const { data: resimg } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/image/${params.id}/ATLDOT`)
                 if (resimg.data) {
                     setSaveImg(resimg.data.image_src)
                 }
@@ -191,7 +191,7 @@ const SuggestionsEdit = () => {
         e.preventDefault()
         let count = 0;
         if (!createBy && !notComList.length && !url && !saveImg) {
-            axios.post('/api/stopmodify', {
+            axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
                 pk: params.id,
                 org: 'ATLDOT'
             })
@@ -210,7 +210,7 @@ const SuggestionsEdit = () => {
                         'Accept': '*/*'
                     }
                 }
-                const response = await axios.post('/api/addimage', formData, config)
+                const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/addimage', formData, config)
             }
     
             if (notComList.length) {
@@ -221,13 +221,13 @@ const SuggestionsEdit = () => {
                 }
                 let string = JSON.stringify(notComList);
                 console.log(notComList)
-                const response = await axios.post('/api/addsuggestion', {
+                const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/addsuggestion', {
                     pk: params.id,
                     list: string
                 })
                 if(i==notComList.length){
                    
-                    const {data:response} = await axios.post('/api/stopmodify', {
+                    const {data:response} = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
                          pk: params.id,
                          org: 'ATLDOT'
                      })
@@ -236,13 +236,13 @@ const SuggestionsEdit = () => {
 
             }
             else{
-                const {data:response} = await axios.post('/api/stopmodify', {
+                const {data:response} = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stopmodify', {
                     pk: params.id,
                     org: 'ATLDOT'
                 })
                 alert('Non-Conformance is Empty!')
             }
-            const response = await axios.post('/api/updatecreate', {
+            const response = await axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/updatecreate', {
                 create: createBy,
                 pk: params.id,
                 org: 'ATLDOT'
@@ -318,7 +318,7 @@ const SuggestionsEdit = () => {
 
     }
     function deleteNote(num){
-        axios.post('/api/deletesuggestion',{
+        axios.post('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/deletesuggestion',{
             pk:num
         })
         window.location.reload()

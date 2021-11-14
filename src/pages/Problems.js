@@ -144,7 +144,7 @@ const ProblemsPage = () => {
     const [filterInputDisplay, setFilterInputDisplay] = useState('none')
     const isAdmin = async () => {
 
-        const { data: response } = await axios.get('/api/auth')
+        const { data: response } = await axios.get('http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/auth')
         console.log(response)
         if (!response.pk) {
             history.push('/')
@@ -157,10 +157,10 @@ const ProblemsPage = () => {
     useEffect(() => {
         async function fetchPosts() {
             setLoading(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
             console.log(response.data)
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            const { data: res } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
 
             console.log(posts)
@@ -176,9 +176,9 @@ const ProblemsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading2(true);
-                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                const { data: res } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
                 console.log(posts)
                 setLoading2(false);
@@ -193,9 +193,9 @@ const ProblemsPage = () => {
         }).then(() => {
             async function fetchPosts() {
                 setLoading1(true);
-                const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setPosts(response.data);
-                const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                const { data: res } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
                 console.log(posts)
                 setLoading1(false);
@@ -217,9 +217,9 @@ const ProblemsPage = () => {
             setPage1(num);
             setLoading1(true);
             let string = ``
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            const { data: res } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             setLoading1(false);
         }
@@ -230,9 +230,9 @@ const ProblemsPage = () => {
             setPage2(num)
             console.log(filterIssueModify)
             setLoading2(true);
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: response } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            const { data: res } = await axios.get(`http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             setLoading2(false);
 
