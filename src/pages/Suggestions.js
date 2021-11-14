@@ -211,9 +211,9 @@ const SuggestionPage = () => {
     const onChangeSearch2 = (e) => {
         setSearch2(e.target.value)
     }
-    function onChangePage1() {
+    function onChangePage1(num) {
         async function fetchPosts() {
-
+            setPage1(1)
             setLoading1(true);
             let string = ``
             const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
@@ -224,9 +224,9 @@ const SuggestionPage = () => {
         }
         fetchPosts()
     };
-    function onChangePage2() {
+    function onChangePage2(num) {
         async function fetchPosts() {
-
+            setPage2(1)
             setLoading2(true);
             const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
@@ -266,7 +266,7 @@ const SuggestionPage = () => {
 
                                     <SearchBar onChange={onChangeSearch1}
                                         value={search1} />
-                                    <button style={{ fontSize: '1vw', cursor: 'pointer', border: 'none', width: '4.5vw' }} onClick={() => { onChangePage1() }}>Search</button>
+                                    <button style={{ fontSize: '1vw', cursor: 'pointer', border: 'none', width: '4.5vw' }} onClick={() => { onChangePage1(1) }}>Search</button>
 
                                 </div>
                             </div>
@@ -370,7 +370,7 @@ const SuggestionPage = () => {
                                     <SearchBar onChange={onChangeSearch2}
                                         value={search2} />
                                     <button style={{ fontSize: '1vw', cursor: 'pointer', border: 'none', width: '4.5vw' }}
-                                        onClick={() => { onChangePage2() }}>Search</button>
+                                        onClick={() => { onChangePage2(1) }}>Search</button>
 
 
                                 </div>
