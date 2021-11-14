@@ -563,7 +563,7 @@ const ProblemsEdit = () => {
                         ) : (
                             saveImg ?
                                 <label for="file">
-                                    <img src={'http://3.141.41.167:8001' + saveImg}
+                                    <img src={'http://3.145.53.234:8001' + saveImg}
                                         style={{
                                             width: '100%', height: '42vh',
                                             marginBottom: '6vh'
