@@ -43,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://3.141.41.167:8001"
+  "proxy": "http://ec2-3-141-41-167.us-east-2.compute.amazonaws.com:8001"
 }
