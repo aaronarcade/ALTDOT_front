@@ -22,7 +22,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "set PORT=80 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
@@ -45,3 +45,4 @@
   },
   "proxy": "http://3.145.53.234:8001"
 }
+

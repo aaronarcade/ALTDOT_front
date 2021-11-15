@@ -18,7 +18,7 @@ const PageName = styled.div`
     color:#ffffff;
     font-size:3vh;
     font-weight:bold;
-    font-family:${({ theme }) => theme.font.title};  
+    font-family:${({ theme }) => theme.font.title}; 
 `
 
 const LogoutButton = styled.button`
@@ -46,12 +46,14 @@ const MenuContent = styled.div`
 color:white;
 font-family:${({ theme }) => theme.font.title};  
 font-size:2.2vh;
+cursor:pointer; 
 `
 const Header = () => {
     const history = useHistory();
     const [display, setDisplay] = useState('flex');
     const [pageName, setPageName] = useState('City of Atlanta');
     const [haveAdmin, setHaveAdmin] = useState(0);
+    const [menuColor, setMenuColor] = useState([])
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -63,10 +65,45 @@ const Header = () => {
     useEffect(() => {
         isAdmin()
     }, [])
+    useEffect(()=>{
+        async function fetchPosts() {
+        
+        let arr = [];
+        for(var i =0;i<3;i++){ 
+                arr[i] = 'white'
+        }
+        if(window.location.pathname=='/problems'||window.location.pathname.substring(0,9)=='/problems'){
+            arr[0] = '#F6B60F'
+        }
+        else if(window.location.pathname=='/suggestions'||window.location.pathname.substring(0,12)=='/suggestions'){
+            arr[1] = '#F6B60F'
+        }
+        else if(window.location.pathname=='/help'){
+            arr[2] = '#F6B60F'
+        }
+        setMenuColor(arr);
+        console.log(menuColor)
+        }
+        fetchPosts()
+    },[]);
     const onLogout = async () => {
         await axios.post('/api/logout')
         history.push('/')
         window.location.reload();
+    }
+    function goPage(num){
+        if(num==1){
+            history.push('/problems')   
+        }
+        else if(num==2){
+            history.push('/suggestions')   
+        }
+        else if(num==3){
+            history.push('/help')   
+        }
+       
+        window.location.reload();
+        
     }
     return (
         <Wrapper>
@@ -76,15 +113,15 @@ const Header = () => {
                 haveAdmin ?
                     <>
                         <MenuContainer>
-                        <Link to='/problems'style={{textDecoration:'none'}}>
-                            <MenuContent>Issues</MenuContent>
-                        </Link>
-                        <Link to='/suggestions' style={{textDecoration:'none'}}>
-                            <MenuContent>Requests</MenuContent>
-                        </Link>
-                        <Link to='/help' style={{textDecoration:'none'}}>
-                            <MenuContent>Help</MenuContent>
-                        </Link>
+                        
+                            <MenuContent onClick={()=>{goPage(1)}}style={{color:`${menuColor[0]}`}}>Issues</MenuContent>
+                        
+                        
+                            <MenuContent onClick={()=>{goPage(2)}}style={{color:`${menuColor[1]}`}}>Requests</MenuContent>
+                        
+                        
+                            <MenuContent onClick={()=>{goPage(3)}}style={{color:`${menuColor[2]}`}}>Help</MenuContent>
+                        
                         </MenuContainer>
                         <LogoutButton onClick={onLogout}>
                             Log Out
