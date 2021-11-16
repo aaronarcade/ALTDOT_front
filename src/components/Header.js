@@ -129,7 +129,10 @@ const Header = () => {
                     </>
                     :
                     <>
-                        <div />
+                    <MenuContainer>
+                        <MenuContent onClick={()=>{goPage(3)}}style={{color:`${menuColor[2]}`}}>Help</MenuContent>
+                        
+                        </MenuContainer>
                     </>
             }
         </Wrapper>

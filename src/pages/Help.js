@@ -43,7 +43,7 @@ height:5vh;
 cursor:pointer;
 padding-left:2vw;
 &:hover {
-    background: #1b2c43;
+    background-color: #1b2c43;
 }
 `
 const SidebarSubContent = styled.div`
@@ -54,7 +54,7 @@ padding-left:4vw;
 padding-top:1vh;
 height:4vh;
 &:hover {
-    background: #1b2c43;
+    background-color: #1b2c43;
 }
 `
 const SidebarSubSubContent = styled.div`
@@ -67,7 +67,7 @@ padding-bottom:1vh;
 padding-top:1vh;
 font-family:${({ theme }) => theme.font.subtitle}; 
 &:hover {
-    background: #1b2c43;
+    background-color: #1b2c43;
 }
 
 `
@@ -108,18 +108,6 @@ const Help = () => {
     const [colorList, setColorList] = useState([])
     const [displayCount, setDisplayCount] = useState(1)//14까지 있음
     
-    const isAdmin = async () => {
-
-        const { data: response } = await axios.get('/api/auth')
-        console.log(response)
-        if (!response.pk) {
-            history.push('/')
-        }
-    }
-
-    useEffect(() => {
-        isAdmin()
-    }, [])
     useEffect(()=>{
         $('.b2').css('display','none');
         $('.c2').css('display','none');
@@ -182,10 +170,22 @@ const Help = () => {
         }
         setColorList(arr)
     }
+    const goPage = async (e) =>{
+        const { data: response } = await axios.get('/api/auth')
+        console.log(response)
+        if (!response.pk) {
+            history.push('/')
+        }
+        else{
+            history.push('/problems')
+        }
+        window.location.reload();
+    }
     return (
         <Wrapper>
             <Sidebar  style={{ height: '91vh', overflowY: 'scroll' }} className='box'>
                 <img style={{width:'80%'}} src={GithubDocs} />
+                <SidebarSubContent onClick={goPage} style={{marginBottom:'4vh'}}>{'<- All Products'}</SidebarSubContent>
                 <SidebarContent className="a1"style={{background:`${colorList[1]}`}} onClick={()=>{disPlayMenu(1)}}>
                 Purpose and Description
                 </SidebarContent>
@@ -193,10 +193,10 @@ const Help = () => {
                 <SidebarContent className="b1"onClick={()=>{changeDisplay('b',1)}}>
                     Interface Description
                 </SidebarContent>
-                    <SidebarSubContent className="b2"style={{background:`${colorList[2]}`}} onClick={()=>{disPlayMenu(2)}}>Issues Page</SidebarSubContent>
-                    <SidebarSubContent className="b2"style={{background:`${colorList[3]}`}} onClick={()=>{disPlayMenu(3)}}>Requests Page</SidebarSubContent>
-                    <SidebarSubContent className="b2"style={{background:`${colorList[4]}`}} onClick={()=>{disPlayMenu(4)}}>Help Page</SidebarSubContent>
-                    <SidebarSubContent className="b2"style={{background:`${colorList[5]}`}} onClick={()=>{disPlayMenu(5)}}>Non-Conformance/Suggestion Edit Page</SidebarSubContent>
+                    <SidebarSubContent className="b2" style={{background:`${colorList[2]}`}} onClick={()=>{disPlayMenu(2)}}>Issues Page</SidebarSubContent>
+                    <SidebarSubContent className="b2" style={{background:`${colorList[3]}`}} onClick={()=>{disPlayMenu(3)}}>Requests Page</SidebarSubContent>
+                    <SidebarSubContent className="b2" style={{background:`${colorList[4]}`}} onClick={()=>{disPlayMenu(4)}}>Help Page</SidebarSubContent>
+                    <SidebarSubContent className="b2" style={{background:`${colorList[5]}`}} onClick={()=>{disPlayMenu(5)}}>Non-Conformance/Suggestion Edit Page</SidebarSubContent>
                 <SidebarContent className="c1"onClick={()=>{changeDisplay('c',1)}}>
                 Use Cases
                 </SidebarContent>
