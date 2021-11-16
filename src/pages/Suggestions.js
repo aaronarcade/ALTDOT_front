@@ -167,11 +167,11 @@ const SuggestionPage = () => {
             const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
-            setMaxPage1(res1.data)
+            
             const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
-            setMaxPage2(res2.data)
+            
             let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -179,12 +179,13 @@ const SuggestionPage = () => {
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
                     })
                 }
+                setPagenation2(arr)
                 console.log(posts)
             setLoading(false);
         }
@@ -207,7 +208,7 @@ const SuggestionPage = () => {
                 const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -215,12 +216,13 @@ const SuggestionPage = () => {
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
                     })
                 }
+                setPagenation2(arr)
                 console.log(posts)
                 setLoading2(false);
             }
@@ -243,7 +245,7 @@ const SuggestionPage = () => {
                 const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -251,12 +253,13 @@ const SuggestionPage = () => {
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
                     })
                 }
+                setPagenation2(arr)
                 console.log(posts)
                 setLoading1(false);
             }
@@ -274,16 +277,16 @@ const SuggestionPage = () => {
     }
     function onChangePage1(num) {
         async function fetchPosts() {
-            setPage1(1)
+            setPage1(num)
             setLoading1(true);
             let string = ``
-            const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: response } = await axios.get(`/api/stations/ATLDOT/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: res1} = await axios.get(`/api/maxpage/ATLDOT/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setMaxPage1(res1.data)
             if(num==1){
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -297,16 +300,16 @@ const SuggestionPage = () => {
     };
     function onChangePage2(num) {
         async function fetchPosts() {
-            setPage2(1)
+            setPage2(num)
             setLoading2(true);
             
-            const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            const { data: res } = await axios.get(`/api/stations/ATLDOT/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             if(num==1){
-                const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                const { data: res2 } = await axios.get(`/api/maxpage/ATLDOT/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1

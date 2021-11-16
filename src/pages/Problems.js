@@ -172,7 +172,7 @@ const ProblemsPage = () => {
             const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setMaxPage2(res2.data)
             let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -180,12 +180,13 @@ const ProblemsPage = () => {
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
                     })
                 }
+                setPagenation2(arr)
                 console.log(res1)
                 console.log(res2)
             console.log(posts)
@@ -203,27 +204,27 @@ const ProblemsPage = () => {
                 setLoading2(true);
                 const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setPosts(response.data);
+
                 const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setModifyPosts(res.data)
+
                 const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setMaxPage1(res1.data)
+
                 const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
-                    arr.push({
-                        id:i,
-                        num:i+1
-                    })
+                for(var i =0;i<res1.data;i++){
+                    arr.push(i+1)
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
-                    arr.push({
-                        id:i,
-                        num:i+1
-                    })
+                for(var i =0;i<res2.data;i++){
+                    arr.push(
+                        i+1
+                    )
                 }
+                setPagenation2(arr)
                 console.log(posts)
                 setLoading2(false);
             }
@@ -247,7 +248,7 @@ const ProblemsPage = () => {
                 const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -255,7 +256,7 @@ const ProblemsPage = () => {
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -267,6 +268,7 @@ const ProblemsPage = () => {
             fetchPosts()
         })
     }
+    
     function goEditPage(pk) {
         history.push(`/problemsedit/${pk}`)
     }
@@ -281,13 +283,13 @@ const ProblemsPage = () => {
             setPage1(num);
             setLoading1(true);
             let string = ``
-            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+            const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
             if(num==1){
-                const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${page1}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
+                const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setMaxPage1(res1.data)
                 let arr = [];
-                for(var i =0;i<maxPage1;i++){
+                for(var i =0;i<res1.data;i++){
                     arr.push({
                         id:i,
                         num:i+1
@@ -304,13 +306,13 @@ const ProblemsPage = () => {
             setPage2(num)
             console.log(filterIssueModify)
             setLoading2(true);
-            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+            const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
             if(num==1){
-                const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
+                const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<maxPage2;i++){
+                for(var i =0;i<res2.data;i++){
                     arr.push({
                         id:i,
                         num:i+1

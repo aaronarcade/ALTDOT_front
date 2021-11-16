@@ -550,7 +550,7 @@ const SuggestionsEdit = () => {
                         ) : (
                             saveImg ?
                                 <label for="file">
-                                    <img src={'http://3.145.53.234:8001' + saveImg}
+                                    <img src={'http://3.19.184.59:8001' + saveImg}
                                         style={{
                                             width: '100%', height: '42vh',
                                             marginBottom: '6vh'
