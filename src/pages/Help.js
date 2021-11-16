@@ -23,13 +23,29 @@ import pic14 from '../assets/images/그림14.png'
 import pic15 from '../assets/images/그림15.png'
 import pic16 from '../assets/images/그림16.png'
 import upload from '../assets/images/FileUpload.png'
+
 const Wrapper = styled.div`
     display: flex;
     sidth:100%;
     align-items: center;
     
 `
-
+const Button = styled.button`
+border-radius: 0.5vw;
+border:none;
+width:4vw;
+height:3vh;
+font-weight:bold;
+font-size:0.8vw;
+color: black;
+background: #F6B60F;
+@media screen and (max-width:950px) {
+    width:6vw;
+}
+@media screen and (max-width:650px) {
+    width:10vw;
+}
+`
 const Sidebar = styled.div`
 width:30%;
 background:#161b22;
@@ -314,7 +330,7 @@ const Help = () => {
                     <Content>7)	Attached Files:</Content>
                     <SubContent>a.	Date: Date the file is uploaded </SubContent>
                     <SubContent>b.	Uploader: Person who uploaded the file</SubContent>
-                    <SubContent>c.	Notes: Any notes related to the file</SubContent>
+                    <SubContent style={{marginBottom:'2vh'}}>c.	Notes: Any notes related to the file</SubContent>
                     </>
                     :
                     <>
@@ -352,8 +368,8 @@ const Help = () => {
                     <>
                     <Title>Create an Amenity Request</Title>
                     <Content>1)	Click on “Requests” on the top pane.</Content>
-                    <Content>2)	Click on the   button on the left table in the row for the bus stop where you would like to make a request. The bus stop row will move to the right table.</Content>
-                    <Content>3)	Click on the   button on the right table. The Suggestion Edit page will pop up.</Content>
+                    <Content>2)	Click on the <Button>Add</Button>  button on the left table in the row for the bus stop where you would like to make a request. The bus stop row will move to the right table.</Content>
+                    <Content>3)	Click on the <Button>{'>'}</Button>  button on the right table. The Suggestion Edit page will pop up.</Content>
                     <Img src={pic7} />
                     <Content>4)	Click “Add New Request” to add a case to current Amenity Suggestions. The “Date,” “Initiated By,” and “Org” will be automatically generated according to the user and current date.</Content>
                     <Content>5)	“Type” and “Status” will be a drop-down list. Select the appropriate type and status of the Amenity Suggestion. </Content>
@@ -373,7 +389,15 @@ const Help = () => {
                     <SubContent style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6vw'}}>vi.	On Hold </SubContent>
                     <Content>6)	Set status to Requested.</Content>
                     <Content>7)	Add text under “Notes” to provide context to and information about the issue.</Content>
-                    <Content>8)	Press   . </Content>
+                    <Content>8)	Press <button style={{
+                                width: '8vw', height: '4vh',
+                                fontSize: '2vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button>  . </Content>
                     </>
                     :
                     <>
@@ -397,7 +421,7 @@ const Help = () => {
                     <>
                     <Title>Update Status of Issues</Title>
                     <Content>1)	Click on “Issues” on the top pane.</Content>
-                    <Content>2)	Click on the   button on the right table in the row for the bus stop where you would like to edit the issue. The Non-Conformance Edit page will pop up.</Content>
+                    <Content>2)	Click on the <Button>{'>'}</Button> button on the right table in the row for the bus stop where you would like to edit the issue. The Non-Conformance Edit page will pop up.</Content>
                     <Img src={pic9} />
                     <Content>3)	Update Status. </Content>
                     <SubContent>a.	Requested to Accepted: If ATLDOT has decided to accept an Issue case, then click “Add New Request,” set the Type, and set Status to “Started.” Click on the empty Notes box and type in the current date and related comments. </SubContent>
@@ -406,7 +430,15 @@ const Help = () => {
                     <SubContent>d.	Accepted/In Progress to On Hold:  If an Issue faces a problem outside either organization’s control, set Status to “On Hold.”  Click on the Notes box, and on a new line, type in the current date and related comments pertaining to reasons for the On Hold status for later reactivation of the case.</SubContent>
                     <SubContent style={{marginBottom:'2vh'}}>e.	In Progress to Complete: Once the issue is resolved, click “Add New Request,” set the Type, and set Status to “Complete.” Click on the Notes box, and on a new line, type in the current date and related comments.</SubContent>
                     <Img style={{margin:'0 0 2vh 7vw'}} src={pic10} />
-                    <Content>4)	Click   and the Status change will be validated with a popup alert. If the Status change was from In Progress to Complete, the Status will be updated and the case will be moved to “Suggestions History.”</Content>
+                    <Content>4)	Click <button style={{
+                                width: '8vw', height: '4vh',
+                                fontSize: '2vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button>  and the Status change will be validated with a popup alert. If the Status change was from In Progress to Complete, the Status will be updated and the case will be moved to “Suggestions History.”</Content>
                    
                     </>
                     :
@@ -418,7 +450,7 @@ const Help = () => {
                     <>
                     <Title>Add Comments, Pictures, and Documents to Amenity Requests (Non-Status Changes)</Title>
                     <Content>1)	Click on “Requests” on the top pane.</Content>
-                    <Content>2)	Click on the   button on the right table in the row for the bus stop where you would like to add the picture. The Suggestion Edit page will pop up.</Content>
+                    <Content>2)	Click on the <Button>{'>'}</Button> button on the right table in the row for the bus stop where you would like to add the picture. The Suggestion Edit page will pop up.</Content>
                     
                     <SubContent style={{marginBottom:'2vh'}}>a.	Add Image of Bus Stop</SubContent>
                     <Img  style={{margin:'0 0 2vh 7vw'}} src={upload} />
@@ -432,7 +464,15 @@ const Help = () => {
                     <SubContent>c.	Add comments</SubContent>
                     <SubContent style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6'}}>i.	Click on the “Notes” textbox on the request of interest. </SubContent>
                     <SubContent style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6vw'}}>ii.	Add the date and date and comment. </SubContent>
-                    <Content>3)	Click   . </Content>
+                    <Content>3)	Click  <button style={{
+                                width: '8vw', height: '5vh',
+                                fontSize: '3vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button>  . </Content>
                     
                     </>
                     :
@@ -445,8 +485,8 @@ const Help = () => {
                     <Title>Create an Issue Case</Title>
                     <Img src={pic12} />
                     <Content>1)	Click on “Issues” on the top pane.</Content>
-                    <Content>2)	Click on the   button on the left table in the row for the bus stop where you would like request assistance with an issue. The bus stop row will move to the right table.</Content>
-                    <Content>3)	Click on the   button on the right table. The Non-Conformance Edit page will pop up.</Content>
+                    <Content>2)	Click on the <Button>Add</Button>  button on the left table in the row for the bus stop where you would like request assistance with an issue. The bus stop row will move to the right table.</Content>
+                    <Content>3)	Click on the <Button>{'>'}</Button> button on the right table. The Non-Conformance Edit page will pop up.</Content>
                     <Content>4)	Click “Add New Request” to add a case to current Non-Conformance. The “Date,” “Initiated By,” and “Org” will be automatically generated according to the user and current date.</Content>
                     <Content>5)	“Type” and “Status” will be a drop-down list. You will be able to select the appropriate type and status of the Non-Conformance. </Content>
                     <SubContent>a.	Types available: </SubContent>
@@ -471,7 +511,15 @@ const Help = () => {
                     <SubContent style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6vw'}}>vi.	On Hold </SubContent>
                     <Content>6)	Set status to Requested. </Content>
                     <Content>7)	Add text under “Notes” to provide context to and information about the issue. </Content>
-                    <Content>8)	Click   . </Content>
+                    <Content>8)	Click  <button style={{
+                                width: '8vw', height: '5vh',
+                                fontSize: '3vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button> . </Content>
                     </>
                     :
                     <>
@@ -493,7 +541,7 @@ const Help = () => {
                     <>
                     <Title>Update Status on Amenity Requests</Title>
                     <Content>1)	Click on “Requests” on the top pane. Amenity requests are listed on the right pane.</Content>
-                    <Content>2)	Click on the   button of the amenity request of interest. The Suggestion Edit page will pop up.</Content>
+                    <Content>2)	Click on the <Button>{'>'}</Button>  button of the amenity request of interest. The Suggestion Edit page will pop up.</Content>
                     <Img src={pic14} />
                     <Content>3)	Update Status. </Content>
                     <SubContent>a.	Requested to Accepted: If MARTA has decided to “accept” an amenity request and initiate the installation process, then click “Add New Request,” set Type, and set Status to “Started.” Click on the empty Notes box and type in the current date and related comments. </SubContent>
@@ -502,7 +550,15 @@ const Help = () => {
                     <SubContent>d.	Accepted/In Progress to On Hold: If a request faces a problem outside either organization’s control, set Status to “On Hold.”  Click on the Notes box, and on a new line, type in the current date and related comments pertaining to reasons for the On Hold status for later reactivation of the case.</SubContent>
                     <SubContent style={{marginBottom:'2vh'}}>e.	In Progress to Complete: Once installation is complete, click “Add New Request,” set the Type, and set Status to “Complete.” Click on the Notes box, and on a new line, type in the current date and related comments. Mark all previous Statuses to “Complete,” and the case will be moved to “Suggestions History.”</SubContent>
                     <Img style={{margin:'0 0 2vh 7vw'}} src={pic15} />
-                    <Content>4)	Click   . </Content>
+                    <Content>4)	Click <button style={{
+                                width: '8vw', height: '5vh',
+                                fontSize: '3vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button>  . </Content>
                     </>
                     :
                     <>
@@ -513,7 +569,7 @@ const Help = () => {
                     <>
                     <Title>Add Comments, Pictures, and Documents to Issue Cases (Non-Status Changes)</Title>  
                     <Content>1)	Click on “Issues” on the top pane.</Content>
-                    <Content>2)	Click on the   button on the right table in the row for the bus stop where you would like to add the picture. The Suggestion Edit page will pop up.</Content>
+                    <Content>2)	Click on the  <Button>{'>'}</Button>   button on the right table in the row for the bus stop where you would like to add the picture. The Suggestion Edit page will pop up.</Content>
                     <SubContent style={{marginBottom:'2vh'}}>a.	Add Image of Bus Stop</SubContent>
                     <Img style={{margin:'0 0 2vh 7vw'}} src={upload} />
                     
@@ -526,7 +582,15 @@ const Help = () => {
                     <SubContent>c.	Add comments</SubContent>
                     <SubContent  style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6vw'}}>i.	 Click on the “Notes” textbox on the request of interest. </SubContent>
                     <SubContent  style={{marginLeft:'5vw',paddingLeft:'3vw',fontSize:'0.6vw'}}>ii. Add the date and date and comment. </SubContent>
-                    <Content>3)	Click   .</Content>
+                    <Content>3)	Click <button style={{
+                                width: '8vw', height: '5vh',
+                                fontSize: '3vh', border: '1px solid black',
+                                background: '#F6B60F', fontWeight: 'bold',
+                                cursor: 'pointer'
+                            }}
+                               >
+                                Save
+                            </button>  .</Content>
                     
                     </>
                     :
