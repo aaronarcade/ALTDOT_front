@@ -297,6 +297,7 @@ const ProblemsPage = () => {
                 }
                 setPagenation1(arr)
             }
+           
             setLoading1(false);
         }
         fetchPosts()
@@ -319,7 +320,9 @@ const ProblemsPage = () => {
                     })
                 }
                 setPagenation2(arr)
+                console.log(res2)
             }
+
             
             setLoading2(false);
 
@@ -355,7 +358,7 @@ const ProblemsPage = () => {
 
                                     <SearchBar onChange={onChangeSearch1}
                                         value={search1} />
-                                    <button style={{ fontSize: '1vw', cursor: 'pointer', border: 'none', width: '4.5vw' }} onClick={() => { onChangeFilter1(1) }}>Search</button>
+                                    <button style={{ fontSize: '1vw', cursor: 'pointer', border: 'none', width: '4.5vw' }} onClick={() => { onChangeFilter1(1); }}>Search</button>
 
                                 </div>
                             </div>

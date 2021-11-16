@@ -187,6 +187,8 @@ const SuggestionPage = () => {
                 }
                 setPagenation2(arr)
                 console.log(posts)
+                console.log(res1)
+                console.log(res2)
             setLoading(false);
         }
         fetchPosts()
