@@ -599,7 +599,17 @@ const SuggestionPage = () => {
                                                 <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center' }}>
                                                     <img src={DeletePic}
                                                     style={{width:'80%',cursor:'pointer'}} 
-                                                    onClick={()=>{stopModify(post.pk)}}/>
+                                                    onClick={() => {
+                                                        if (window.confirm('Are you sure?')) {
+                                                            // They clicked Yes
+                                                            stopModify(post.pk)
+                                                        }
+                                                        else {
+                                                            // They clicked no
+                                                        }
+        
+                                                    }}
+                                                    />
                                                     </td>
                                             </Tr>
                                         ))}

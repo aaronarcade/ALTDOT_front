@@ -156,10 +156,10 @@ const SuggestionsEdit = () => {
                 console.log(arr)
                 for (var i = 0; i < reslistnotcom.data.length; i++) {
                     arr[i].count = i;
-                    if(arr[i].firstamenity=='Other'){
+                    if (arr[i].firstamenity == 'Other') {
                         arr[i].display = ''
                     }
-                    else{
+                    else {
                         arr[i].display = 'none'
                     }
                 }
@@ -197,7 +197,7 @@ const SuggestionsEdit = () => {
             })
             alert('All values ​​are empty.')
         }
-        else{
+        else {
             if (url !== '') {
                 let currentFile = content
                 setImg(currentFile)
@@ -212,10 +212,10 @@ const SuggestionsEdit = () => {
                 }
                 const response = await axios.post('/api/addimage', formData, config)
             }
-    
+
             if (notComList.length) {
-                for(var i=0; i<notComList.length;i++){
-                    if(notComList[i].status!='Complete'){
+                for (var i = 0; i < notComList.length; i++) {
+                    if (notComList[i].status != 'Complete') {
                         break;
                     }
                 }
@@ -225,18 +225,18 @@ const SuggestionsEdit = () => {
                     pk: params.id,
                     list: string
                 })
-                if(i==notComList.length){
-                   
-                    const {data:response} = await axios.post('/api/stopmodify', {
-                         pk: params.id,
-                         org: 'ATLDOT'
-                     })
-                     alert('Non-Conformance is Empty!')
-                 }
+                if (i == notComList.length) {
+
+                    const { data: response } = await axios.post('/api/stopmodify', {
+                        pk: params.id,
+                        org: 'ATLDOT'
+                    })
+                    alert('Non-Conformance is Empty!')
+                }
 
             }
-            else{
-                const {data:response} = await axios.post('/api/stopmodify', {
+            else {
+                const { data: response } = await axios.post('/api/stopmodify', {
                     pk: params.id,
                     org: 'ATLDOT'
                 })
@@ -249,7 +249,7 @@ const SuggestionsEdit = () => {
             })
             alert('Complete save.')
         }
-        
+
         history.push('/suggestions')
     }
 
@@ -258,17 +258,17 @@ const SuggestionsEdit = () => {
         console.log(value)
         console.log(name)
         let count;
-        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note'||name.substring(0, 4) == 'inpu') {
+        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note' || name.substring(0, 4) == 'inpu') {
             count = parseInt(name.substring(4, name.length))
             let arr = notComList
-            if($(`select[name=type${count}]`).val()=='Other'){
-                $(`input[name=inpu${count}]`).css("display","");
+            if ($(`select[name=type${count}]`).val() == 'Other') {
+                $(`input[name=inpu${count}]`).css("display", "");
                 arr[count].amenity = $(`input[name=inpu${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
                 arr[count].notes = $(`textarea[name=note${count}]`).val()
             }
-            else{
-                $(`input[name=inpu${count}]`).css("display","none");
+            else {
+                $(`input[name=inpu${count}]`).css("display", "none");
                 arr[count].amenity = $(`select[name=type${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
                 arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -277,15 +277,15 @@ const SuggestionsEdit = () => {
         }
         else {
             count = parseInt(name.substring(6, name.length))
-            if (value == 'On Hold' || value == 'In Progress'||value == 'Requested') {
+            if (value == 'On Hold' || value == 'In Progress' || value == 'Requested') {
                 let arr = notComList
                 console.log(arr)
-                if($(`select[name=type${count}]`).val()=='Other'){
+                if ($(`select[name=type${count}]`).val() == 'Other') {
                     arr[count].amenity = $(`input[name=inpu${count}]`).val()
                     arr[count].status = $(`select[name=status${count}]`).val()
                     arr[count].notes = $(`textarea[name=note${count}]`).val()
                 }
-                else{
+                else {
                     arr[count].amenity = $(`select[name=type${count}]`).val()
                     arr[count].status = $(`select[name=status${count}]`).val()
                     arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -299,12 +299,12 @@ const SuggestionsEdit = () => {
                 else {
                     let arr = notComList
                     console.log(arr)
-                    if($(`select[name=type${count}]`).val()=='Other'){
+                    if ($(`select[name=type${count}]`).val() == 'Other') {
                         arr[count].amenity = $(`input[name=inpu${count}]`).val()
                         arr[count].status = $(`select[name=status${count}]`).val()
                         arr[count].notes = $(`textarea[name=note${count}]`).val()
                     }
-                    else{
+                    else {
                         arr[count].amenity = $(`select[name=type${count}]`).val()
                         arr[count].status = $(`select[name=status${count}]`).val()
                         arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -317,9 +317,9 @@ const SuggestionsEdit = () => {
         }
 
     }
-    function deleteNote(num){
-        axios.post('/api/deletesuggestion',{
-            pk:num
+    function deleteNote(num) {
+        axios.post('/api/deletesuggestion', {
+            pk: num
         })
         window.location.reload()
     }
@@ -422,7 +422,7 @@ const SuggestionsEdit = () => {
                                             <option>Trash Can</option>
                                             <option>Other</option>
                                         </select>
-                                        <input onChange={onChange} defaultValue={`${post.amenity}`} name={`inpu${post.count}`} style={{display:`${notComList[post.count].display}`,width:'85%'}} />
+                                        <input onChange={onChange} defaultValue={`${post.amenity}`} name={`inpu${post.count}`} style={{ display: `${notComList[post.count].display}`, width: '85%' }} />
                                     </Td2>
                                     <Td2>
                                         <select style={{
@@ -465,7 +465,7 @@ const SuggestionsEdit = () => {
                                         </select>
                                     </Td2>
                                     <Td2 style={{ width: '40%' }}>
-                                        <textarea className="box" style={{ background: '#E6E6E6', border: 'none', width: '90%',outline:'none' }}
+                                        <textarea className="box" style={{ background: '#E6E6E6', border: 'none', width: '90%', outline: 'none' }}
                                             name={`note${post.count}`} type="text" onChange={onChange} defaultValue={post.notes} />
                                     </Td2>
                                 </Tr>
@@ -487,10 +487,10 @@ const SuggestionsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
-                                    firstamenity:'Bench',
+                                    firstamenity: 'Bench',
                                     amenity: 'Bench',
                                     firststatus: 'Requested',
-                                    display:'none',
+                                    display: 'none',
                                     status: 'Requested',
                                     notes: '',
                                     count: notComList.length
@@ -512,10 +512,10 @@ const SuggestionsEdit = () => {
                                 <Td>Org</Td>
                                 <Td>Amenity</Td>
                                 <Td>Status</Td>
-                                <Td style={{ width: '35%', textAlign: 'left',}}>
+                                <Td style={{ width: '35%', textAlign: 'left', }}>
                                     Notes
                                 </Td>
-                                <Td style={{ width: '5%', textAlign: 'center',fontSize:'0.5vw', borderRight: '1px solid black' }}>
+                                <Td style={{ width: '5%', textAlign: 'center', fontSize: '0.5vw', borderRight: '1px solid black' }}>
                                     Delete
                                 </Td>
                             </Tr>
@@ -528,9 +528,18 @@ const SuggestionsEdit = () => {
                                     <Td2>{post.status}</Td2>
                                     <Td2 style={{ width: '35%' }}>{post.notes}</Td2>
                                     <Td2 style={{ width: '5%' }}>
-                                        <img src={DeletePic} style={{width:'80%',cursor:'pointer'}}
-                                        onClick={ ()=>{deleteNote(post.pk)}}/>
-                                        
+                                        <img src={DeletePic} style={{ width: '80%', cursor: 'pointer' }}
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure?')) {
+                                                    // They clicked Yes
+                                                    deleteNote(post.pk)
+                                                }
+                                                else {
+                                                    // They clicked no
+                                                }
+
+                                            }} />
+
                                     </Td2>
                                 </Tr>
                             ))}
@@ -594,7 +603,7 @@ const SuggestionsEdit = () => {
                             marginBottom: '6vh', width: '100%', height: '5vh'
                             , border: '1px solid black', background: '#C4C4C4',
                             fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer'
-                        }}>+ Add New Request</button>
+                        }}>+ Add New Files</button>
 
                         <div style={{ width: '100%', textAlign: 'end', marginBottom: '5vh' }}>
                             <button style={{

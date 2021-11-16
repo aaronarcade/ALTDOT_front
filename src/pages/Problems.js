@@ -145,8 +145,8 @@ const ProblemsPage = () => {
     const [filterInputDisplay, setFilterInputDisplay] = useState('none')
     const [maxPage1, setMaxPage1] = useState(0)
     const [maxPage2, setMaxPage2] = useState(0)
-    const [pagination1,setPagenation1] = useState([])
-    const [pagination2,setPagenation2] = useState([])
+    const [pagination1, setPagenation1] = useState([])
+    const [pagination2, setPagenation2] = useState([])
     const isAdmin = async () => {
 
         const { data: response } = await axios.get('/api/auth')
@@ -173,23 +173,23 @@ const ProblemsPage = () => {
             const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setMaxPage2(res2.data)
             let arr = [];
-                for(var i =0;i<res1.data;i++){
-                    arr.push({
-                        id:i,
-                        num:i+1
-                    })
-                }
-                setPagenation1(arr)
-                arr = [];
-                for(var i =0;i<res2.data;i++){
-                    arr.push({
-                        id:i,
-                        num:i+1
-                    })
-                }
-                setPagenation2(arr)
-                console.log(res1)
-                console.log(res2)
+            for (var i = 0; i < res1.data; i++) {
+                arr.push({
+                    id: i,
+                    num: i + 1
+                })
+            }
+            setPagenation1(arr)
+            arr = [];
+            for (var i = 0; i < res2.data; i++) {
+                arr.push({
+                    id: i,
+                    num: i + 1
+                })
+            }
+            setPagenation2(arr)
+            console.log(res1)
+            console.log(res2)
             console.log(posts)
             setLoading(false);
         }
@@ -215,14 +215,14 @@ const ProblemsPage = () => {
                 const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<res1.data;i++){
-                    arr.push(i+1)
+                for (var i = 0; i < res1.data; i++) {
+                    arr.push(i + 1)
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<res2.data;i++){
+                for (var i = 0; i < res2.data; i++) {
                     arr.push(
-                        i+1
+                        i + 1
                     )
                 }
                 setPagenation2(arr)
@@ -232,7 +232,7 @@ const ProblemsPage = () => {
             fetchPosts()
         })
     }
-    function stopModify(pk){
+    function stopModify(pk) {
         axios.post('/api/stopmodify', {
             pk: pk,
             org: 'MARTA'
@@ -249,18 +249,18 @@ const ProblemsPage = () => {
                 const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${page2}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<res1.data;i++){
+                for (var i = 0; i < res1.data; i++) {
                     arr.push({
-                        id:i,
-                        num:i+1
+                        id: i,
+                        num: i + 1
                     })
                 }
                 setPagenation1(arr)
                 arr = [];
-                for(var i =0;i<res2.data;i++){
+                for (var i = 0; i < res2.data; i++) {
                     arr.push({
-                        id:i,
-                        num:i+1
+                        id: i,
+                        num: i + 1
                     })
                 }
                 setPagenation2(arr)
@@ -269,24 +269,24 @@ const ProblemsPage = () => {
             fetchPosts()
         })
     }
-    function cancelFilter(num){
-        $(`input:radio[name='top200${num}']`).prop('checked',false)
-        $(`input:radio[name='AS${num}']`).prop('checked',false)
-        $(`input:radio[name='RQ${num}']`).prop('checked',false)
-        $(`input:radio[name='ADA${num}']`).prop('checked',false)
-        
-        if(num==1){
+    function cancelFilter(num) {
+        $(`input:radio[name='top200${num}']`).prop('checked', false)
+        $(`input:radio[name='AS${num}']`).prop('checked', false)
+        $(`input:radio[name='RQ${num}']`).prop('checked', false)
+        $(`input:radio[name='ADA${num}']`).prop('checked', false)
+
+        if (num == 1) {
             setFilterTop200(false)
             setFilterTier(6)
             setFilterRQ(6)
-            setFilterADA('') 
+            setFilterADA('')
         }
-        else if(num==2){
-            $(`input:radio[name='issue${num}']`).prop('checked',false)
+        else if (num == 2) {
+            $(`input:radio[name='issue${num}']`).prop('checked', false)
             setFilterTop200Modify(false)
             setFilterTierModify(6)
             setFilterRQModify(6)
-            setFilterADAModify('') 
+            setFilterADAModify('')
             setFilterIssueModify('')
         }
     }
@@ -306,20 +306,20 @@ const ProblemsPage = () => {
             let string = ``
             const { data: response } = await axios.get(`/api/stations/MARTA/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
             setPosts(response.data);
-            if(num==1){
+            if (num == 1) {
                 const { data: res1 } = await axios.get(`/api/maxpage/MARTA/0?keyword=${search1}&page=${num}&top200=${filterTop200}&tier=${filterTier}&rq=${filterRQ}&issue=${filterIssue}&ada=${filterADA}`);
                 setMaxPage1(res1.data)
                 let arr = [];
-                for(var i =0;i<res1.data;i++){
+                for (var i = 0; i < res1.data; i++) {
                     arr.push({
-                        id:i,
-                        num:i+1
+                        id: i,
+                        num: i + 1
                     })
                 }
                 setPagenation1(arr)
                 setFilterDisplay('none')
             }
-           
+
             setLoading1(false);
         }
         fetchPosts()
@@ -331,14 +331,14 @@ const ProblemsPage = () => {
             setLoading2(true);
             const { data: res } = await axios.get(`/api/stations/MARTA/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
             setModifyPosts(res.data)
-            if(num==1){
+            if (num == 1) {
                 const { data: res2 } = await axios.get(`/api/maxpage/MARTA/1?keyword=${search2}&page=${num}&top200=${filterTop200Modify}&tier=${filterTierModify}&rq=${filterRQModify}&issue=${filterIssueModify}&ada=${filterADAModify}`);
                 setMaxPage2(res2.data)
                 let arr = [];
-                for(var i =0;i<res2.data;i++){
+                for (var i = 0; i < res2.data; i++) {
                     arr.push({
-                        id:i,
-                        num:i+1
+                        id: i,
+                        num: i + 1
                     })
                 }
                 setPagenation2(arr)
@@ -346,7 +346,7 @@ const ProblemsPage = () => {
                 setFilterModifyDisplay('none')
             }
 
-            
+
             setLoading2(false);
 
         }
@@ -386,13 +386,13 @@ const ProblemsPage = () => {
                                 </div>
                             </div>
                             <div style={{ display: `${filterDisplay}`, width: '100%', flexDirection: 'column' }}>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Top 200</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Top 200</div>
                                     <input type="radio" name="top2001" onChange={() => { setFilterTop200(true) }} /> applied &nbsp;
                                     <input type="radio" name="top2001" onChange={() => { setFilterTop200(false) }} /> not applied
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Amenity Score</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Amenity Score</div>
                                     <input type="radio" name="AS1" onChange={(e) => { setFilterTier(0) }} />0 &nbsp;
                                     <input type="radio" name="AS1" onChange={(e) => { setFilterTier(1) }} />1 &nbsp;
                                     <input type="radio" name="AS1" onChange={(e) => { setFilterTier(2) }} />2 &nbsp;
@@ -400,8 +400,8 @@ const ProblemsPage = () => {
                                     <input type="radio" name="AS1" onChange={(e) => { setFilterTier(4) }} />4 &nbsp;
                                     <input type="radio" name="AS1" onChange={(e) => { setFilterTier(5) }} />5 &nbsp;
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Ridership Quintile</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Ridership Quintile</div>
                                     <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(0) }} />0 &nbsp;
                                     <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(1) }} />1 &nbsp;
                                     <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(2) }} />2 &nbsp;
@@ -417,31 +417,31 @@ const ProblemsPage = () => {
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Pad') }} />Pad &nbsp;
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Trash Can') }} />Trash Can &nbsp;
                                 </div> */}
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>ADA Access</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>ADA Access</div>
                                     <input type="radio" name="ADA1" onChange={(e) => { setFilterADA('Y') }} />Y &nbsp;
                                     <input type="radio" name="ADA1" onChange={(e) => { setFilterADA('N') }} />N &nbsp;
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw',marginBottom:'1vh'}}>Cancel Filter</div>
-                                    <Button onClick={()=>{cancelFilter(1)}} style={{ color: 'white', background: '#F94C4C', width: '4vw',fontSize:'0.5vw' }}>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw', marginBottom: '1vh' }}>Cancel Filter</div>
+                                    <Button onClick={() => { cancelFilter(1) }} style={{ color: 'white', background: '#F94C4C', width: '4vw', fontSize: '0.5vw' }}>
                                         cancel
-                                        </Button>
+                                    </Button>
                                 </div>
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                                    <SID style={{ border: '1px solid black',width:'15%' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black',width:'10%' }}>Amenity<br />Score</Tier>
-                                    <RidershipQuintile style={{ border: '1px solid black',width:'10%' }}>
+                                    <SID style={{ border: '1px solid black', width: '15%' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black', width: '10%' }}>Amenity<br />Score</Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black', width: '10%' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
-                                    <StopName style={{ border: '1px solid black',width:'20%' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black',width:'10%'}}>FacingDir</FacingDir>
-                                    <Position style={{ border: '1px solid black',width:'10%' }}>Position</Position>
-                                    <Position style={{ border: '1px solid black',width:'10%' }}>ADA<br/>Access</Position>
-                                    <Modify style={{ border: '1px solid black',width:'15%' }}>Modify</Modify>
-                                    
+                                    <StopName style={{ border: '1px solid black', width: '20%' }}>Stop Name</StopName>
+                                    <FacingDir style={{ border: '1px solid black', width: '10%' }}>FacingDir</FacingDir>
+                                    <Position style={{ border: '1px solid black', width: '10%' }}>Position</Position>
+                                    <Position style={{ border: '1px solid black', width: '10%' }}>ADA<br />Access</Position>
+                                    <Modify style={{ border: '1px solid black', width: '15%' }}>Modify</Modify>
+
                                 </Tr>
                             </Table>
                             {loading1 ?
@@ -454,40 +454,40 @@ const ProblemsPage = () => {
 
                                             {posts && posts.map(post => (
                                                 <Tr key={post.pk} style={{ background: `${post.color}` }}>
-                                                    <SID style={{width:'15%'}}>{post.stop_id}</SID>
-                                                    <Tier style={{width:'10%'}}>{post.tier}</Tier>
-                                                    <RidershipQuintile style={{width:'10%'}}>{post.ridership_quintile}</RidershipQuintile>
-                                                    <StopName style={{width:'20%'}}>{post.stop_name}</StopName>
-                                                    <FacingDir style={{width:'10%'}}>{post.facing_dir}</FacingDir>
-                                                    <Position style={{width:'10%'}}>{post.position}</Position>
-                                                    <Position style={{width:'10%'}}>{post.ada_access}</Position>
-                                                    <Modify style={{width:'15%'}}>
+                                                    <SID style={{ width: '15%' }}>{post.stop_id}</SID>
+                                                    <Tier style={{ width: '10%' }}>{post.tier}</Tier>
+                                                    <RidershipQuintile style={{ width: '10%' }}>{post.ridership_quintile}</RidershipQuintile>
+                                                    <StopName style={{ width: '20%' }}>{post.stop_name}</StopName>
+                                                    <FacingDir style={{ width: '10%' }}>{post.facing_dir}</FacingDir>
+                                                    <Position style={{ width: '10%' }}>{post.position}</Position>
+                                                    <Position style={{ width: '10%' }}>{post.ada_access}</Position>
+                                                    <Modify style={{ width: '15%' }}>
                                                         <Button style={{ color: 'black', background: '#F6B60F' }}
                                                             onClick={() => { onChangeModify(post.pk) }}>Add</Button>
                                                     </Modify>
-                                                   
+
                                                 </Tr>
                                             ))}
 
 
                                         </Table>
                                     </div>
-                                    <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
-                                        <div/>
-                                        <div style={{display:'flex'}}>
-                                        {
-                                            pagination1.map(num=>(
+                                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginTop: '1vh' }}>
+                                        <div />
+                                        <div style={{ display: 'flex' }}>
+                                            {
+                                                pagination1.map(num => (
 
-                                                
-                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
-                                                onClick={()=>{onChangeFilter1(num.num)}}>
-                                                    {num.num}
-                                                </button>
-                                            ))
-                                        }
+
+                                                    <button style={{ width: '4vh', height: '4vh', background: '#3960AA', border: '1px solid black', color: 'white' }}
+                                                        onClick={() => { onChangeFilter1(num.num) }}>
+                                                        {num.num}
+                                                    </button>
+                                                ))
+                                            }
                                         </div>
-                                        <div/>
-                                    
+                                        <div />
+
                                     </div>
                                 </>
                             }
@@ -522,13 +522,13 @@ const ProblemsPage = () => {
                                 </div>
                             </div>
                             <div style={{ display: `${filterModifyDisplay}`, width: '100%', flexDirection: 'column' }}>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Top 200</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Top 200</div>
                                     <input type="radio" name="top2002" onChange={() => { setFilterTop200Modify(true) }} /> applied &nbsp;
                                     <input type="radio" name="top2002" onChange={() => { setFilterTop200Modify(false) }} /> not applied
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Amenity Score</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Amenity Score</div>
                                     <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(0) }} />0 &nbsp;
                                     <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(1) }} />1 &nbsp;
                                     <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(2) }} />2 &nbsp;
@@ -536,8 +536,8 @@ const ProblemsPage = () => {
                                     <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(4) }} />4 &nbsp;
                                     <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(5) }} />5
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Ridership Quintile</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Ridership Quintile</div>
                                     <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(0) }} />0 &nbsp;
                                     <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(1) }} />1 &nbsp;
                                     <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(2) }} />2 &nbsp;
@@ -545,105 +545,114 @@ const ProblemsPage = () => {
                                     <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(4) }} />4 &nbsp;
                                     <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(5) }} />5
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Issues</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>Issues</div>
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Curb Conflict'); }} />Curb Conflict &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Sidewalk Improv'); }} />Sidewalk Improv &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Sidewalk Conn'); }} />Sidewalk Conn &nbsp;
-                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('ADA'); }} />ADA &nbsp;<br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('ADA'); }} />ADA &nbsp;<br />
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('ROW'); }} />ROW &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Streetlight'); }} />Streetlight
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Crossing'); }} />Crossing &nbsp;
-                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br />
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Construction'); }} />Construction &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash'); }} />Trash &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash Can'); }} />Trash Can &nbsp;
-                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br />
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw'}}>ADA Access</div>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw' }}>ADA Access</div>
                                     <input type="radio" name="ADA2" onChange={(e) => { setFilterADAModify('Y') }} />Y &nbsp;
                                     <input type="radio" name="ADA2" onChange={(e) => { setFilterADAModify('N') }} />N &nbsp;
                                 </div>
-                                <div style={{marginBottom:'2vh'}}>
-                                    <div style={{color:'#3960AA',fontSize:'1.2vw',marginBottom:'1vh'}}>Cancel Filter</div>
-                                    <Button onClick={()=>{cancelFilter(2)}} style={{ color: 'white', background: '#F94C4C', width: '4vw',fontSize:'0.5vw' }}>
+                                <div style={{ marginBottom: '2vh' }}>
+                                    <div style={{ color: '#3960AA', fontSize: '1.2vw', marginBottom: '1vh' }}>Cancel Filter</div>
+                                    <Button onClick={() => { cancelFilter(2) }} style={{ color: 'white', background: '#F94C4C', width: '4vw', fontSize: '0.5vw' }}>
                                         cancel
-                                        </Button>
+                                    </Button>
                                 </div>
                             </div>
                             <Table>
                                 <Tr style={{ height: '6vh', fontWeight: 'bold' }}>
-                                    <SID style={{ border: '1px solid black',width:'8%' }}>SID</SID>
-                                    <Tier style={{ border: '1px solid black',width:'8%' }}>Amenity<br />Score </Tier>
-                                    <RidershipQuintile style={{ border: '1px solid black',width:'10%' }}>
+                                    <SID style={{ border: '1px solid black', width: '8%' }}>SID</SID>
+                                    <Tier style={{ border: '1px solid black', width: '8%' }}>Amenity<br />Score </Tier>
+                                    <RidershipQuintile style={{ border: '1px solid black', width: '10%' }}>
                                         Ridership<br />Quintile
                                     </RidershipQuintile>
-                                    <StopName style={{ border: '1px solid black',width:'15%' }}>Stop Name</StopName>
-                                    <FacingDir style={{ border: '1px solid black',width:'8%' }}>FacingDir</FacingDir>
-                                    <Position style={{ border: '1px solid black',width:'8%' }}>Position</Position>
-                                    <Position style={{border: '1px solid black',width:'8%'}}>ADA<br/>Access</Position>
-                                    <Problems style={{ border: '1px solid black',width:'18%' }}>Issues</Problems>
-                                    <Modify style={{ border: '1px solid black',width:'10%' }}>Modify</Modify>
-                                    <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center',fontWeight:'bold' }}>delete</td>
+                                    <StopName style={{ border: '1px solid black', width: '15%' }}>Stop Name</StopName>
+                                    <FacingDir style={{ border: '1px solid black', width: '8%' }}>FacingDir</FacingDir>
+                                    <Position style={{ border: '1px solid black', width: '8%' }}>Position</Position>
+                                    <Position style={{ border: '1px solid black', width: '8%' }}>ADA<br />Access</Position>
+                                    <Problems style={{ border: '1px solid black', width: '18%' }}>Issues</Problems>
+                                    <Modify style={{ border: '1px solid black', width: '10%' }}>Modify</Modify>
+                                    <td style={{ border: '1px solid black', width: '7%', fontSize: '0.5vw', textAlign: 'center', fontWeight: 'bold' }}>delete</td>
                                 </Tr>
-                        
+
 
 
                             </Table>
-                            
+
                             {loading2 ?
-                                    <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
-                                    :
-                                    <>
-                                     <div style={{ height: '72vh', overflowY: 'scroll' }} className='box'>
+                                <div style={{ width: '100%', textAlign: 'center' }}>loading...</div>
+                                :
+                                <>
+                                    <div style={{ height: '72vh', overflowY: 'scroll' }} className='box'>
                                         <Table>
-                                        {modifyPosts && modifyPosts.map(post => (
-                                            <Tr key={post.pk} style={{ background: `${post.color}` }}>
-                                                <SID style={{width:'8%' }}>{post.stop_id}</SID>
-                                                <Tier style={{width:'8%' }}>{post.tier}</Tier>
-                                                <RidershipQuintile style={{width:'10%' }}>{post.ridership_quintile}</RidershipQuintile>
-                                                <StopName style={{width:'15%' }}>{post.stop_name}</StopName>
-                                                <FacingDir style={{width:'8%' }}>{post.facing_dir}</FacingDir>
-                                                <Position style={{width:'8%' }}>{post.position}</Position>
-                                                <Position style={{width:'8%'}}>{post.ada_access}</Position>
-                                                <Problems style={{width:'18%' }}>
-                                                    <Button style={{ color: 'white', background: '#F94C4C', width: '80%',fontSize:'0.5vw' }}
-                                                    >{post.problems}</Button>
+                                            {modifyPosts && modifyPosts.map(post => (
+                                                <Tr key={post.pk} style={{ background: `${post.color}` }}>
+                                                    <SID style={{ width: '8%' }}>{post.stop_id}</SID>
+                                                    <Tier style={{ width: '8%' }}>{post.tier}</Tier>
+                                                    <RidershipQuintile style={{ width: '10%' }}>{post.ridership_quintile}</RidershipQuintile>
+                                                    <StopName style={{ width: '15%' }}>{post.stop_name}</StopName>
+                                                    <FacingDir style={{ width: '8%' }}>{post.facing_dir}</FacingDir>
+                                                    <Position style={{ width: '8%' }}>{post.position}</Position>
+                                                    <Position style={{ width: '8%' }}>{post.ada_access}</Position>
+                                                    <Problems style={{ width: '18%' }}>
+                                                        <Button style={{ color: 'white', background: '#F94C4C', width: '80%', fontSize: '0.5vw' }}
+                                                        >{post.problems}</Button>
 
-                                                </Problems>
-                                                <Modify style={{width:'10%' }}>
-                                                    <Button style={{ color: 'black', background: '#F6B60F' }}
-                                                        onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
-                                                </Modify>
-                                                <td style={{ border: '1px solid black',width:'7%',fontSize:'0.5vw',textAlign:'center' }}>
-                                                    <img src={DeletePic}
-                                                    style={{width:'80%',cursor:'pointer'}} 
-                                                    onClick={()=>{stopModify(post.pk)}}/>
+                                                    </Problems>
+                                                    <Modify style={{ width: '10%' }}>
+                                                        <Button style={{ color: 'black', background: '#F6B60F' }}
+                                                            onClick={() => { goEditPage(post.pk) }}> {'>'} </Button>
+                                                    </Modify>
+                                                    <td style={{ border: '1px solid black', width: '7%', fontSize: '0.5vw', textAlign: 'center' }}>
+                                                        <img src={DeletePic}
+                                                            style={{ width: '80%', cursor: 'pointer' }}
+
+                                                            onClick={() => {
+                                                                if (window.confirm('Are you sure?')) {
+                                                                    // They clicked Yes
+                                                                    stopModify(post.pk)
+                                                                }
+                                                                else {
+                                                                    // They clicked no
+                                                                }
+                                                            }} />
                                                     </td>
-                                            </Tr>
-                                        ))}
+                                                </Tr>
+                                            ))}
                                         </Table>
-                                        </div>
-                                        <div style={{width:'100%',display:'flex',justifyContent:'space-between',marginTop:'1vh'}}>
-                                        <div/>
-                                        <div style={{display:'flex'}}>
-                                        {
-                                            pagination2.map(num=>(
-
-                                                
-                                                <button style={{width:'4vh',height:'4vh',background:'#3960AA',border:'1px solid black',color:'white'}}
-                                                onClick={()=>{onChangeFilter2(num.num)}}>
-                                                    {num.num}
-                                                </button>
-                                            ))
-                                        }
-                                        </div>
-                                        <div/>
-                                    
                                     </div>
-                                    </>
-                                }
+                                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginTop: '1vh' }}>
+                                        <div />
+                                        <div style={{ display: 'flex' }}>
+                                            {
+                                                pagination2.map(num => (
+
+
+                                                    <button style={{ width: '4vh', height: '4vh', background: '#3960AA', border: '1px solid black', color: 'white' }}
+                                                        onClick={() => { onChangeFilter2(num.num) }}>
+                                                        {num.num}
+                                                    </button>
+                                                ))
+                                            }
+                                        </div>
+                                        <div />
+
+                                    </div>
+                                </>
+                            }
                         </Board>
                     </>
             }

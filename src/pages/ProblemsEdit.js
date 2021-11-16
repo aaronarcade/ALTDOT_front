@@ -156,10 +156,10 @@ const ProblemsEdit = () => {
                 console.log(arr)
                 for (var i = 0; i < reslistnotcom.data.length; i++) {
                     arr[i].count = i;
-                    if(arr[i].firsttype=='Other'){
+                    if (arr[i].firsttype == 'Other') {
                         arr[i].display = ''
                     }
-                    else{
+                    else {
                         arr[i].display = 'none'
                     }
                 }
@@ -214,8 +214,8 @@ const ProblemsEdit = () => {
             }
 
             if (notComList.length) {
-                for(var i=0; i<notComList.length;i++){
-                    if(notComList[i].status!='Complete'){
+                for (var i = 0; i < notComList.length; i++) {
+                    if (notComList[i].status != 'Complete') {
                         break;
                     }
                 }
@@ -226,17 +226,17 @@ const ProblemsEdit = () => {
                     pk: params.id,
                     list: string
                 })
-                if(i==notComList.length){
-                   
-                   const {data:response} = await axios.post('/api/stopmodify', {
+                if (i == notComList.length) {
+
+                    const { data: response } = await axios.post('/api/stopmodify', {
                         pk: params.id,
                         org: 'MARTA'
                     })
                     alert('Non-Conformance is Empty!')
                 }
             }
-            else{
-                const {data:response} = await axios.post('/api/stopmodify', {
+            else {
+                const { data: response } = await axios.post('/api/stopmodify', {
                     pk: params.id,
                     org: 'MARTA'
                 })
@@ -258,19 +258,19 @@ const ProblemsEdit = () => {
         console.log(value)
         console.log(name)
         let count;
-        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note' || name.substring(0,4) == 'inpu') {
+        if (name.substring(0, 4) == 'type' || name.substring(0, 4) == 'note' || name.substring(0, 4) == 'inpu') {
             count = parseInt(name.substring(4, name.length))
             let arr = notComList
             console.log(notComList)
             console.log(arr)
-            if($(`select[name=type${count}]`).val()=='Other'){
-                $(`input[name=inpu${count}]`).css("display","");
+            if ($(`select[name=type${count}]`).val() == 'Other') {
+                $(`input[name=inpu${count}]`).css("display", "");
                 arr[count].type = $(`input[name=inpu${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
                 arr[count].notes = $(`textarea[name=note${count}]`).val()
             }
-            else{
-                $(`input[name=inpu${count}]`).css("display","none");
+            else {
+                $(`input[name=inpu${count}]`).css("display", "none");
                 arr[count].type = $(`select[name=type${count}]`).val()
                 arr[count].status = $(`select[name=status${count}]`).val()
                 arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -282,12 +282,12 @@ const ProblemsEdit = () => {
             count = parseInt(name.substring(6, name.length))
             if (value == 'On Hold' || value == 'In Progress' || value == 'Requested') {
                 let arr = notComList
-                if($(`select[name=type${count}]`).val()=='Other'){
+                if ($(`select[name=type${count}]`).val() == 'Other') {
                     arr[count].type = $(`input[name=inpu${count}]`).val()
                     arr[count].status = $(`select[name=status${count}]`).val()
                     arr[count].notes = $(`textarea[name=note${count}]`).val()
                 }
-                else{
+                else {
                     arr[count].type = $(`select[name=type${count}]`).val()
                     arr[count].status = $(`select[name=status${count}]`).val()
                     arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -301,12 +301,12 @@ const ProblemsEdit = () => {
                 }
                 else {
                     let arr = notComList
-                    if($(`select[name=type${count}]`).val()=='Other'){
+                    if ($(`select[name=type${count}]`).val() == 'Other') {
                         arr[count].type = $(`input[name=inpu${count}]`).val()
                         arr[count].status = $(`select[name=status${count}]`).val()
                         arr[count].notes = $(`textarea[name=note${count}]`).val()
                     }
-                    else{
+                    else {
                         arr[count].type = $(`select[name=type${count}]`).val()
                         arr[count].status = $(`select[name=status${count}]`).val()
                         arr[count].notes = $(`textarea[name=note${count}]`).val()
@@ -320,7 +320,12 @@ const ProblemsEdit = () => {
         }
 
     }
-
+    function deleteNote(num) {
+        axios.post('/api/deleteproblem', {
+            pk: num
+        })
+        window.location.reload()
+    }
 
 
     return (
@@ -413,7 +418,7 @@ const ProblemsEdit = () => {
                                         }}
                                             name={`type${post.count}`}
                                             onChange={onChange} defaultValue={`${post.firsttype}`}>
-                                            
+
                                             <option>Curb Conflict</option>
                                             <option>Sidewalk Improv</option>
                                             <option>Sidewalk Conn</option>
@@ -427,9 +432,9 @@ const ProblemsEdit = () => {
                                             <option>Trash Can</option>
                                             <option>Homeless</option>
                                             <option>Other</option>
-                                            
+
                                         </select>
-                                        <input onChange={onChange} defaultValue={`${post.type}`} name={`inpu${post.count}`} style={{display:`${notComList[post.count].display}`,width:'85%'}} />
+                                        <input onChange={onChange} defaultValue={`${post.type}`} name={`inpu${post.count}`} style={{ display: `${notComList[post.count].display}`, width: '85%' }} />
                                     </Td2>
                                     <Td2>
                                         <select style={{
@@ -494,10 +499,10 @@ const ProblemsEdit = () => {
                                     date: date,
                                     name: initiated,
                                     organization: org,
-                                    firsttype:'Curb Conflict',
+                                    firsttype: 'Curb Conflict',
                                     type: 'Curb Conflict',
                                     firststatus: 'Requested',
-                                    display:'none',
+                                    display: 'none',
                                     status: 'Requested',
                                     notes: '',
                                     count: notComList.length
@@ -536,12 +541,15 @@ const ProblemsEdit = () => {
                                     <Td2 style={{ width: '35%' }}>{post.notes}</Td2>
                                     <Td2 style={{ width: '5%' }}>
                                         <img src={DeletePic} style={{ width: '80%', cursor: 'pointer' }}
-                                            onClick={async () => {
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure?')) {
+                                                    // They clicked Yes
+                                                    deleteNote(post.pk)
+                                                }
+                                                else {
+                                                    // They clicked no
+                                                }
 
-                                                const { data: response } = await axios.post('/api/deleteproblem', {
-                                                    pk: post.pk
-                                                })
-                                                window.location.reload();
                                             }} />
 
                                     </Td2>
@@ -607,7 +615,7 @@ const ProblemsEdit = () => {
                             marginBottom: '6vh', width: '100%', height: '5vh'
                             , border: '1px solid black', background: '#C4C4C4',
                             fontWeight: 'bold', fontSize: '1vw', cursor: 'pointer'
-                        }}>+ Add New Request</button>
+                        }}>+ Add New Files</button>
 
                         <div style={{ width: '100%', textAlign: 'end', marginBottom: '5vh' }}>
                             <button style={{
