@@ -9,4 +9,5 @@ module.exports = function (app) {
 
     );
 };
+//http://3.19.184.59/
 //"start": "export PORT=8080 && react-scripts start"

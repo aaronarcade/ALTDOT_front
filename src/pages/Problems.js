@@ -7,6 +7,7 @@ import imagesrc from '../assets/images/filter.PNG'
 import Bigarrow from '../assets/images/BigArrow.png'
 import '../styles/style.css'
 import DeletePic from '../assets/images/delete.png'
+import $ from 'jquery'
 const Wrapper = styled.div`
     display: flex;
     width:100%;
@@ -268,7 +269,27 @@ const ProblemsPage = () => {
             fetchPosts()
         })
     }
-    
+    function cancelFilter(num){
+        $(`input:radio[name='top200${num}']`).prop('checked',false)
+        $(`input:radio[name='AS${num}']`).prop('checked',false)
+        $(`input:radio[name='RQ${num}']`).prop('checked',false)
+        $(`input:radio[name='ADA${num}']`).prop('checked',false)
+        
+        if(num==1){
+            setFilterTop200(false)
+            setFilterTier(6)
+            setFilterRQ(6)
+            setFilterADA('') 
+        }
+        else if(num==2){
+            $(`input:radio[name='issue${num}']`).prop('checked',false)
+            setFilterTop200Modify(false)
+            setFilterTierModify(6)
+            setFilterRQModify(6)
+            setFilterADAModify('') 
+            setFilterIssueModify('')
+        }
+    }
     function goEditPage(pk) {
         history.push(`/problemsedit/${pk}`)
     }
@@ -296,6 +317,7 @@ const ProblemsPage = () => {
                     })
                 }
                 setPagenation1(arr)
+                setFilterDisplay('none')
             }
            
             setLoading1(false);
@@ -321,6 +343,7 @@ const ProblemsPage = () => {
                 }
                 setPagenation2(arr)
                 console.log(res2)
+                setFilterModifyDisplay('none')
             }
 
             
@@ -365,26 +388,26 @@ const ProblemsPage = () => {
                             <div style={{ display: `${filterDisplay}`, width: '100%', flexDirection: 'column' }}>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Top 200</div>
-                                    <input type="radio" name="top200" onChange={() => { setFilterTop200(true) }} /> applied &nbsp;
-                                    <input type="radio" name="top200" onChange={() => { setFilterTop200(false) }} /> not applied
+                                    <input type="radio" name="top2001" onChange={() => { setFilterTop200(true) }} /> applied &nbsp;
+                                    <input type="radio" name="top2001" onChange={() => { setFilterTop200(false) }} /> not applied
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Amenity Score</div>
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(0) }} />0 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(1) }} />1 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(2) }} />2 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(3) }} />3 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(4) }} />4 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTier(5) }} />5 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(0) }} />0 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(1) }} />1 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(2) }} />2 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(3) }} />3 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(4) }} />4 &nbsp;
+                                    <input type="radio" name="AS1" onChange={(e) => { setFilterTier(5) }} />5 &nbsp;
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Ridership Quintile</div>
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(0) }} />0 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(1) }} />1 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(2) }} />2 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(3) }} />3 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(4) }} />4 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQ(5) }} />5 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(0) }} />0 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(1) }} />1 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(2) }} />2 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(3) }} />3 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(4) }} />4 &nbsp;
+                                    <input type="radio" name="RQ1" onChange={(e) => { setFilterRQ(5) }} />5 &nbsp;
                                 </div>
                                 {/* <div>
                                     <div>Issues</div>
@@ -394,10 +417,16 @@ const ProblemsPage = () => {
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Pad') }} />Pad &nbsp;
                                     <input type="radio" name="issue" onChange={(e) => { setFilterIssue('Trash Can') }} />Trash Can &nbsp;
                                 </div> */}
-                                <div>
+                                <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>ADA Access</div>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterADA('Y') }} />Y &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterADA('N') }} />N &nbsp;
+                                    <input type="radio" name="ADA1" onChange={(e) => { setFilterADA('Y') }} />Y &nbsp;
+                                    <input type="radio" name="ADA1" onChange={(e) => { setFilterADA('N') }} />N &nbsp;
+                                </div>
+                                <div style={{marginBottom:'2vh'}}>
+                                    <div style={{color:'#3960AA',fontSize:'1.2vw',marginBottom:'1vh'}}>Cancel Filter</div>
+                                    <Button onClick={()=>{cancelFilter(1)}} style={{ color: 'white', background: '#F94C4C', width: '4vw',fontSize:'0.5vw' }}>
+                                        cancel
+                                        </Button>
                                 </div>
                             </div>
                             <Table>
@@ -495,46 +524,52 @@ const ProblemsPage = () => {
                             <div style={{ display: `${filterModifyDisplay}`, width: '100%', flexDirection: 'column' }}>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Top 200</div>
-                                    <input type="radio" name="top200" onChange={() => { setFilterTop200Modify(true) }} /> applied &nbsp;
-                                    <input type="radio" name="top200" onChange={() => { setFilterTop200Modify(false) }} /> not applied
+                                    <input type="radio" name="top2002" onChange={() => { setFilterTop200Modify(true) }} /> applied &nbsp;
+                                    <input type="radio" name="top2002" onChange={() => { setFilterTop200Modify(false) }} /> not applied
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Amenity Score</div>
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(0) }} />0 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(1) }} />1 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(2) }} />2 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(3) }} />3 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(4) }} />4 &nbsp;
-                                    <input type="radio" name="AS" onChange={(e) => { setFilterTierModify(5) }} />5
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(0) }} />0 &nbsp;
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(1) }} />1 &nbsp;
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(2) }} />2 &nbsp;
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(3) }} />3 &nbsp;
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(4) }} />4 &nbsp;
+                                    <input type="radio" name="AS2" onChange={(e) => { setFilterTierModify(5) }} />5
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Ridership Quintile</div>
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(0) }} />0 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(1) }} />1 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(2) }} />2 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(3) }} />3 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(4) }} />4 &nbsp;
-                                    <input type="radio" name="RQ" onChange={(e) => { setFilterRQModify(5) }} />5
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(0) }} />0 &nbsp;
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(1) }} />1 &nbsp;
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(2) }} />2 &nbsp;
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(3) }} />3 &nbsp;
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(4) }} />4 &nbsp;
+                                    <input type="radio" name="RQ2" onChange={(e) => { setFilterRQModify(5) }} />5
                                 </div>
                                 <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>Issues</div>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Curb Conflict'); }} />Curb Conflict &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Sidewalk Improv'); }} />Sidewalk Improv &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Sidewalk Conn'); }} />Sidewalk Conn &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ADA'); }} />ADA &nbsp;<br/>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('ROW'); }} />ROW &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Streetlight'); }} />Streetlight
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Crossing'); }} />Crossing &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br/>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Construction'); }} />Construction &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash'); }} />Trash &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Trash Can'); }} />Trash Can &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Curb Conflict'); }} />Curb Conflict &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Sidewalk Improv'); }} />Sidewalk Improv &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Sidewalk Conn'); }} />Sidewalk Conn &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('ADA'); }} />ADA &nbsp;<br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('ROW'); }} />ROW &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Streetlight'); }} />Streetlight
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Crossing'); }} />Crossing &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br/>
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Construction'); }} />Construction &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash'); }} />Trash &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash Can'); }} />Trash Can &nbsp;
+                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br/>
                                 </div>
-                                <div>
+                                <div style={{marginBottom:'2vh'}}>
                                     <div style={{color:'#3960AA',fontSize:'1.2vw'}}>ADA Access</div>
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterADAModify('Y') }} />Y &nbsp;
-                                    <input type="radio" name="issue" onChange={(e) => { setFilterADAModify('N') }} />N &nbsp;
+                                    <input type="radio" name="ADA2" onChange={(e) => { setFilterADAModify('Y') }} />Y &nbsp;
+                                    <input type="radio" name="ADA2" onChange={(e) => { setFilterADAModify('N') }} />N &nbsp;
+                                </div>
+                                <div style={{marginBottom:'2vh'}}>
+                                    <div style={{color:'#3960AA',fontSize:'1.2vw',marginBottom:'1vh'}}>Cancel Filter</div>
+                                    <Button onClick={()=>{cancelFilter(2)}} style={{ color: 'white', background: '#F94C4C', width: '4vw',fontSize:'0.5vw' }}>
+                                        cancel
+                                        </Button>
                                 </div>
                             </div>
                             <Table>
