@@ -231,7 +231,6 @@ const SuggestionsEdit = () => {
                         pk: params.id,
                         org: 'ATLDOT'
                     })
-                    alert('Non-Conformance is Empty!')
                 }
 
             }
@@ -240,7 +239,6 @@ const SuggestionsEdit = () => {
                     pk: params.id,
                     org: 'ATLDOT'
                 })
-                alert('Non-Conformance is Empty!')
             }
             const response = await axios.post('/api/updatecreate', {
                 create: createBy,
