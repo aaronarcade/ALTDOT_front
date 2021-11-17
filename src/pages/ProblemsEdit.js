@@ -195,7 +195,6 @@ const ProblemsEdit = () => {
                 pk: params.id,
                 org: 'MARTA'
             })
-            alert('Non-Conformance is Empty!')
         }
         else {
             if (url !== '') {
@@ -232,7 +231,6 @@ const ProblemsEdit = () => {
                         pk: params.id,
                         org: 'MARTA'
                     })
-                    alert('Non-Conformance is Empty!')
                 }
             }
             else {
@@ -240,7 +238,6 @@ const ProblemsEdit = () => {
                     pk: params.id,
                     org: 'MARTA'
                 })
-                alert('Non-Conformance is Empty!')
             }
             const response = await axios.post('/api/updatecreate', {
                 create: createBy,
