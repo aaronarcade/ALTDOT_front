@@ -557,7 +557,6 @@ const ProblemsPage = () => {
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Vegetation'); }} />Vegetation &nbsp;<br />
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Construction'); }} />Construction &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash'); }} />Trash &nbsp;
-                                    <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Trash Can'); }} />Trash Can &nbsp;
                                     <input type="radio" name="issue2" onChange={(e) => { setFilterIssueModify('Homeless'); }} />Homeless <br />
                                 </div>
                                 <div style={{ marginBottom: '2vh' }}>
