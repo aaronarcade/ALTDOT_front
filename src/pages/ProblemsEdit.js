@@ -511,7 +511,7 @@ const ProblemsEdit = () => {
                             + Add New Request</button>
 
                         <div style={{ fontSize: '3vh' }}>
-                            Non-Conformance History
+                            Issues History
                         </div>
                         <Table>
                             <Tr style={{ fontWeight: 'bold' }}>
