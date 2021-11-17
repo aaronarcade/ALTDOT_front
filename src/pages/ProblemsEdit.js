@@ -367,7 +367,7 @@ const ProblemsEdit = () => {
 
                         </InputBox>
                         <div style={{ fontSize: '3vh' }}>
-                            Non-Conformance
+                            Issues
                         </div>
                         <Table>
                             <Tr style={{ fontWeight: 'bold' }}>
@@ -426,7 +426,6 @@ const ProblemsEdit = () => {
                                             <option>Vegetation</option>
                                             <option>Construction</option>
                                             <option>Trash</option>
-                                            <option>Trash Can</option>
                                             <option>Homeless</option>
                                             <option>Other</option>
 
