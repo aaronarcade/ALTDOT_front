@@ -365,7 +365,7 @@ const SuggestionsEdit = () => {
 
                         </InputBox>
                         <div style={{ fontSize: '3vh' }}>
-                            Non-Conformance
+                            Requests
                         </div>
                         <Table>
                             <Tr style={{ fontWeight: 'bold' }}>
@@ -501,7 +501,7 @@ const SuggestionsEdit = () => {
                             + Add New Request</button>
 
                         <div style={{ fontSize: '3vh' }}>
-                            Non-Conformance History
+                            Requests History
                         </div>
                         <Table>
                             <Tr style={{ fontWeight: 'bold' }}>
